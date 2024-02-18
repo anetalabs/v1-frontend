@@ -1,0 +1,90 @@
+@use './variables.scss' as var;
+@use './fonts.scss' as font;
+
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap'); */
+
+
+
+:root {
+    font-family: font.$font-family-globals;
+    width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    list-style: none;
+    color: var.$primary-color-font;
+    font-family: font.$font-family-globals;
+    font-weight: var.$font-weight-regular;
+    ::-webkit-scrollbar {
+        display: none;
+      }
+}
+
+input {
+    -webkit-appearance: textfield; /* for Safari y Chrome */
+    -moz-appearance: textfield; /* for Firefox */
+    appearance: textfield; /* for other browsers */
+
+    
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    &[type=number] {
+      -moz-appearance: textfield; /* for Firefox */
+      appearance: textfield;
+    }
+
+    &:focus{
+        outline: none;
+        border: 2px solid var.$primary-color-light;
+    }
+  }
+
+body.dark{
+    input{
+        &:focus{
+            border: 2px solid var.$primary-color-dark;
+        }
+    }
+}
+
+      
+body{
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(155, 217, 242, 0) 41.16%, rgba(255, 255, 255, 0.7) 100%), linear-gradient(237.67deg, rgba(179, 233, 255, 0) 30.62%, rgba(255, 215, 138, 0.33) 100%), linear-gradient(121.92deg, rgba(155, 217, 242, 0) 31.4%, rgba(255, 215, 138, 0.33) 100%), linear-gradient(115.18deg, rgba(168, 200, 230, 0.5) -35.29%, rgba(168, 200, 230, 0) 57.9%), linear-gradient(245.41deg, rgba(168, 230, 226, 0.55) -12.18%, rgba(155, 217, 242, 0) 56.8%), linear-gradient(0deg, rgba(216, 234, 250, 0.12), rgba(216, 234, 250, 0.12)), #B8DEFA;
+    background-attachment: fixed;
+    width: 100%;
+    #icon{
+        use{
+            fill: var.$primary-color-font;
+        } 
+    }
+    @media (min-width: 2000px){
+      width: 2000px;
+      margin-left: calc((100vw - 2000px)/2);
+    }
+
+}
+body.dark{
+    background: linear-gradient(180deg, rgba(0, 68, 105, 0) 55.42%, rgba(0, 0, 0, 0.45) 102.55%), linear-gradient(237.69deg, rgba(45, 45, 45, 0) 30.63%, rgba(188, 212, 242, 0.2) 125.87%), linear-gradient(120.81deg, rgba(133, 133, 133, 0) 31.32%, rgba(255, 215, 138, 0.2) 123.21%), linear-gradient(123.72deg, rgba(0, 44, 105, 0.5) 3.68%, rgba(82, 82, 82, 0) 66.34%), linear-gradient(238.28deg, rgba(39, 54, 133, 0.65) 0%, rgba(130, 130, 130, 0) 68.22%), #001431;
+    background-attachment: fixed;
+
+    *{
+        color: var.$secundary-color-font;
+    }
+    #icon{
+        use{
+            fill: var.$secundary-color-font;
+        } 
+    }
+}

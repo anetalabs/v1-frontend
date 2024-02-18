@@ -1,0 +1,63 @@
+@use "./variables.scss" as var;
+
+.loggedWallet{
+
+  @include var.btn-header();
+  padding: 5px;
+  width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var.$background-color-light;
+  font-weight: var.$font-weight-medium;
+  cursor: pointer;
+  p{
+    font-weight: var.$font-weight-medium;
+  }
+
+  .disconnect{
+    position: absolute;
+    z-index: 2;
+    top: 80px;
+    right: 70px;
+    cursor: pointer;
+    @include var.btn-header();
+    background-color: var.$background-color-light;
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var.$font-weight-medium;
+    @media (min-width: 2000px){
+        right: calc(((100vw - 2000px)/2) + 70px);
+      }
+  }
+  @media (max-width: 700px){
+    width: 120px;
+    gap: 5px;
+    height: 35px;
+    p{
+      font-size: 12px;
+    }
+    .disconnect{
+      width: 120px;
+      right: 57px;
+      height: 35px;
+      font-size: 14px;
+      top: 70px;
+    }
+  }
+}
+
+
+:global(body.dark){
+
+  .loggedWallet{
+    background-color: var.$background-color-dark;
+    .disconnect{
+      background-color: var.$background-color-dark;
+    }
+  }
+
+}

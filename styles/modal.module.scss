@@ -1,0 +1,60 @@
+@use "./variables.scss" as var;
+
+.modal{
+
+  @include var.popup();
+  .main{
+    position: fixed;
+    top: 200px;
+    left: calc(((100% + 200px ) - 385px)/2);
+    width: 90%;
+    max-width: 385px;
+    @media (max-width: 1400px){
+      left: calc(((100% + 350px ) - 385px)/2);
+    }
+    @media (max-width: 1000px){
+      left: calc((100% - 385px)/2);
+    }
+    @media (max-width: 425px){
+        left: 5%;
+      }
+
+      .popUp{
+        background-color: var.$background-color-light;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        .icon{
+          &.error{
+            use{
+              fill: var.$error-color;
+            }
+          }
+          &.success{
+            use{
+              fill: var.$info-color-light;
+            }
+          }
+          &.info{
+            use{
+              fill: var.$primary-color-dark;
+            }
+          }
+
+        }
+      }
+  }
+}
+
+:global(body.dark){
+  .modal{
+    .main{
+      .popUp{
+        background-color: var.$background-color-dark;
+      }
+    }
+  }
+}

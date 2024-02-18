@@ -1,0 +1,27 @@
+@use "./variables.scss" as var;
+
+.chartContainer{
+  width: 100%;
+  height: 100%;
+  .chartLegend{
+    border-top: 1px solid #0C8CE9;
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+    align-items: center;
+    .legendTitle{
+      margin-top: 10px;
+      font-size: 8px;
+      color: var.$primary-color-input;
+    }
+  }
+}
+
+.toolipContainer{
+  background-color: #F1F6FF;
+  padding: 5px;
+  border-radius: 5px;
+  .label{
+    color: var.$primary-color-font;
+  }
+}

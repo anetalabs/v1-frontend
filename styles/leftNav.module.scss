@@ -1,0 +1,160 @@
+@use "./variables.scss" as var;
+
+.leftNav{
+  width: 265px;
+  background-color: var.$background-color-light;
+  position: absolute;
+  left: 85px;
+  top: calc((100vh - 330px)/2);
+  border-radius: 15px;
+  @media (max-height: 425px){
+    top: 100px;
+  }
+  @media (min-width: 2000px){
+    left: calc(((100vw - 2000px)/2) + 85px);
+  }
+  .network{
+    background-color: var.$background-color-dark;
+    position: absolute;
+    width: 65px;
+    height: 18px;
+    left: 100px;
+    top: -9px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p{
+      color: #F7931A;
+      font-size: 10px;
+    }
+  }
+  .navigationContainer{
+    display: flex;
+    padding: 20px 10px;
+    flex-direction: column;
+    .item{
+      display: flex;
+      align-items: center;
+      height: 45px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 0 20px;
+      gap: 25px;
+      margin: 2.5px 0;
+      .icon{
+        fill: #323232;
+      }
+      .name{
+        font-weight: var.$font-weight-semibold;
+        color: #323232;
+        img{
+          margin-left: 5px;
+        }
+      }
+      &:hover{
+        background-color: var.$light-color-disable;
+      }
+      &.active{
+        background-color: var.$primary-color-light;
+        .icon{
+          fill: var.$primary-color-font;
+        }
+        .name{
+          color: var.$primary-color-font;
+
+        }
+      }
+    }
+    .line{
+      border: 1px solid #32323288;
+      width: 210px;
+      margin: 10px auto;
+    }
+    .social{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      .link{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.25s;
+        .icon{
+          use{
+            fill: #323232;
+          } 
+        }
+        &:hover{
+          scale:1.05;
+          .icon{
+            use{
+              fill: var.$primary-color-dark;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+:global(body.dark){
+
+  .leftNav{
+    background-color: var.$background-color-dark;
+    .network{
+      background-color: var.$background-color-light;
+      p{
+        color: #84312D;
+
+      }
+    }
+    .navigationContainer{
+      .item{
+        .icon{
+          fill: #B1B1B1;
+        }
+        p{
+          color: #B1B1B1;
+        }
+        &:hover{
+          background-color: var.$dark-color-disable;
+        }
+        &.active{
+          background-color: var.$primary-color-dark;
+          .icon{
+            fill: var.$secundary-color-font;
+          }
+          p{
+            color: var.$secundary-color-font;
+          }
+        }
+      }
+      .line{
+        border: 1px solid #B1B1B188;
+      }
+      .social{
+        .link{
+          .icon{
+            use{
+              fill: #B1B1B1;
+            } 
+          }
+          &:hover{
+            .icon{
+              use{
+                fill: var.$primary-color-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+
+
+}

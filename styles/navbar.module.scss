@@ -1,0 +1,195 @@
+@use "./variables.scss" as var;
+
+.main{
+  height: 80px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media (max-width: 350px){
+    padding: 16px 6px;
+  }
+  .navGroup{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    .btn{
+      @include var.btn-header();
+      padding: 5px 10px;
+      width: 190px;
+      background-color: var.$background-color-light;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      font-weight: var.$font-weight-medium;
+      .link{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        .value{
+          width: 60px;
+          font-weight: var.$font-weight-medium;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          .loader, .loader:before, .loader:after{
+            @include var.loader();
+          }
+          .loader{
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 16px;
+            animation-delay: -0.16s;
+            position: absolute;
+            top: -14px;
+            &:before, &:after{
+              content: "";
+              position: absolute;
+          }
+            &:before{
+              left: -15px;
+              animation-delay: -0.32s;
+          }
+            &:after{
+              left: 15px;
+            }
+          }
+        }
+      }
+      &.info{
+        width: 60px;
+        gap: 5px;
+        cursor: pointer;
+        .iconArrow{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.5s;
+          &.active{
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+    }
+    .btnGroup{
+      position: relative;
+      z-index: 50;
+      .minted{
+        position: absolute;
+        top: 50px;
+        background-color: var.$secondary-color-light;
+      }
+    }
+    .btnDashboard{
+      @include var.btn-header();
+      background-color: var.$background-color-light;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 720px){
+      gap: 6px;
+      .btn{
+        font-size: 12px;
+        height: 35px;
+        width: 160px;
+      }
+      .btnDashboard{
+        height: 35px;
+        width: 35px;
+        .dashboard{
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+    }
+  }
+
+  .nav{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    .connectWallet{
+      @include var.btn-header();
+      padding: 5px;
+      width: 160px;
+      background-color: var.$background-color-light;
+      p{
+        background-color: var.$primary-color-light;
+        font-weight: var.$font-weight-medium;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    }
+    .setting{
+      @include var.btn-header();
+      background-color: var.$background-color-light;
+      width: 40px;
+      position: relative;
+      svg{
+          cursor: pointer;
+      }
+    }
+    @media (max-width: 720px){
+      gap: 6px;
+      .connectWallet{
+        width: 110px;
+        height: 35px;
+        p{
+          font-size: 12px;
+        }
+      }
+      .setting{
+        width: 35px;
+        height: 35px;
+        .gear{
+          width: 16px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+:global(body.dark){
+  .main{
+    .navGroup{
+      .btn{
+        background-color: var.$background-color-dark;
+        .value{
+          .loader{
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+      .btnGroup{
+        .minted{
+          background-color: var.$secondary-color-dark;
+        }
+      }
+      .btnDashboard{
+        background-color: var.$background-color-dark;
+      }
+    }
+
+    .nav{
+      .connectWallet{
+        background-color: var.$background-color-dark;
+        p{
+            background-color: var.$primary-color-dark;
+        }
+      }
+      .setting{
+        background-color: var.$background-color-dark;     
+      }
+    }
+  }
+}

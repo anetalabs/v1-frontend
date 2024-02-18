@@ -1,0 +1,140 @@
+@use "./variables.scss" as var;
+
+.kycPopup{
+  @include var.popup();
+  .main{
+    position: fixed;
+    top: calc((100vh - 460px)/2);
+    left: calc(((100% + 200px ) - 500px)/2);
+    width: 90%;
+    max-width: 500px;
+    @media (max-width: 1400px){
+      left: calc(((100% + 350px ) - 500px)/2);
+    }
+    @media (max-width: 1000px){
+      left: calc((100% - 500px)/2);
+    }
+    @media (max-width: 600px){
+      left: 5%;
+    }
+    @media (max-height: 660px){
+      top: 100px;
+    }
+    @media (max-width: 350px){
+      top: 10px;
+    }
+      .popUp{
+        background-color: var.$background-color-light;
+        .header{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          h2{
+            font-size: 20px;
+            font-weight: var.$font-weight-bold;
+          }
+          svg{
+              position: absolute;
+              cursor: pointer;
+              right: 10px;
+              top: 10px;
+          }
+          @media (max-width: 600px){
+            margin-bottom: 20px;
+            h2{
+              font-size: 18px;
+            }
+          }
+          @media (max-width: 380px){
+            margin-bottom: 16px;
+            h2{
+              font-size: 16px;
+              width: 85%;
+            }
+          }
+        }
+        .content{
+          .text{
+            font-size: 14px;
+            margin-bottom: 14px;
+          }
+          .subtitle{
+            font-weight: var.$font-weight-bold;
+            margin-bottom: 16px;
+            font-size: 14px;
+          }
+          ol, ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+            li{
+              list-style:decimal;
+              font-size: 14px;
+            }
+          } 
+          ul{  
+            li{
+              list-style:initial;
+            }
+          }
+          .bold{
+            font-weight: var.$font-weight-bold;
+          }
+          @media (max-width: 450px){
+            .text, ol li, ul li, .bold{
+              font-size: 12px;
+            }
+          }
+        }
+        .btn{
+          @include var.btn-main();
+          background-color: var.$primary-color-light;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          font-weight: var.$font-weight-semibold;
+          border-radius: 10px;
+          &:hover{
+            background-color: var.$light-color-hover;
+          }
+          @media (max-width: 600px){
+            font-size: 16px;
+            height: 40px;
+            border-radius: 5px;
+          }
+          @media (max-width: 450px){
+            font-size: 14px;
+          }
+          @media (max-width: 380px){
+            font-size: 12px;
+          }
+        }
+
+      }
+
+
+
+    }
+}
+
+
+:global(body.dark){
+
+  .kycPopup{
+
+    .popUp{
+
+      background-color: var.$background-color-dark;
+      .btn{
+        background-color: var.$primary-color-dark;
+        &:hover{
+          background-color: var.$dark-color-hover;
+        }
+      }
+    }
+  }
+
+
+}

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  app-anetabtc-front:
+    build:
+      context: ./
+      target: runner
+    command: npm run start
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+    env_file:
+      - ./.env.local

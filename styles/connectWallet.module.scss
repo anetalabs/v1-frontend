@@ -1,0 +1,120 @@
+@use "./variables.scss" as var;
+
+.walletPopup{
+  @include var.popup();
+  .main{
+    position: fixed;
+    top: 100px;
+    left: calc(((100% + 200px ) - 540px)/2);
+    width: 90%;
+    max-width: 540px;
+    @media (max-width: 1400px){
+      left: calc(((100% + 350px ) - 540px)/2);
+    }
+    @media (max-width: 600px){
+        left: 5%;
+      }
+      .popUp{
+        background-color: var.$background-color-light;
+        .header{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          p{
+            font-size: 14px;
+            font-weight: var.$font-weight-semibold;
+          }
+          svg{
+              cursor: pointer;
+          }
+        }
+        .walletsList{
+          width: 100%;
+          border: 1px solid var.$primary-color-light;
+          border-radius: 6px;
+          .item{
+            padding: 0 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var.$primary-color-light;
+            cursor: pointer;
+            &:hover{
+              background-color: var.$primary-color-light;
+              border-radius: 6px;
+            }
+            &:last-child{
+              border-bottom: none;
+            }
+            .name{
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              h2{
+                font-weight: var.$font-weight-semibold;
+              }
+              a, .link{
+                font-size: 14px;
+                color: var.$warning-color-light;
+              }
+            }
+          }
+        }
+      }
+      @media (max-width: 1000px){
+        left: calc((100% - 540px)/2);
+      }
+      @media (max-width: 594px){
+        left: 5%;
+        .popUp{
+          .header{
+            margin-bottom: 16px;
+          }
+          .walletsList{
+            .item{
+              height: 50px;
+              img{
+                width: 24px;
+                height: auto;
+              }
+            }
+          }
+        }
+      }
+  }
+}
+
+:global(body.dark){
+
+
+  .walletPopup{
+
+    .popUp{
+
+      background-color: var.$background-color-dark;
+
+      .walletsList{
+        border: 1px solid #787878;
+        .item{
+          border-bottom: 1px solid #787878;
+
+          &:hover{
+            background-color: var.$primary-color-dark
+        }
+        &:last-child{
+            border-bottom: none;
+        }
+        .wallet__name{
+            a, .link{
+                color: var.$warning-color-dark;
+            }
+        }
+
+        }
+      }
+    }
+  }
+
+}

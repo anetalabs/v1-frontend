@@ -1,0 +1,501 @@
+@use "./variables.scss" as var;
+
+.wrapUnwrap{
+  width: 570px;
+  background-color: var.$background-color-light;
+  position: absolute;
+  left: calc(((100% + 200px ) - 570px)/2);
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 90%;
+  @media (max-width: 1400px){
+    left: calc(((100% + 350px ) - 570px)/2);
+  }
+  @media (max-width: 1000px){
+    left: calc((100% - 570px)/2);
+  }
+  @media (max-width: 627px){
+    left: 5%;
+  }
+  &.wrap{
+    top: calc((100vh - 440px)/2);
+    @media (max-height: 640px){
+      top: 120px;
+    }
+  }
+  &.unwrap{
+    top: calc((100vh - 590px)/2);
+    @media (max-height: 780px){
+      top: 120px;
+    }
+  }
+
+
+  .options{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var.$light-color;
+    .item{
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      width: 100%;
+      .selection{
+        height: 100%;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        font-weight: var.$font-weight-semibold;
+      }
+      .select{
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.5s ease-in-out;
+        transform: translateX(0%);
+        background-color: var.$primary-color-light;
+        &.active{
+          transform: translateX(100%);
+
+        }
+      }
+    }
+  }
+
+
+  .menu{
+    width: 100%;
+    .titleSection{
+      margin: 10px 0;
+      text-align: center;
+      color: #575757;
+    }
+    .inputAmount{
+      position: relative;
+      input{
+        padding: 0 20px;
+        padding-bottom: 10px;
+        width: 100%;
+        height: 100px;
+        border-radius: 12px;
+        background-color: var.$secondary-color-light;
+        font-size: 40px;
+        font-weight: var.$font-weight-medium;
+        color: var.$primary-color-input;
+      }
+      .token{
+        position: absolute;
+        top: 34px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        right: 20px;
+        align-items: flex-end;
+        .tokenName{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          p{
+            font-size: 24px;
+            font-weight: var.$font-weight-medium;
+          }
+        }
+      }
+      .usdBtc{
+        position: absolute;
+        bottom: 8px;
+        padding-left: 20px;
+        color: var.$primary-color-input;
+        font-size: 14px;
+      }
+      .balanceContainer{
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-inline: 20px;
+        bottom: 8px;
+        .text{
+          font-size: 14px;
+        }
+        .balance{
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 5px;
+          .btn{
+            cursor: pointer;
+            background-color: var.$primary-color-light;
+            padding-inline: 6px;
+            border-radius: 6px;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .warning{
+        position: absolute;
+        display: flex;
+        align-items: center;
+        padding: 5px 0 5px 10px;
+        gap: 10px;
+        width: 90%;
+        :global(svg#icon){
+          use{
+            fill: #DD524C;
+          }
+        }
+
+        p{
+          font-size: 14px;
+          color: #DD524C;
+        }
+      }
+    }
+    .inputAddress{
+      margin-top: 30px;
+      input{
+        padding: 0 20px;
+        width: 100%;
+        height: 50px;
+        border-radius: 12px;
+        background-color: var.$secondary-color-light;
+        font-size: 16px;
+        font-weight: var.$font-weight-medium;
+        color: var.$primary-color-input;
+        word-break: break-all;
+      }
+    }
+  }
+  .sectionFee{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 20px;
+    &.wrap{
+      margin-top: 15px;
+    }
+    &.receiveAmount{
+      margin-bottom: 20px;
+      .usdReceive{
+        position: absolute;
+        right: 20px;
+        bottom: -8px;
+        font-size: 14px;
+      }
+    }
+    .bridge{
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      .title{
+        font-weight: var.$font-weight-medium;
+        font-size: 18px;
+        width: auto;
+      }
+      .tooltip{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .icon{
+          cursor: pointer;
+        }
+        .tooltipContent{
+          position: absolute;
+          top: -95px;
+          background-color: var.$primary-color-light;
+          width: 180px;
+          height: 77px;
+          padding: 10px;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          p{
+            text-align: center;
+            font-size: 14px;
+          }
+        }
+        .tooltipArrow{
+          position: absolute;
+          top: -20px;
+          width: 0; 
+          height: 0; 
+          border-top: 20px solid var.$primary-color-light;
+          border-right: 10px solid transparent;
+          border-left: 10px solid transparent;
+        }
+      }
+    }
+
+    .token{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      p{
+        font-size: 18px;
+        font-weight: var.$font-weight-medium;
+      }
+    }
+    &.unwrapFee{
+      justify-content: flex-end;
+      height: 40px;
+      margin-bottom: 16px
+    }
+  }
+  .wrapBtn{
+    @include var.btn-main();
+    background-color: var.$primary-color-light;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    .loader{
+      @include var.spinner();
+    }
+    &:hover{
+      background-color: var.$light-color-hover;
+    }
+    &:disabled{
+      background-color: var.$light-color-disable;
+      cursor: not-allowed;
+    }
+  }
+  @media (max-width: 700px){
+    border-radius: 10px;
+    .options{
+      height: 40px;
+      border-radius: 5px;
+    }
+    .menu{
+      .titleSection{
+        font-size: 14px;
+      }
+      .inputAmount{
+        input{
+          height: 80px;
+          font-size: 24px;
+          border-radius: 5px;
+        }
+        .token{
+            top: 20px;
+        }
+        .tokenName{
+          svg{
+            width: 24px;
+            height: auto;
+          }
+          p{
+            font-size: 16px;
+          }
+        }
+      }
+      .inputAddress{
+        input{
+          border-radius: 5px;
+        }
+      }
+    }
+    .sectionFee{
+      gap: 10px;
+      height: 50px;
+      .bridge{
+        .title{
+          margin: 0;
+          font-size: 16px;
+        }
+      }
+      .token{
+        gap: 6px;
+        p{
+          font-size: 16px;
+        }
+        svg{
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+    .wrapBtn{
+      margin-top: 5px;
+      height: 40px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 500px){
+    .options{
+      .item{
+        p{
+          font-size: 14px;
+          font-weight: var.$font-weight-medium;
+        }
+      }
+    }
+    .menu{
+      .inputAmount{
+        input{
+          font-size: 18px;
+          padding: 0 10px;
+          padding-bottom: 10px;
+        }
+        .token{
+          right: 10px;
+        }
+        .usdBtc{
+          padding-left: 10px;
+          font-size: 12px;
+        }
+        .balanceContainer{
+          padding-inline: 10px;
+          .text{
+            font-size: 12px;
+          }
+          .balance{
+            .btn{
+              font-size: 12px;
+              border-radius: 3px;
+            }
+          }
+
+        }
+        .tokenName{
+          gap: 5px;
+        }
+        .warning{
+          p{
+            width: calc(100% - 30px);
+          }
+        }
+      }
+      .inputAddress{
+        input{
+          font-size: 14px;
+        }
+      }
+      .sectionFee{
+        padding: 0 10px;
+        .bridge{
+          .title{
+            font-size: 14px;
+          }
+        }
+        .token{
+          p{
+            font-size: 14px;
+          }
+        }
+        &.receiveAmount{
+          .usdReceive{
+            right: 10px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 410px){
+    .menu{
+      .inputAddress{
+        margin-top: 50px;
+      }
+      .sectionFee{
+        &.wrap{
+          margin-top: 40px;
+        }
+        &.unwrap{
+          margin-top: 10px;
+        }
+        &.wrap, &.unwrap{
+          .bridge{
+            .title{
+              max-width: 70px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+:global(body.dark){
+
+  .wrapUnwrap{
+    background-color: var.$background-color-dark;
+    .options{
+      background-color: var.$dark-color;
+      .select{
+        background-color: var.$primary-color-dark;
+      }
+    }
+    .menu{
+      .title{
+        color: #CACACA;
+      }
+      .inputAmount{
+        input{
+          background-color: var.$secondary-color-dark;
+          color: var.$secundary-color-font;
+        }
+        .balanceContainer{
+          .btn{
+            background-color: var.$primary-color-dark;
+          }
+        }
+      }
+      .inputAddress{
+        input{
+          background-color: var.$secondary-color-dark;
+          color: var.$secundary-color-font;
+        }
+      }
+    }
+    .sectionFee{
+      .bridge{
+        .tooltip{
+          .tooltipContent{
+            background-color: var.$dark-tooltip;
+          }
+          .tooltipArrow{
+            border-top: 20px solid var.$dark-tooltip;
+          }
+          
+        }
+      }
+    }
+    .wrapBtn{
+      background-color: var.$primary-color-dark;
+      .loader{
+        border: 3px solid var.$background-color-light;
+        border-left-color: transparent;
+      }
+      &:hover{
+        background-color: var.$dark-color-hover;
+      }
+      &:disabled{
+        background-color: var.$dark-color-disable;
+      }
+    }
+  }
+
+
+
+}

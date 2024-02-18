@@ -1,0 +1,343 @@
+@use "./variables.scss" as var;
+
+.copiedBase{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 10px;
+  font-size: 14px;
+  top: -30px;
+  width: 80px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #DDDDDD;
+  font-weight: var.$font-weight-semibold;
+  padding: 0;
+}
+
+.modal{
+  @include var.popup();
+  .main{
+    position: absolute;
+    left: calc(((100% + 200px ) - 570px)/2);
+    top: calc((100vh - 800px)/2);
+    width: 90%;
+    max-width: 570px;
+    @media (max-width: 1400px){
+      left: calc(((100% + 350px ) - 570px)/2);
+    }
+    @media (max-width: 1000px){
+      left: calc((100% - 570px)/2);
+    }
+    @media (max-width: 627px){
+      left: 5%;
+    }
+    @media (max-height: 1000px){
+      top: 50px;
+    }
+    @media (max-width: 450px){
+      top: 10px;
+    }
+    .popUp{
+      background-color: var.$background-color-light;
+      padding: 0;
+      border-radius: 16px;
+      position: relative;
+      .header{
+        height: 60px;
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        .close{
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+          &:global(#icon){
+            use{
+              fill: #787878;
+            }
+          }
+   
+        }
+        h2{
+          font-size: 20px;
+          font-weight: var.$font-weight-semibold;
+        }
+      }
+      .body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        .titleBody{
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          font-size: 18px;
+          font-weight: var.$font-weight-medium;
+          margin-bottom: 20px;
+        }
+        .warning, .text{
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          width: 90%;
+          margin-bottom: 20px;
+          p{
+            .attention{
+              color: var.$warning-color-light;
+              font-weight: var.$font-weight-medium;
+            }
+            &.parragraph{
+              margin-top: 20px;
+            }
+            &.note{
+              font-size: 14px;
+              text-align: justify;
+              span{
+                font-weight: var.$font-weight-medium;
+              }
+            }
+          }
+        }
+        .credential, .address{
+          position: relative;
+          width: 90%;
+          margin-bottom: 20px;
+          cursor: pointer;
+          border: 1px solid var.$primary-color-light;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .copied{
+            @extend .copiedBase;
+          }
+          p{
+            padding: 5px 25px 5px 10px;
+            word-break: break-all;
+            text-align: center;
+          }
+          .icon{
+            position: absolute;
+            right: 5px;
+          }
+        }
+        .credentialGroup{
+          width: 90%;
+          display: flex;
+          align-items: stretch;
+          justify-content: center;
+          margin-bottom: 20px;
+          gap: 10px;
+          .credential{
+            width: calc(100% - 60px);
+            margin-bottom: 0;
+          }
+          .credentialQr{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            border: 1px solid var.$primary-color-light;
+            border-radius: 6px;
+            cursor: pointer;
+          }
+        }
+        .qr{
+          width: 180px;
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var.$background-color-light;
+          margin-bottom: 20px;
+        }
+        .wrapBtn{
+          @include var.btn-main();
+          background-color: var.$primary-color-light;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          width: 90%;
+          margin-bottom: 20px;
+          .loader{
+            @include var.spinner();
+          }
+          &:hover{
+            background-color: var.$light-color-hover;
+          }
+        }
+      }
+      .credentialModal{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+        backdrop-filter: blur(5px);
+        background-color: rgba(0,0,0,0.1);
+        .popupContentCredential{
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding-top: 100px;
+          .close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            &:global(#icon){
+              use{
+                fill: var.$dark-color;
+              }
+            }
+     
+          }
+          .title{
+            font-size: 20px;
+            font-weight: var.$font-weight-semibold;
+            margin-bottom: 20px;
+          }
+          .qr{
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var.$background-color-light;
+            margin-bottom: 20px;
+          }
+        }
+      }
+
+    }
+
+
+
+    @media (max-width: 700px){
+      .popUp{
+        border-radius: 10px;
+        .header{
+          height: 50px;
+          border-radius: 10px 10px 0 0;
+          h2{
+            font-size: 16px;
+          }
+        }
+        .body{
+          .titleBody{
+            font-size: 16px;
+            margin-bottom: 12px;
+          }
+          .warning, .text{
+            margin-bottom: 16px;
+            width: 85%;
+            p{
+              font-size: 14px;
+              &.parragraph{
+                margin-top: 12px;
+              }
+            }
+          }
+          .credential, .address{
+            width: 90%;
+            margin-bottom: 12px;
+            p{
+              font-size: 14px;
+            }
+          }
+          .credentialGroup{
+            margin-bottom: 12px;
+            .credential{
+              margin-bottom: 0;
+            }
+          }
+          .qr{
+            width: 140px;
+            height: 140px;
+            margin-bottom: 12px;
+          }
+          .wrapBtn{
+            height: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+:global(body.dark){
+
+  .modal{
+    .main{
+      .popUp{
+        background-color: var.$background-color-dark;
+        .header{
+          background-color: #0E0E0E;
+        }
+        .body{
+          .warning, .text{
+            p{
+              .attention{
+                color: var.$warning-color-dark;
+              }
+            }
+          }
+          .credential, .address{
+            border: 1px solid var.$primary-color-input;
+            .copied{
+              background-color: #787878;
+            }
+          }
+          .credentialGroup{
+            .credentialQr{
+              border: 1px solid var.$primary-color-input;
+              .icon{
+                fill: var.$background-color-light;
+              }
+            }
+          }
+          .wrapBtn{
+            background-color: var.$primary-color-dark;
+            .loader{
+              border: 3px solid var.$background-color-light;
+              border-left-color: transparent;
+            }
+            &:hover{
+              background-color: var.$dark-color-hover;
+            }
+          }
+        }
+      }
+      .credentialModal{
+        background-color: rgba(255,255,255,0.05);
+        .popupContentCredential{
+          .close{
+            &:global(#icon){
+              use{
+                fill: var.$light-color;
+              }
+            }
+     
+          }
+        }
+      }
+    }
+  }
+
+}

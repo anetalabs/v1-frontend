@@ -1,0 +1,138 @@
+@use "./variables.scss" as var;
+
+.main{
+  position: relative;
+
+  .selected{
+
+    @include var.btn-header();
+    padding: 5px 10px;
+    width: 150px;
+    background-color: var.$background-color-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    .item{
+      width: 135px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .icon{
+        display: flex;
+        gap: 10px;
+        p{
+          font-weight: var.$font-weight-medium;
+        }
+      }
+      .iconArrow{
+        transition: 0.5s;
+        &.active{
+          transform: rotate(180deg);
+        }
+      }
+      &:last-child{
+        #icon{
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+    @media (max-width: 700px){
+      width: 50px;
+      border-radius: 10px;
+      height: 35px;
+      .item{
+        .icon{
+          width: 16px;
+          height: auto;
+        }
+        .iconArrow{
+          svg{
+            width: 10px;
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+
+  .list{
+    z-index: 5;
+    position: absolute;
+    width: 150px;
+    background-color: var.$background-color-light;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px 0;
+    border-radius: 6px;
+    .item{
+      padding-left: 16px;
+      width: 100%;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      p{
+        font-weight: var.$font-weight-medium;
+      }
+      &.active{
+        background-color: var.$primary-color-light;
+      }
+      &:hover{
+        background-color: var.$primary-color-light;
+      }
+      &:last-child{
+        background-color: var.$background-color-light;
+        cursor: not-allowed;
+      }
+    }
+    @media (max-width: 700px){
+      top: 50px;
+      width: 120px;
+      .item{
+        gap: 5px;
+        height: 24px;
+        padding-left: 10px;
+        svg{
+          width: 16px;
+          height: auto;
+        }
+        p{
+          font-size: 14px;
+        }
+      }
+    }
+
+  }
+
+
+}
+
+:global(body.dark){
+  .main{
+    .selected{
+      background-color: var.$background-color-dark;
+    }
+    .list{
+      background-color: var.$background-color-dark;
+      .item{
+        &.active{
+          background-color: var.$primary-color-dark;
+        }
+        &:hover{
+          background-color: var.$primary-color-dark;
+        }
+        &:last-child{
+          background-color: var.$background-color-dark;
+        }
+
+      }
+
+    }
+  }
+}
