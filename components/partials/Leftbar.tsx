@@ -38,7 +38,7 @@ const Leftbar = () => {
               <p className={styles.name}>{item.name}</p>
             </Link>
           {
-            item.name === "Dashboard" && <div className={styles.line}></div>
+            item.name === "Swap" && <div className={styles.line}></div>
           }
           
           </Fragment>

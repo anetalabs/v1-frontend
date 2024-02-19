@@ -14,15 +14,21 @@ export const navigationLeftbar: NavigationType[] = [
     current: false,
   },
   {
-    name: "Claim Rewards",
-    href: "https://app.tosidrop.io/cardano/claim",
-    icon: "/images/icons/bank.svg#icon",
+    name: "Swap",
+    href: "/swap",
+    icon: "/images/icons/swap.svg#icon",
     current: false,
   },
   {
-    name: "Feedback",
-    href: "/feedback",
-    icon: "/images/icons/comment.svg#icon",
+    name: "Lend",
+    href: "https://app.cherrylend.org",
+    icon: "/images/icons/lend.svg#icon",
+    current: false,
+  },
+  {
+    name: "Governance",
+    href: "https://www.clarity.vote/organizations/AnetaBTC",
+    icon: "/images/icons/governace.svg#icon",
     current: false,
   },
   {
