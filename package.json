@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cardano-sdk/dapp-connector": "^0.9.10",
+    "@dexhunterio/swaps": "^0.0.96",
     "@mempool/mempool.js": "^2.3.0",
     "axios": "^1.4.0",
     "bitcoin-conversion": "^0.4.0",
