@@ -37,14 +37,10 @@ const Leftbar = () => {
               </svg>
               <p className={styles.name}>{item.name}</p>
             </Link>
-          {
-            item.name === "Dashboard" && <div className={styles.line}></div>
-          }
-          
+            {item.name === "Staking" && <div className={styles.line}></div>}
           </Fragment>
-
         ))}
-        
+
         <div className={styles.social}>
           {socialLinks.map((item, i) => {
             return (

@@ -14,6 +14,12 @@ export const navigationLeftbar: NavigationType[] = [
     current: false,
   },
   {
+    name: "Staking",
+    href: "/stake",
+    icon: "/images/icons/history.svg#icon",
+    current: false,
+  },
+  {
     name: "Claim Rewards",
     href: "https://app.tosidrop.io/cardano/claim",
     icon: "/images/icons/bank.svg#icon",
