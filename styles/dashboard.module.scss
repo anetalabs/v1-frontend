@@ -1,44 +1,55 @@
 @use "./variables.scss" as var;
 
-
-.dashboardContainer{
-
-  width: 865px;
+.dashboardContainer {
+  width: 1040px;
   position: absolute;
-  left: calc(((100% + 200px ) - 865px)/2);
+  left: calc(((100% + 200px) - 1040px) / 2);
   height: 480px;
-  top: calc((100vh - 480px)/2);
-  display: flex;
-  flex-direction: column;
+  top: calc((100vh - 480px) / 2);
+  // display: flex;
+  // flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
-  .sectionChart{
-    display: flex;
-    justify-content: space-between;
-    .chartTvl{
-      width: 570px;
-      height: 330px;
+
+  .sectionChart {
+    display: grid;
+    // grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-column: span 4 / span 4;
+    width: 100%;
+    gap: 1.25rem;
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .chartTvl {
+      grid-row: span 2 / span 2;
+      grid-column: span 3 / span 2;
+      width: 100%;
       border-radius: 24px;
       background-color: var.$background-color-light;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      .headerChart{
+      .headerChart {
         height: 100px;
         display: flex;
         justify-content: space-between;
-        .valuesGroup{
+        .valuesGroup {
           display: flex;
           flex-direction: column;
           gap: 12px;
-          .titleChart{
+          .titleChart {
             font-weight: 600;
           }
-          .tokenChart{
+          .tokenChart {
             display: flex;
             align-items: center;
             gap: 5px;
-            .value{
+            .value {
               font-size: 20px;
               width: 80px;
               font-weight: var.$font-weight-semibold;
@@ -46,70 +57,73 @@
               align-items: center;
               justify-content: center;
               position: relative;
-              .loader, .loader:before, .loader:after{
+              .loader,
+              .loader:before,
+              .loader:after {
                 @include var.loader();
               }
-              .loader{
+              .loader {
                 color: rgba(0, 0, 0, 0.5);
                 font-size: 16px;
                 animation-delay: -0.16s;
                 position: absolute;
                 top: -14px;
-                &:before, &:after{
+                &:before,
+                &:after {
                   content: "";
                   position: absolute;
-              }
-                &:before{
+                }
+                &:before {
                   left: -15px;
                   animation-delay: -0.32s;
-              }
-                &:after{
+                }
+                &:after {
                   left: 15px;
                 }
               }
             }
-            .tokenTitle{
+            .tokenTitle {
               font-size: 20px;
               font-weight: var.$font-weight-semibold;
             }
           }
         }
-        .btnGroup{
+        .btnGroup {
           display: flex;
           flex-direction: column;
           gap: 12px;
-          .btnBtc, .btncBtc{
+          .btnBtc,
+          .btncBtc {
             width: 145px;
             height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #0C8CE9;
+            border: 1px solid #0c8ce9;
             border-radius: 8px;
             gap: 5px;
             cursor: pointer;
             transition: 0.25s;
-            &:hover{
+            &:hover {
               background-color: var.$light-color-hover;
             }
-            .btnText{
+            .btnText {
               font-size: 12px;
               font-weight: var.$font-weight-semibold;
             }
-            .icon use{
+            .icon use {
               stroke: var.$primary-color-font;
             }
           }
         }
-
       }
-      .loaderChart{
+      .loaderChart {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
         width: 100%;
-        .loader{
+        .loader {
           @include var.spinner();
           border: 10px solid gray;
           width: 100px;
@@ -118,75 +132,188 @@
           border-left-color: transparent;
         }
       }
-
     }
-    .sectionPrice{
+    .chartWidget {
+      grid-column: span 2 / span 2;
+      width: 100%;
+      height: 163px;
+      border-radius: 24px;
+      background-color: var.$background-color-light;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      .priceBtc, .pricecBtc{
+      .headerChart {
+        height: 100px;
+        display: flex;
+        justify-content: space-between;
+        .valuesGroup {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          .titleChart {
+            font-weight: 600;
+          }
+          .tokenChart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            .value {
+              font-size: 20px;
+              width: 80px;
+              font-weight: var.$font-weight-semibold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              .loader,
+              .loader:before,
+              .loader:after {
+                @include var.loader();
+              }
+              .loader {
+                color: rgba(0, 0, 0, 0.5);
+                font-size: 16px;
+                animation-delay: -0.16s;
+                position: absolute;
+                top: -14px;
+                &:before,
+                &:after {
+                  content: "";
+                  position: absolute;
+                }
+                &:before {
+                  left: -15px;
+                  animation-delay: -0.32s;
+                }
+                &:after {
+                  left: 15px;
+                }
+              }
+            }
+            .tokenTitle {
+              font-size: 20px;
+              font-weight: var.$font-weight-semibold;
+            }
+          }
+        }
+        .btnGroup {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          .btnBtc,
+          .btncBtc {
+            width: 145px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #0c8ce9;
+            border-radius: 8px;
+            gap: 5px;
+            cursor: pointer;
+            transition: 0.25s;
+            &:hover {
+              background-color: var.$light-color-hover;
+            }
+            .btnText {
+              font-size: 12px;
+              font-weight: var.$font-weight-semibold;
+            }
+            .icon use {
+              stroke: var.$primary-color-font;
+            }
+          }
+        }
+      }
+      .loaderChart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        .loader {
+          @include var.spinner();
+          border: 10px solid gray;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          border-left-color: transparent;
+        }
+      }
+    }
+
+    .sectionPrice {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .priceBtc,
+      .pricecBtc {
         width: 270px;
         height: 150px;
         background-color: var.$background-color-light;
         border-radius: 18px;
         padding: 20px;
-        .headerPrice{
+        .headerPrice {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 15px;
-          .token{
+          .token {
             display: flex;
             gap: 5px;
             align-items: center;
-            .tokenTitle{
+            .tokenTitle {
               font-size: 20px;
               font-weight: var.$font-weight-semibold;
             }
           }
-          .changeDaily{
+          .changeDaily {
             color: var.$info-color-light;
             font-size: 20px;
             font-weight: var.$font-weight-medium;
-            &.negative{
+            &.negative {
               color: var.$error-color;
             }
           }
         }
-        .adaPrice{
+        .adaPrice {
           font-size: 28px;
           font-weight: var.$font-weight-medium;
           margin-bottom: 8px;
         }
-        .usdPrice{
+        .usdPrice {
           font-size: 14px;
           font-weight: var.$font-weight-medium;
         }
-        .loaderPrice{
+        .loaderPrice {
           display: flex;
           align-items: center;
           justify-content: flex-start;
           padding-left: 30px;
           height: 60px;
           position: relative;
-          .loader, .loader:before, .loader:after{
+          .loader,
+          .loader:before,
+          .loader:after {
             @include var.loader();
           }
-          .loader{
+          .loader {
             color: rgba(0, 0, 0, 0.5);
             font-size: 60px;
             animation-delay: -0.16s;
             position: absolute;
             top: 10px;
-            &:before, &:after{
+            &:before,
+            &:after {
               content: "";
               position: absolute;
-          }
-            &:before{
+            }
+            &:before {
               left: -20px;
               animation-delay: -0.32s;
-          }
-            &:after{
+            }
+            &:after {
               left: 20px;
             }
           }
@@ -194,23 +321,232 @@
       }
     }
   }
+  .priceBtc,
+  .pricecBtc {
+    width: 100%;
+    height: 152px;
+    background-color: var.$background-color-light;
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .title {
+      font-size: 18px;
+      font-weight: var.$font-weight-semibold;
+    }
+    .titleLg {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 0.5rem;
+      font-weight: var.$font-weight-semibold;
+    }
+    .headerPrice {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .token {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        .tokenTitle {
+          font-size: 18px;
+          font-weight: var.$font-weight-semibold;
+        }
+      }
+      .changeDaily {
+        color: var.$info-color-light;
+        font-size: 18px;
+        font-weight: var.$font-weight-medium;
+        &.negative {
+          color: var.$error-color;
+        }
+      }
+    }
+    .priceGroup {
+
+      .adaPrice {
+        font-size: 28px;
+        font-weight: var.$font-weight-medium;
+        margin-bottom: 4px;
+      }
+      .usdPrice {
+        font-size: 14px;
+        font-weight: var.$font-weight-medium;
+      }
+    }
+
+    .loaderPrice {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 30px;
+      height: 60px;
+      position: relative;
+      .loader,
+      .loader:before,
+      .loader:after {
+        @include var.loader();
+      }
+      .loader {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 60px;
+        animation-delay: -0.16s;
+        position: absolute;
+        top: 10px;
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+        }
+        &:before {
+          left: -20px;
+          animation-delay: -0.32s;
+        }
+        &:after {
+          left: 20px;
+        }
+      }
+    }
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      .time {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .timeValue {
+          font-size: 26px;
+        }
+
+        .timeUnit {
+        }
+      }
+    }
+    .adaValue {
+      font-size: 22px;
+    }
+    .btn {
+      margin-top: auto;
+      width: 100%;
+      font-size: 24px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-weight: var.$font-weight-semibold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background-color: var.$primary-color-light;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      &:hover {
+        background-color: var.$light-color-hover;
+      }
+    }
+    .bottomMargin {
+      height: 0.5rem;
+      width: 100%;
+    }
+  }
 
   // SECCION BALANCE
 
-  .sectionBalance{
+  .sectionBalance {
     display: flex;
     justify-content: space-between;
     width: 100%;
     gap: 24px;
     height: 125px;
     margin-bottom: 24px;
-    .balanceGroup{
+    .sectionPrice {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .priceBtc,
+      .pricecBtc {
+        width: 270px;
+        height: 150px;
+        background-color: var.$background-color-light;
+        border-radius: 18px;
+        padding: 20px;
+        .headerPrice {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+          .token {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            .tokenTitle {
+              font-size: 20px;
+              font-weight: var.$font-weight-semibold;
+            }
+          }
+          .changeDaily {
+            color: var.$info-color-light;
+            font-size: 20px;
+            font-weight: var.$font-weight-medium;
+            &.negative {
+              color: var.$error-color;
+            }
+          }
+        }
+        .adaPrice {
+          font-size: 28px;
+          font-weight: var.$font-weight-medium;
+          margin-bottom: 8px;
+        }
+        .usdPrice {
+          font-size: 14px;
+          font-weight: var.$font-weight-medium;
+        }
+        .loaderPrice {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding-left: 30px;
+          height: 60px;
+          position: relative;
+          .loader,
+          .loader:before,
+          .loader:after {
+            @include var.loader();
+          }
+          .loader {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 60px;
+            animation-delay: -0.16s;
+            position: absolute;
+            top: 10px;
+            &:before,
+            &:after {
+              content: "";
+              position: absolute;
+            }
+            &:before {
+              left: -20px;
+              animation-delay: -0.32s;
+            }
+            &:after {
+              left: 20px;
+            }
+          }
+        }
+      }
+    }
+    .balanceGroup {
       display: flex;
       gap: 24px;
       width: 40%;
       min-width: 500px;
       height: 100%;
-      .balance{
+      .balance {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -220,7 +556,7 @@
         border-radius: 18px;
         padding: 24px;
         gap: 16px;
-        .connectBtn{
+        .connectBtn {
           padding: 5px;
           width: 160px;
           height: 30px;
@@ -228,24 +564,26 @@
           border-radius: 8px;
           cursor: pointer;
         }
-        .balanceTitle{
+        .balanceTitle {
           font-size: 20px;
           font-weight: var.$font-weight-semibold;
         }
-        .balanceValue{
+        .balanceValue {
           display: flex;
           align-items: center;
           gap: 5px;
-          .text, .value{
+          .text,
+          .value {
             font-size: 18px;
           }
-          .value{
+          .value {
             font-weight: var.$font-weight-semibold;
           }
         }
       }
     }
-    .mint, .claim{
+    .mint,
+    .claim {
       width: 60%;
       height: 100%;
       background-color: var.$background-color-light;
@@ -254,12 +592,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      .mintTitle, .claimTitle{
+      .mintTitle,
+      .claimTitle {
         font-size: 20px;
         font-weight: var.$font-weight-semibold;
         width: 126px;
       }
-      .mintBtn, .claimBtn{
+      .mintBtn,
+      .claimBtn {
         font-size: 12px;
         font-weight: var.$font-weight-semibold;
         width: 135px;
@@ -269,83 +609,84 @@
         justify-content: center;
         border-radius: 8px;
         background-color: var.$primary-color-light;
-        &:hover{
+        &:hover {
           background-color: var.$light-color-hover;
         }
       }
     }
-    @media (min-width: 1000px){
-      .claim{
+    @media (min-width: 1000px) {
+      .claim {
         display: none;
       }
     }
   }
 
-  @media (max-width: 1470px){
+  @media (max-width: 1470px) {
     left: 400px;
-    
   }
-  @media (max-width: 1300px){
-    left: calc(((100%) - 225px)/2);
+  @media (max-width: 1300px) {
+    left: calc(((100%) - 225px) / 2);
     width: 570px;
     height: auto;
     top: 90px;
-    .sectionChart{
+    .sectionChart {
       flex-direction: column;
       gap: 24px;
       justify-content: flex-start;
-      .sectionPrice{
+      .sectionPrice {
         flex-direction: row;
         gap: 24px;
       }
     }
-    .sectionBalance{
+    .sectionBalance {
       flex-direction: column;
       height: auto;
-      .balanceGroup{
+      .balanceGroup {
         width: 100%;
         min-width: 220px;
-        .balance{
+        .balance {
           height: 125px;
         }
       }
-      .mint, .claim{
+      .mint,
+      .claim {
         height: 125px;
         width: 100%;
       }
     }
   }
-  @media (max-width: 1000px){
-    left: calc(((100%) - 570px)/2);
+  @media (max-width: 1000px) {
+    left: calc(((100%) - 570px) / 2);
     width: 90%;
     max-width: 570px;
-    .sectionChart{
-      .chartTvl{
+    .sectionChart {
+      .chartTvl {
         width: 100%;
       }
     }
   }
-  @media (max-width: 633px){
+  @media (max-width: 633px) {
     left: 5%;
-    .sectionChart{
-      .sectionPrice{
+    .sectionChart {
+      .sectionPrice {
         flex-direction: column;
-        .priceBtc, .pricecBtc{
+        .priceBtc,
+        .pricecBtc {
           width: 100%;
         }
       }
     }
-    .sectionBalance{
-      .balanceGroup{
+    .sectionBalance {
+      .balanceGroup {
         flex-direction: column;
       }
     }
   }
-  @media (max-width: 450px){
-    .sectionChart{
-      .chartTvl{
+  @media (max-width: 450px) {
+    .sectionChart {
+      .chartTvl {
         height: 420px;
-        .headerChart{
+        .headerChart {
           height: 190px;
           flex-direction: column;
           gap: 16px;
@@ -353,9 +694,9 @@
       }
     }
   }
-  @media (max-width: 350px){
-    .sectionBalance{
-      .mint{
+  @media (max-width: 350px) {
+    .sectionBalance {
+      .mint {
         height: auto;
         flex-direction: column;
         align-items: flex-start;
@@ -363,76 +704,119 @@
       }
     }
   }
-
 }
 
-
-:global(body.dark){
-
-  .dashboardContainer{
-    .sectionChart{
-      .chartTvl{
+:global(body.dark) {
+  .dashboardContainer {
+    .sectionChart {
+      .chartTvl,
+      .chartWidget {
         background-color: var.$background-color-dark;
-        .headerChart{
-          .valuesGroup{
-            .tokenChart{
-              .value{
-                .loader{
+        .headerChart {
+          .valuesGroup {
+            .tokenChart {
+              .value {
+                .loader {
                   color: rgba(255, 255, 255, 0.5);
                 }
               }
             }
           }
-          .btnGroup{
-            .btnBtc, .btncBtc{
-              .icon use{
+          .btnGroup {
+            .btnBtc,
+            .btncBtc {
+              .icon use {
                 stroke: var.$secundary-color-font;
               }
-              &:hover{
+              &:hover {
                 background-color: var.$dark-color-hover;
               }
             }
           }
         }
       }
-      .sectionPrice{
-        .priceBtc, .pricecBtc{
+      .sectionPrice {
+        .priceBtc,
+        .pricecBtc {
           background-color: var.$background-color-dark;
-          .headerPrice{
-            .changeDaily{
+          .headerPrice {
+            .changeDaily {
               color: var.$info-color-dark;
-              &.negative{
+              &.negative {
                 color: var.$error-color;
               }
             }
           }
-          .loaderPrice{
-            .loader{
+          .loaderPrice {
+            .loader {
               color: rgba(255, 255, 255, 0.5);
             }
           }
         }
       }
     }
-    .sectionBalance{
-      .balanceGroup{
-        .balance{
+    .priceBtc,
+    .pricecBtc {
+      background-color: var.$background-color-dark;
+      .headerPrice {
+        .changeDaily {
+          color: var.$info-color-dark;
+          &.negative {
+            color: var.$error-color;
+          }
+        }
+      }
+      .loaderPrice {
+        .loader {
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+      .btn {
+        background-color: var.$primary-color-dark;
+        &:hover {
+          background-color: var.$dark-color-hover;
+        }
+      }
+    }
+    .sectionBalance {
+      .sectionPrice {
+        .priceBtc,
+        .pricecBtc {
           background-color: var.$background-color-dark;
-          .connectBtn{
+          .headerPrice {
+            .changeDaily {
+              color: var.$info-color-dark;
+              &.negative {
+                color: var.$error-color;
+              }
+            }
+          }
+          .loaderPrice {
+            .loader {
+              color: rgba(255, 255, 255, 0.5);
+            }
+          }
+        }
+      }
+      .balanceGroup {
+        .balance {
+          background-color: var.$background-color-dark;
+          .connectBtn {
             background-color: var.$primary-color-dark;
           }
         }
       }
-      .mint, .claim{
+      .mint,
+      .claim {
         background-color: var.$background-color-dark;
-        .mintBtn, .claimBtn{
+        .mintBtn,
+        .claimBtn {
           background-color: var.$primary-color-dark;
-          &:hover{
+          &:hover {
             background-color: var.$dark-color-hover;
           }
         }
       }
     }
-
   }
 }

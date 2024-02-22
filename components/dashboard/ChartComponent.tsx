@@ -4,6 +4,9 @@ import { AnetaData } from "../../hooks/useAnetaData";
 
 interface ChartProps {
   data: AnetaData[];
+  height?: number;
+  hideLegends?: boolean;
+  suffix?: string;
 }
 
 export default function ChartComponent(props: ChartProps) {
@@ -16,7 +19,7 @@ export default function ChartComponent(props: ChartProps) {
   return (
     <section className={styles.chartContainer}>
       <>
-        <ResponsiveContainer width="100%" height={170}>
+        <ResponsiveContainer width="100%" height={props.height ?? 170}>
           <AreaChart
             data={data}
             margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
@@ -27,7 +30,10 @@ export default function ChartComponent(props: ChartProps) {
                 <stop offset="100%" stopColor="#0C8CE9" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <Tooltip cursor={false} content={<CustomTooltip />} />
+            <Tooltip
+              cursor={false}
+              content={<CustomTooltip suffix={props.suffix} />}
+            />
             {/*           <XAxis tickLine={false} axisLine={{stroke: "#0C8CE9"}} /> */}
             <Area
               type="bumpX"
@@ -39,20 +45,26 @@ export default function ChartComponent(props: ChartProps) {
           </AreaChart>
         </ResponsiveContainer>
         <div className={styles.chartLegend}>
-          <p className={styles.legendTitle}>{data[initialDate].date}</p>
-          <p className={styles.legendTitle}>{data[middelDate].date}</p>
-          <p className={styles.legendTitle}>{data[finishDate].date}</p>
+          {!props.hideLegends && (
+            <>
+              <p className={styles.legendTitle}>{data[initialDate].date}</p>
+              <p className={styles.legendTitle}>{data[middelDate].date}</p>
+              <p className={styles.legendTitle}>{data[finishDate].date}</p>
+            </>
+          )}
         </div>
       </>
     </section>
   );
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, suffix }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className={styles.toolipContainer}>
-        <p className={styles.label}>{`${payload[0].value} cBTC`}</p>
+        <p className={styles.label}>
+          {payload[0].value} {suffix ?? "cBTC"}
+        </p>
       </div>
     );
   }
