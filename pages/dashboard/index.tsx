@@ -22,6 +22,8 @@ export default function Dashboard() {
     dailyChangeBtcPrice,
     formattedDate,
     tvlData,
+    adaFundPrice,
+    usdFundPrice,
   } = useDashboard();
 
   const { data, loading } = useAssetsApi();
@@ -177,8 +179,8 @@ export default function Dashboard() {
         icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
       />
       <Widget
-        adaPrice={adaBtcPrice}
-        usdPrice={usdBtcPrice}
+        adaPrice={adaFundPrice}
+        usdPrice={usdFundPrice}
         title="Community Fund"
       />
       <Widget
