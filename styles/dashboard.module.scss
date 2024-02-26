@@ -364,7 +364,6 @@
       }
     }
     .priceGroup {
-
       .adaPrice {
         font-size: 28px;
         font-weight: var.$font-weight-medium;
@@ -429,6 +428,18 @@
     .adaValue {
       font-size: 22px;
     }
+    .balanceValue {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .text,
+      .value {
+        font-size: 18px;
+      }
+      .value {
+        font-weight: var.$font-weight-semibold;
+      }
+    }
     .btn {
       margin-top: auto;
       width: 100%;
@@ -441,7 +452,9 @@
       justify-content: center;
       border-radius: 8px;
       background-color: var.$primary-color-light;
-      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color,
+        text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+        filter, backdrop-filter;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 150ms;
       &:hover {
@@ -683,15 +696,27 @@
     }
   }
   @media (max-width: 450px) {
+    position: static;
+    transform: scale(0.9);
+    margin-top: -5rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    width: 100%;
     .sectionChart {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      grid-column: span 1 / span 1;
       .chartTvl {
-        height: 420px;
+        // height: 420px;
+        grid-column: span 1 / span 1;
+        grid-row: span 1 / span 1;
         .headerChart {
-          height: 190px;
-          flex-direction: column;
           gap: 16px;
         }
       }
+      .chartWidget {
+        grid-column: span 1 / span 1;
+      }
+    }
+    .priceBtc {
     }
   }
   @media (max-width: 350px) {
