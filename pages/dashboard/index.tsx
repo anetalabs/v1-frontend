@@ -6,12 +6,11 @@ import styles from "../../styles/dashboard.module.scss";
 import { formatAmount, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
-import Image from "next/image";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
 import useLucid from "../../hooks/useLucid";
-import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
 import { AnetaData } from "../../hooks/useAnetaData";
 import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
+import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
 
 export default function Dashboard() {
   const {
@@ -163,7 +162,7 @@ export default function Dashboard() {
       <Widget
         noPrice
         noHeaderPrice
-        titleLg={!balanceCBtc}
+        titleLg={!balanceCBtc && !walletMeta}
         title="Your cBTC"
         walletMeta={walletMeta}
         walletBalance={balanceCBtc}
@@ -205,10 +204,10 @@ export default function Dashboard() {
         noMargin
         adaValue="1,234"
         title="Total cNETA Staked"
-        adaValue2="123"
+        adaValue2={balanceCNeta ?? "--"}
         title2="Your cNETA Staked"
       />
-      <Widget title="Next Claiming Period" noPrice timer="2024/02/29" />
+      <Widget title="Next Claiming Period" noPrice timer="2024/03/05" />
       <Widget
         title="Mint cBTC"
         buttonTitle="Mint"
@@ -217,6 +216,7 @@ export default function Dashboard() {
         noHeaderPrice
         titleLg
       />
+      <ConnectWallet isOpen={isWalletShowing} setIsOpen={setIsWalletShowing} />
       {/* <div className={styles.sectionBalance}>
         <div className={styles.balanceGroup}>
           <div className={styles.balance}>
@@ -378,8 +378,6 @@ interface ChartWidgetProps {
 }
 
 const ChartWidget = (props: ChartWidgetProps) => {
-  const { data, loading } = useAssetsApi();
-  console.log(props.data?.[0].amount);
   return (
     <div className={styles.chartWidget}>
       <div className={styles.headerChart}>
