@@ -156,6 +156,7 @@ export default function Dashboard() {
             suffix="ADA"
             data={tvlData}
             hasFilter
+            onFilterBtnClick={() => {}}
           />
           <ChartWidget
             title="Community Revenue"
@@ -384,6 +385,7 @@ interface ChartWidgetProps {
   suffix: string;
   data?: AnetaData[];
   hasFilter?: boolean;
+  onFilterBtnClick?: () => void;
 }
 
 const ChartWidget = (props: ChartWidgetProps) => {
@@ -400,17 +402,12 @@ const ChartWidget = (props: ChartWidgetProps) => {
         </div>
         {props.hasFilter && (
           <div className={styles.btnGroup}>
-            <Link
-              href={"#"}
-              className={styles.btnBtc}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p className={styles.btnText}>All Time</p>
-              <svg width="12" height="12" id="icon" className={styles.icon}>
+            <button className={styles.btnBtc} onClick={props.onFilterBtnClick}>
+              <span className={styles.btnText}>All Time</span>
+              {/* <svg width="12" height="12" id="icon" className={styles.icon}>
                 <use href="/images/icons/arrow-right.svg#icon"></use>
-              </svg>
-            </Link>
+              </svg> */}
+            </button>
           </div>
         )}
       </div>
