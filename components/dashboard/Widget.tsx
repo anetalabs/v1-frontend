@@ -138,20 +138,14 @@ const Widget = (props: WidgetProps) => {
           </button>
         )
       ) : undefined}
-      {props.onWalletBtnClick ? (
-        props.walletMeta ? (
-          <div className={styles.balanceValue}>
-            <svg width="25" height="25" id="icon">
-              <use href={props.icon}></use>
-            </svg>
-            <p className={styles.text}>{props.token}</p>
-            <p className={styles.value}>{props.walletBalance}</p>
-          </div>
-        ) : (
-          <button className={styles.btn} onClick={props.onWalletBtnClick}>
-            Connect Wallet
-          </button>
-        )
+      {props.walletMeta ? (
+        <div className={styles.balanceValue}>
+          <svg width="25" height="25" id="icon">
+            <use href={props.icon}></use>
+          </svg>
+          <p className={styles.text}>{props.token}</p>
+          <p className={styles.value}>{props.walletBalance ?? "--"}</p>
+        </div>
       ) : undefined}
       {!props.noMargin && <div className={styles.bottomMargin} />}
     </div>
