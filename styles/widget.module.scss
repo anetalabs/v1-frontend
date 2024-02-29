@@ -1,0 +1,174 @@
+@use "./variables.scss" as var;
+
+.priceBtc,
+.pricecBtc {
+  width: 100%;
+  height: 152px;
+  background-color: var.$background-color-light;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .title {
+    font-size: 18px;
+    font-weight: var.$font-weight-semibold;
+  }
+  .titleLg {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: var.$font-weight-semibold;
+  }
+  .headerPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .token {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      .tokenTitle {
+        font-size: 18px;
+        font-weight: var.$font-weight-semibold;
+      }
+    }
+    .changeDaily {
+      color: var.$info-color-light;
+      font-size: 18px;
+      font-weight: var.$font-weight-medium;
+      &.negative {
+        color: var.$error-color;
+      }
+    }
+  }
+  .priceGroup {
+    .adaPrice {
+      font-size: 28px;
+      font-weight: var.$font-weight-medium;
+      margin-bottom: 4px;
+    }
+    .usdPrice {
+      font-size: 14px;
+      font-weight: var.$font-weight-medium;
+    }
+  }
+
+  .loaderPrice {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 30px;
+    height: 60px;
+    position: relative;
+    .loader,
+    .loader:before,
+    .loader:after {
+      @include var.loader();
+    }
+    .loader {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 60px;
+      animation-delay: -0.16s;
+      position: absolute;
+      top: 10px;
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+      }
+      &:before {
+        left: -20px;
+        animation-delay: -0.32s;
+      }
+      &:after {
+        left: 20px;
+      }
+    }
+  }
+  .timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    .time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .timeValue {
+        font-size: 26px;
+      }
+
+      .timeUnit {
+      }
+    }
+  }
+  .adaValue {
+    font-size: 22px;
+  }
+  .balanceValue {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .text,
+    .value {
+      font-size: 18px;
+    }
+    .value {
+      font-weight: var.$font-weight-semibold;
+    }
+  }
+  .btn {
+    cursor: pointer;
+    margin-top: auto;
+    width: 100%;
+    font-size: 24px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: var.$font-weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: var.$primary-color-light;
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    &:hover {
+      background-color: var.$light-color-hover;
+    }
+  }
+  .bottomMargin {
+    height: 0.5rem;
+    width: 100%;
+  }
+}
+
+:global(body.dark) {
+  .priceBtc,
+  .pricecBtc {
+    background-color: var.$background-color-dark;
+    .headerPrice {
+      .changeDaily {
+        color: var.$info-color-dark;
+        &.negative {
+          color: var.$error-color;
+        }
+      }
+    }
+    .loaderPrice {
+      .loader {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+    .btn {
+      background-color: var.$primary-color-dark;
+      &:hover {
+        background-color: var.$dark-color-hover;
+      }
+    }
+  }
+}
