@@ -145,7 +145,7 @@ export default function Dashboard() {
               </div>
             </div>
             {tvlData ? (
-              <ChartComponent data={tvlData} />
+              <ChartComponent data={tvlData} height={200} />
             ) : (
               <div className={styles.loaderChart}>
                 <div className={styles.loader}></div>
