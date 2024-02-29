@@ -1,6 +1,7 @@
 import { AnetaData } from "../../hooks/useAnetaData";
 import ChartComponent from "./ChartComponent";
 import styles from "../../styles/chartWidget.module.scss";
+import { numericFormatter } from "react-number-format";
 
 interface ChartWidgetProps {
   title: string;
@@ -19,7 +20,13 @@ const ChartWidget = (props: ChartWidgetProps) => {
           <h2 className={styles.titleChart}>{props.title}</h2>
           <div className={styles.tokenChart}>
             <h3 className={styles.tokenTitle}>
-              {props.amount} {props.suffix}
+              {numericFormatter(
+                props.amount.toLocaleString("en-US", {
+                  maximumFractionDigits: 2,
+                }),
+                {}
+              )}{" "}
+              {props.suffix}
             </h3>
           </div>
         </div>
