@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../../styles/dashboard.module.scss";
+import styles from "../../styles/widget.module.scss";
 import Link from "next/link";
 import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 
@@ -93,11 +93,9 @@ const Widget = (props: WidgetProps) => {
           <p className={styles.usdPrice}>{props.usdPrice}</p>
         </div>
       ) : !props.noPrice ? (
-        <>
-          <div className={styles.loaderPrice}>
-            <div className={styles.loader}></div>
-          </div>
-        </>
+        <div className={styles.loaderPrice}>
+          <div className={styles.loader}></div>
+        </div>
       ) : undefined}
       {props.timer && (
         <div className={styles.timer}>
