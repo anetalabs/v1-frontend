@@ -168,14 +168,12 @@ export default function Dashboard() {
         <Widget
           noPrice
           noHeaderPrice
-          titleLg={!balanceCBtc && !walletMeta}
+          titleLg={!walletMeta}
           title="Your cBTC"
           walletMeta={walletMeta}
           walletBalance={balanceCBtc}
           buttonClick={handleWalletShowing}
-          buttonTitle={
-            !balanceCBtc && !walletMeta ? "Connect Wallet" : undefined
-          }
+          buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
         />
@@ -213,7 +211,7 @@ export default function Dashboard() {
           noMargin
           adaValue="1,234"
           title="Total cNETA Staked"
-          adaValue2={balanceCNeta ?? "--"}
+          adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
           title2="Your cNETA Staked"
         />
         <Widget title="Next Claiming Period" noPrice timer="2024/03/05" />

@@ -119,9 +119,15 @@ const Widget = (props: WidgetProps) => {
         <p className={styles.adaValue}>{props.adaValue} ADA</p>
       )}
       {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
-      {props.adaValue2 && (
-        <p className={styles.adaValue}>{props.adaValue2} ADA</p>
-      )}
+      {props.adaValue2 ? (
+        props.adaValue2 !== "loading" ? (
+          <p className={styles.adaValue}>{props.adaValue2} ADA</p>
+        ) : (
+          <div className={styles.loaderPrice}>
+            <div className={styles.loader}></div>
+          </div>
+        )
+      ) : undefined}
       {props.buttonTitle ? (
         props.buttonLink ? (
           <Link
@@ -143,7 +149,13 @@ const Widget = (props: WidgetProps) => {
             <use href={props.icon}></use>
           </svg>
           <p className={styles.text}>{props.token}</p>
-          <p className={styles.value}>{props.walletBalance ?? "--"}</p>
+          {props.walletBalance ? (
+            <p className={styles.value}>{props.walletBalance}</p>
+          ) : (
+            <div className={styles.loaderPrice}>
+              <div className={styles.loader}></div>
+            </div>
+          )}
         </div>
       ) : undefined}
       {!props.noMargin && <div className={styles.bottomMargin} />}
