@@ -170,14 +170,13 @@ export default function Dashboard() {
         <Widget
           noPrice
           noHeaderPrice
-          titleLg={!isWalletShowing && !balanceCBtc && !walletMeta}
+          titleLg={!balanceCBtc && !walletMeta}
           title="Your cBTC"
           walletMeta={walletMeta}
           walletBalance={balanceCBtc}
-          title2={
-            !isWalletShowing && !balanceCBtc && !walletMeta
-              ? "Wallet is not connected"
-              : undefined
+          buttonClick={handleWalletShowing}
+          buttonTitle={
+            !balanceCBtc && !walletMeta ? "Connect Wallet" : undefined
           }
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
