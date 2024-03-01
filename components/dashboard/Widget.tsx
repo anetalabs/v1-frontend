@@ -55,11 +55,12 @@ const Widget = (props: WidgetProps) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.timer]); // Re-run useEffect when targetDate changes
 
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
-    <div className={styles.priceBtc}>
+    <div className={styles.widget}>
       {props.title && (
         <h3 className={props.titleLg ? styles.titleLg : styles.title}>
           {props.title}

@@ -1,7 +1,6 @@
 @use "./variables.scss" as var;
 
-.priceBtc,
-.pricecBtc {
+.widget {
   width: 100%;
   height: 152px;
   background-color: var.$background-color-light;
@@ -99,9 +98,6 @@
       .timeValue {
         font-size: 26px;
       }
-
-      .timeUnit {
-      }
     }
   }
   .adaValue {
@@ -148,8 +144,7 @@
 }
 
 :global(body.dark) {
-  .priceBtc,
-  .pricecBtc {
+  .widget {
     background-color: var.$background-color-dark;
     .headerPrice {
       .changeDaily {
