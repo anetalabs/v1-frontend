@@ -8,8 +8,6 @@ import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
 import useLucid from "../../hooks/useLucid";
-import { AnetaData } from "../../hooks/useAnetaData";
-import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
 import Head from "next/head";
 import ChartWidget from "../../components/dashboard/ChartWidget";

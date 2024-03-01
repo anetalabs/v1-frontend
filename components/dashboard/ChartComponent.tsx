@@ -1,4 +1,4 @@
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 import styles from "../../styles/chartComponent.module.scss";
 import { AnetaData } from "../../hooks/useAnetaData";
 

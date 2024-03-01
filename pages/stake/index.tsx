@@ -1,6 +1,4 @@
-import Link from "next/link";
 import styles from "../../styles/stake.module.scss";
-import { feedback } from "../../utils/feedback";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { NumericFormat, numericFormatter } from "react-number-format";
