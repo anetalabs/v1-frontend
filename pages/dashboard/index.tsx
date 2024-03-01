@@ -204,7 +204,7 @@ export default function Dashboard() {
         <Widget
           adaValue="12"
           title="Your Estimated Rewards"
-          buttonTitle="Claim Rewards"
+          buttonTitle="Claim"
           buttonLink="https://app.tosidrop.io/cardano/claim"
           externalLink
           noPrice
