@@ -17,7 +17,9 @@ interface WidgetProps {
   noPrice?: boolean;
   noHeaderPrice?: boolean;
   titleLg?: boolean;
-  timer?: string | number | Date;
+  timerStart?: string | number | Date;
+  currentDate?: string | number | Date;
+  timerInterval?: number;
   adaValue?: string;
   adaValue2?: string;
   title2?: string;
@@ -29,8 +31,18 @@ interface WidgetProps {
 
 const Widget = (props: WidgetProps) => {
   const calculateTimeLeft = () => {
-    let difference;
-    difference = props.timer ? +new Date(props.timer) - +new Date() : -1;
+    const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
+    const currentTime = props.currentDate
+      ? new Date(props.currentDate)
+      : new Date();
+    const difference = props.timerStart
+      ? +new Date(
+          intervalDays -
+            (Math.abs(+currentTime - +new Date(props.timerStart)) %
+              intervalDays)
+        )
+      : -1;
+
     if (difference <= 0) {
       // Timer has expired
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -56,7 +68,7 @@ const Widget = (props: WidgetProps) => {
 
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.timer]); // Re-run useEffect when targetDate changes
+  }, [props.timerStart]); // Re-run useEffect when targetDate changes
 
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
@@ -98,7 +110,7 @@ const Widget = (props: WidgetProps) => {
           <div className={styles.loader}></div>
         </div>
       ) : undefined}
-      {props.timer && (
+      {props.timerStart && (
         <div className={styles.timer}>
           <div className={styles.time}>
             <p className={styles.timeValue}>{days}</p>

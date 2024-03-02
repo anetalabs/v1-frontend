@@ -214,7 +214,13 @@ export default function Dashboard() {
           adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
           title2="Your cNETA Staked"
         />
-        <Widget title="Next Claiming Period" noPrice timer="2024/03/05" />
+        <Widget
+          title="Next Claiming Period"
+          noPrice
+          // currentDate="2024-03-12 21:45:00 UTC"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+        />
         <Widget
           title="Mint cBTC"
           buttonTitle="Mint"
