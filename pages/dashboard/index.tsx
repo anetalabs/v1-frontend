@@ -154,7 +154,7 @@ export default function Dashboard() {
           <ChartWidget
             title="Protocol Volume"
             value={protocolVolume ?? "0"}
-            token="ADA"
+            token="BTC"
             data={tvlData}
             hasFilter
             onFilterBtnClick={() => {}}
@@ -162,7 +162,7 @@ export default function Dashboard() {
           <ChartWidget
             title="Community Revenue"
             value={protocolVolume ?? "0"}
-            token="ADA"
+            token="BTC"
             data={tvlData}
           />
         </div>
