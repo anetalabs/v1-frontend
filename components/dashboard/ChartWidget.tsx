@@ -5,8 +5,8 @@ import { numericFormatter } from "react-number-format";
 
 interface ChartWidgetProps {
   title: string;
-  amount: number;
-  suffix: string;
+  value: string;
+  token: string;
   data?: AnetaData[];
   hasFilter?: boolean;
   onFilterBtnClick?: () => void;
@@ -20,13 +20,7 @@ const ChartWidget = (props: ChartWidgetProps) => {
           <h2 className={styles.titleChart}>{props.title}</h2>
           <div className={styles.tokenChart}>
             <h3 className={styles.tokenTitle}>
-              {numericFormatter(
-                props.amount.toLocaleString("en-US", {
-                  maximumFractionDigits: 2,
-                }),
-                {}
-              )}{" "}
-              {props.suffix}
+              {props.value} {props.token}
             </h3>
           </div>
         </div>
@@ -45,7 +39,7 @@ const ChartWidget = (props: ChartWidgetProps) => {
         <ChartComponent
           data={props.data}
           height={70}
-          suffix={props.suffix}
+          suffix={props.token}
           hideLegends
         />
       ) : (

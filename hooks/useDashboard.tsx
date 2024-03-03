@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import useAdaPrice from "./useAdaPrice";
 import useBitcoinPrice from "./useBitcoinPrice";
-import { adaFormat, usdFormat } from "../utils/format";
+import { adaFormat, numberFormat, usdFormat } from "../utils/format";
 import usecBtcPrice from "./usecBtcPrice";
 import useAnetaData, { AnetaData } from "./useAnetaData";
 import useCommunityFund from "./useCommunityFund";
+import useBitcoinVault from "./useBitcoinVault";
 
 export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
+  const vault = useBitcoinVault();
   const { usdAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
@@ -23,6 +25,7 @@ export default function useDashboard() {
   const [tvlData, setTvlData] = useState<AnetaData[] | undefined>();
   const [adaFundPrice, setAdaFundPrice] = useState<string | undefined>();
   const [usdFundPrice, setUsdFundPrice] = useState<string | undefined>();
+  const [protocolVolume, setProtocolVolume] = useState<string | undefined>();
 
   const date = new Date();
   const options = {
@@ -31,6 +34,21 @@ export default function useDashboard() {
     day: "numeric",
   } as Intl.DateTimeFormatOptions;
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+  useEffect(() => {
+    if (vault) {
+      setProtocolVolume(
+        numberFormat(
+          (
+            Number(
+              vault?.chain_stats.funded_txo_sum +
+                vault?.chain_stats.spent_txo_sum
+            ) / 100000000
+          ).toFixed(4)
+        )
+      );
+    }
+  }, [vault]);
 
   useEffect(() => {
     if (usdAda && usdBtc) {
@@ -77,5 +95,6 @@ export default function useDashboard() {
     tvlData,
     adaFundPrice,
     usdFundPrice,
+    protocolVolume,
   };
 }

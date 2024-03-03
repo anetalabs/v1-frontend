@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback} from "react";
 
 const useBitcoinVault = () => {
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState<any>();
 
   const fetchBitcoinAddress = useCallback(async () => {
     try {

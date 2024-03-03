@@ -24,6 +24,7 @@ export default function Dashboard() {
     tvlData,
     adaFundPrice,
     usdFundPrice,
+    protocolVolume,
   } = useDashboard();
 
   const { data, loading } = useAssetsApi();
@@ -152,16 +153,16 @@ export default function Dashboard() {
           </div>
           <ChartWidget
             title="Protocol Volume"
-            amount={4567}
-            suffix="ADA"
+            value={protocolVolume ?? "0"}
+            token="ADA"
             data={tvlData}
             hasFilter
             onFilterBtnClick={() => {}}
           />
           <ChartWidget
             title="Community Revenue"
-            amount={4567}
-            suffix="ADA"
+            value={protocolVolume ?? "0"}
+            token="ADA"
             data={tvlData}
           />
         </div>
