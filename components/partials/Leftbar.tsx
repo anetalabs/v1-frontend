@@ -12,7 +12,7 @@ const Leftbar = () => {
   const { config } = useContext(GlobalContext);
 
   return (
-    <div className={styles.leftNav}>
+    <div id="leftbar" className={styles.leftNav}>
       <div className={styles.network}>
         {config.network !== CardanoNetwork.Mainnet ? (
           <p>Testnet</p>

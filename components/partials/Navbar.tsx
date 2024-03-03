@@ -15,6 +15,7 @@ import { GlobalContext } from "../GlobalContext";
 import { numberToFixed } from "../../utils/format";
 /* import useBitcoinVault from "../../hooks/useBitcoinVault"; */
 import useAssetsApi from "../../hooks/useAssetsApi";
+import Leftbar from "./Leftbar";
 
 const Navbar = () => {
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -29,6 +30,7 @@ const Navbar = () => {
   const { walletMeta, disconnectWallet } = useCardanoWallet();
 
   const [openSetting, setOpenSetting] = useState(false);
+  const [openLeftbar, setOpenLeftbar] = useState(false);
   const [display, setDisplay] = useState(false);
 
   const handleClickSetting = () => {
@@ -51,22 +53,31 @@ const Navbar = () => {
     isOpenInfo ? setIsOpenInfo(false) : setIsOpenInfo(true);
   };
 
+  const handleDashClick = () => {
+    setOpenLeftbar(!openLeftbar);
+  };
+
   useEffect(() => {
-    if (isOpenInfo) {
+    if (isOpenInfo || openLeftbar) {
       const handleClickOutside = (e: PointerEvent) => {
         const target = e.target as HTMLElement;
         if (
-          !target.closest(`.${styles.info}`) &&
-          !target.closest(`.${styles.minted}`)
+          (isOpenInfo &&
+            !target.closest(`.${styles.info}`) &&
+            !target.closest(`.${styles.minted}`)) ||
+          (openLeftbar &&
+            !target.closest(`#leftbar`) &&
+            !target.closest(`.${styles.btnDashboard}`))
         ) {
           setIsOpenInfo(false);
+          setOpenLeftbar(false);
         }
       };
       document.addEventListener("pointerdown", handleClickOutside);
       return () =>
         document.removeEventListener("pointerdown", handleClickOutside);
     }
-  }, [isOpenInfo]);
+  }, [isOpenInfo, openLeftbar]);
 
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
@@ -191,16 +202,22 @@ const Navbar = () => {
               </>
             )}
             {isTablet && (
-              <Link href="/dashboard" className={styles.btnDashboard}>
-                <svg
-                  width="20"
-                  height="20"
-                  id="icon"
-                  className={styles.dashboard}
+              <div className={styles.leftbarContainer}>
+                <button
+                  onClick={handleDashClick}
+                  className={styles.btnDashboard}
                 >
-                  <use href="/images/icons/grid.svg#icon"></use>
-                </svg>
-              </Link>
+                  <svg
+                    width="20"
+                    height="20"
+                    id="icon"
+                    className={styles.dashboard}
+                  >
+                    <use href="/images/icons/grid.svg#icon"></use>
+                  </svg>
+                </button>
+                {openLeftbar && <Leftbar />}
+              </div>
             )}
           </>
         }
