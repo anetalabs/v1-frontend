@@ -34,6 +34,7 @@ export const GlobalContext = createContext<GlobalContextState>({
   config: {
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
     unwrapFeeBtc: 0,
@@ -60,6 +61,7 @@ export default function GlobalContextProvider({
   const [config, setConfig] = useState<Config>({
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
     unwrapFeeBtc: 0,

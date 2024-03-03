@@ -25,6 +25,7 @@ export default function Dashboard() {
     adaFundPrice,
     usdFundPrice,
     protocolVolume,
+    communityRevenue,
   } = useDashboard();
 
   const { data, loading } = useAssetsApi();
@@ -38,13 +39,16 @@ export default function Dashboard() {
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
   let vaultBtc = "";
+  let communityVaultBtc = "";
 
   if (config.network === "Mainnet") {
     linkcBtc = `https://cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/address/${config.btcWrapAddress}`;
+    communityVaultBtc = `https://mempool.space/address/${config.btcWrapCommunityAddress}`;
   } else {
     linkcBtc = `https://preprod.cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/testnet/address/${config.btcWrapAddress}`;
+    communityVaultBtc = `https://mempool.space/testnet/address/${config.btcWrapCommunityAddress}`;
   }
 
   const handleWalletShowing = () => {
@@ -161,9 +165,11 @@ export default function Dashboard() {
           />
           <ChartWidget
             title="Community Revenue"
-            value={protocolVolume ?? "0"}
+            value={communityRevenue ?? "0"}
             token="BTC"
-            data={tvlData}
+            data={[]}
+            buttonTitle="Track"
+            onButtonClick={communityVaultBtc}
           />
         </div>
         <Widget
