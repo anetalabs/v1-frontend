@@ -127,13 +127,11 @@ const Widget = (props: WidgetProps) => {
         </div>
       )}
 
-      {props.adaValue && (
-        <p className={styles.adaValue}>{props.adaValue} ADA</p>
-      )}
+      {props.adaValue && <p className={styles.adaValue}>{props.adaValue}</p>}
       {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
       {props.adaValue2 ? (
         props.adaValue2 !== "loading" ? (
-          <p className={styles.adaValue}>{props.adaValue2} ADA</p>
+          <p className={styles.adaValue}>{props.adaValue2}</p>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>

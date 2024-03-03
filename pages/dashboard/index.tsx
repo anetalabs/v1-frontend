@@ -199,7 +199,7 @@ export default function Dashboard() {
           titleLg
         />
         <Widget
-          adaValue="12"
+          adaValue="Coming Soon"
           title="Your Estimated Rewards"
           buttonTitle="Claim"
           buttonLink="https://app.tosidrop.io/cardano/claim"
@@ -210,9 +210,10 @@ export default function Dashboard() {
         <Widget
           noPrice
           noMargin
-          adaValue="1,234"
+          adaValue="Coming Soon"
           title="Total cNETA Staked"
-          adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
+          // adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
+          adaValue2="Coming Soon"
           title2="Your cNETA Staked"
         />
         <Widget
