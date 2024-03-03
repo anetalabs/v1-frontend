@@ -2,14 +2,15 @@ import { AnetaData } from "../../hooks/useAnetaData";
 import ChartComponent from "./ChartComponent";
 import styles from "../../styles/chartWidget.module.scss";
 import { numericFormatter } from "react-number-format";
+import Link from "next/link";
 
 interface ChartWidgetProps {
   title: string;
   value: string;
   token: string;
   data?: AnetaData[];
-  hasFilter?: boolean;
-  onFilterBtnClick?: () => void;
+  buttonTitle?: string;
+  onButtonClick?: string | (() => void);
 }
 
 const ChartWidget = (props: ChartWidgetProps) => {
@@ -24,14 +25,27 @@ const ChartWidget = (props: ChartWidgetProps) => {
             </h3>
           </div>
         </div>
-        {props.hasFilter && (
+        {props.buttonTitle && (
           <div className={styles.btnGroup}>
-            <button className={styles.btnBtc} onClick={props.onFilterBtnClick}>
-              <span className={styles.btnText}>All Time</span>
-              {/* <svg width="12" height="12" id="icon" className={styles.icon}>
-                <use href="/images/icons/arrow-right.svg#icon"></use>
-              </svg> */}
-            </button>
+            {typeof props.onButtonClick === "string" ? (
+              <Link
+                className={styles.btnBtc}
+                href={props.onButtonClick}
+                target="_blank"
+              >
+                <span className={styles.btnText}>{props.buttonTitle}</span>
+                <svg width="12" height="12" id="icon" className={styles.icon}>
+                  <use href="/images/icons/arrow-right.svg#icon"></use>
+                </svg>
+              </Link>
+            ) : (
+              <button className={styles.btnBtc} onClick={props.onButtonClick}>
+                <span className={styles.btnText}>{props.buttonTitle}</span>
+                <svg width="12" height="12" id="icon" className={styles.icon}>
+                  <use href="/images/icons/arrow-right.svg#icon"></use>
+                </svg>
+              </button>
+            )}
           </div>
         )}
       </div>

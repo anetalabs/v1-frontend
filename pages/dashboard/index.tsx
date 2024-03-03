@@ -156,8 +156,8 @@ export default function Dashboard() {
             value={protocolVolume ?? "0"}
             token="BTC"
             data={tvlData}
-            hasFilter
-            onFilterBtnClick={() => {}}
+            buttonTitle="Track"
+            onButtonClick={vaultBtc}
           />
           <ChartWidget
             title="Community Revenue"
