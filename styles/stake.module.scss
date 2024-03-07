@@ -79,9 +79,10 @@
       }
 
       .amount {
+        opacity: 0;
         text-align: right;
         flex-grow: 1;
-        min-width: 8rem;
+        max-width: 2.5rem;
       }
     }
   }
@@ -102,6 +103,20 @@
     &:hover {
       background-color: var.$light-color-hover;
     }
+  }
+
+  .comingSoon {
+    position: absolute;
+    backdrop-filter: blur(4px);
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 40px;
+    font-weight: 600;
+    background-color: #0004;
+  border-radius: 15px;
+
   }
 
   @media (max-width: 550px) {
