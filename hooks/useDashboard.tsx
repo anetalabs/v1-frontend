@@ -7,11 +7,13 @@ import useAnetaData, { AnetaData } from "./useAnetaData";
 import useCommunityFund from "./useCommunityFund";
 import useBitcoinVault from "./useBitcoinVault";
 import useCommunityVault from "./useCommunityVault";
+import useCommunityRevenue from "./useCommunityRevenue";
 
 export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
   const vault = useBitcoinVault();
   const communityVault = useCommunityVault();
+  const communityRevenueInfo = useCommunityRevenue();
   const { usdAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
@@ -55,20 +57,30 @@ export default function useDashboard() {
     }
   }, [vault]);
 
+  // useEffect(() => {
+  //   if (communityVault) {
+  //     setCommunityRevenue(
+  //       numberFormat(
+  //         (
+  //           Number(
+  //             communityVault?.chain_stats.funded_txo_sum +
+  //               communityVault?.chain_stats.spent_txo_sum
+  //           ) / 100000000
+  //         ).toFixed(4)
+  //       )
+  //     );
+  //   }
+  // }, [communityVault]);
+
   useEffect(() => {
-    if (communityVault) {
+    if (communityRevenueInfo) {
       setCommunityRevenue(
         numberFormat(
-          (
-            Number(
-              communityVault?.chain_stats.funded_txo_sum +
-                communityVault?.chain_stats.spent_txo_sum
-            ) / 100000000
-          ).toFixed(4)
+          (Number(communityRevenueInfo?.cbtcBalance) / 100000000).toFixed(4)
         )
       );
     }
-  }, [communityVault]);
+  }, [communityRevenueInfo]);
 
   useEffect(() => {
     if (usdAda && usdBtc) {
