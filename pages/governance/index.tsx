@@ -1,11 +1,6 @@
 import styles from "../../styles/governance.module.scss";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
 import Head from "next/head";
-import cardano from "../../public/images/crypto/Cardano.svg";
-import cardanoBlack from "../../public/images/crypto/CardanoBlack.svg";
-import { AppContext } from "../_app";
-import { numberFormat } from "../../utils/format";
 import tosidropLogo from "../../public/images/crypto/tosidrop-logo.png";
 import Link from "next/link";
 import OptionCard from "../../components/governance/OptionCard";
@@ -24,14 +19,14 @@ export default function Governance() {
         </p>
         <OptionCard
           title="Option 1"
-          description="Allocate 0.75 cBTC to cNETA staking and 0.5 cBTC to development."
+          description="Allocate 0.5 BTC for development."
           walletName="Option 1 Cardano Wallet"
           walletAddress="addr1q80md4t6xacfxzvm5ak903gmmed0he3d0k3x4ylxwcvy3qs5jtjeq8d8xnq59jx4c9yrt9xr6xsn0srmdy2ghgtth72qsat083"
           votes="123456"
         />
         <OptionCard
           title="Option 2"
-          description="Don’t enact these allocations at this time."
+          description="Do not allocate 0.5 BTC for development."
           walletName="Option 2 Cardano Wallet"
           walletAddress="addr1q80md4t6xacfxzvm5ak903gmmed0he3d0k3x4ylxwcvy3qs5jtjeq8d8xnq59jx4c9yrt9xr6xsn0srmdy2ghgtth72qsat083"
           votes="123456"
