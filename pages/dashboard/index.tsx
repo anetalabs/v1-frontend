@@ -166,7 +166,7 @@ export default function Dashboard() {
           <ChartWidget
             title="Community Revenue"
             value={communityRevenue ?? "0"}
-            token="BTC"
+            token="cBTC"
             data={tvlData}
             buttonTitle="Track"
             onButtonClick={communityVaultBtc}

@@ -76,7 +76,9 @@ export default function useDashboard() {
     if (communityRevenueInfo) {
       setCommunityRevenue(
         numberFormat(
-          (Number(communityRevenueInfo?.cbtcBalance) / 100000000).toFixed(4)
+          (Number(communityRevenueInfo?.info.cbtcBalance) / 100000000).toFixed(
+            4
+          )
         )
       );
     }

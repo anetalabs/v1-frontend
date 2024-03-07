@@ -7,7 +7,6 @@ const useCommunityRevenue = () => {
     try {
       const res = await fetch("https://aneta-backend.vercel.app/api/info");
       const data = await res.json();
-      console.log(data);
       setInfo(data);
     } catch (error) {
       console.error("Error fetching Community Revenue info:", error);
