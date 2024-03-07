@@ -205,7 +205,7 @@ export default function Dashboard() {
           titleLg
         />
         <Widget
-          adaValue="Coming Soon"
+          text="Coming Soon"
           title="Your Estimated Rewards"
           buttonTitle="Claim"
           buttonLink="https://app.tosidrop.io/cardano/claim"
@@ -216,11 +216,11 @@ export default function Dashboard() {
         <Widget
           noPrice
           noMargin
-          adaValue="Coming Soon"
+          text="Coming Soon"
           title="Total cNETA Staked"
           // adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
-          adaValue2="Coming Soon"
           title2="Your cNETA Staked"
+          text2="Coming Soon"
         />
         <Widget
           title="Next Claiming Period"
@@ -228,7 +228,7 @@ export default function Dashboard() {
           // currentDate="2024-03-12 21:45:00 UTC"
           // timerInterval={5}
           // timerStart="2024/01/15 21:45:00 UTC"
-          adaValue="Coming Soon"
+          text="Coming Soon"
         />
         <Widget
           title="Mint cBTC"
