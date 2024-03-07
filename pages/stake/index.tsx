@@ -68,6 +68,7 @@ export default function Stake() {
           </div>
         </section>
         <button onClick={handleStake}>Stake</button>
+        <div className={styles.comingSoon}>Coming Soon</div>
       </main>
     </>
   );
