@@ -33,7 +33,7 @@ export const navigationLeftbar: NavigationType[] = [
   },
   {
     name: "Governance",
-    href: "https://www.clarity.vote/organizations/AnetaBTC",
+    href: "/governance",
     icon: "/images/icons/governace.svg#icon",
     current: false,
   },
