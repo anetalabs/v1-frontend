@@ -226,8 +226,9 @@ export default function Dashboard() {
           title="Next Claiming Period"
           noPrice
           // currentDate="2024-03-12 21:45:00 UTC"
-          timerInterval={5}
-          timerStart="2024/01/15 21:45:00 UTC"
+          // timerInterval={5}
+          // timerStart="2024/01/15 21:45:00 UTC"
+          adaValue="Coming Soon"
         />
         <Widget
           title="Mint cBTC"
