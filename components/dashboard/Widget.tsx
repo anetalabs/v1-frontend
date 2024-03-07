@@ -20,8 +20,8 @@ interface WidgetProps {
   timerStart?: string | number | Date;
   currentDate?: string | number | Date;
   timerInterval?: number;
-  adaValue?: string;
-  adaValue2?: string;
+  text?: string;
+  text2?: string;
   title2?: string;
   noMargin?: boolean;
   walletMeta?: Cip30Wallet | null;
@@ -127,11 +127,11 @@ const Widget = (props: WidgetProps) => {
         </div>
       )}
 
-      {props.adaValue && <p className={styles.adaValue}>{props.adaValue}</p>}
+      {props.text && <p className={styles.adaValue}>{props.text}</p>}
       {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
-      {props.adaValue2 ? (
-        props.adaValue2 !== "loading" ? (
-          <p className={styles.adaValue}>{props.adaValue2}</p>
+      {props.text2 ? (
+        props.text2 !== "loading" ? (
+          <p className={styles.adaValue}>{props.text2}</p>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>
