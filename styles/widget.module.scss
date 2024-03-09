@@ -1,5 +1,11 @@
 @use "./variables.scss" as var;
 
+@media (max-width: 450px) {
+  .colSpan {
+    grid-column: span 2 / span 2;
+  }
+}
+
 .widget {
   width: 100%;
   height: 152px;
@@ -100,7 +106,7 @@
       }
     }
   }
-  .adaValue {
+  .valueText {
     font-size: 22px;
   }
   .balanceValue {
@@ -143,6 +149,36 @@
   .bottomMargin {
     height: 0.5rem;
     width: 100%;
+  }
+
+  @media (max-width: 550px) {
+    .headerPrice {
+      flex-direction: column;
+      align-items: flex-start;
+      .changeDaily {
+        font-size: 14px;
+      }
+    }
+    .priceGroup {
+      .adaPrice {
+        font-size: 24px;
+      }
+    }
+
+    .title {
+      font-size: 16px
+    }
+
+    .titleLg {
+      font-size: 22px;
+    }
+
+    .btn {
+      width: auto;
+      font-size: 22px;
+      padding-top: .25rem;
+      padding-bottom: .25rem;
+    }
   }
 }
 
