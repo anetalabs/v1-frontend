@@ -12,6 +12,7 @@ import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
 import Head from "next/head";
 import ChartWidget from "../../components/dashboard/ChartWidget";
 import Widget from "../../components/dashboard/Widget";
+import useWindowSize from "../../hooks/useResponsive";
 
 export default function Dashboard() {
   const {
@@ -27,6 +28,9 @@ export default function Dashboard() {
     protocolVolume,
     communityRevenue,
   } = useDashboard();
+
+  const { width } = useWindowSize();
+  const isMobile = width <= 450;
 
   const { data, loading } = useAssetsApi();
 
@@ -183,6 +187,7 @@ export default function Dashboard() {
           buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
+          colSpan
         />
         <Widget
           dailyChangePrice={dailyChangeBtcPrice}
@@ -203,10 +208,11 @@ export default function Dashboard() {
           noPrice
           noHeaderPrice
           titleLg
+          colSpan
         />
         <Widget
           text="Coming Soon"
-          title="Your Estimated Rewards"
+          title={`Your ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle="Claim"
           buttonLink="https://app.tosidrop.io/cardano/claim"
           externalLink

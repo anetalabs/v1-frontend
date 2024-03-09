@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/widget.module.scss";
 import Link from "next/link";
 import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
+import useWindowSize from "../../hooks/useResponsive";
 
 interface WidgetProps {
   dailyChangePrice?: string;
@@ -27,9 +28,13 @@ interface WidgetProps {
   walletMeta?: Cip30Wallet | null;
   walletBalance?: string | null;
   onWalletBtnClick?: () => void;
+  colSpan?: boolean;
+  order?: number;
 }
 
 const Widget = (props: WidgetProps) => {
+  const { width } = useWindowSize();
+  const isMobile = width <= 450;
   const calculateTimeLeft = () => {
     const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
     const currentTime = props.currentDate
@@ -72,7 +77,12 @@ const Widget = (props: WidgetProps) => {
 
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
-    <div className={styles.widget}>
+    <div
+      className={styles.widget + " " + (props.colSpan ? styles.colSpan : "")}
+      style={{
+        order: isMobile && props.order ? props.order : undefined,
+      }}
+    >
       {props.title && (
         <h3 className={props.titleLg ? styles.titleLg : styles.title}>
           {props.title}
@@ -127,11 +137,11 @@ const Widget = (props: WidgetProps) => {
         </div>
       )}
 
-      {props.text && <p className={styles.adaValue}>{props.text}</p>}
+      {props.text && <p className={styles.valueText}>{props.text}</p>}
       {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
       {props.text2 ? (
         props.text2 !== "loading" ? (
-          <p className={styles.adaValue}>{props.text2}</p>
+          <p className={styles.valueText}>{props.text2}</p>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>
