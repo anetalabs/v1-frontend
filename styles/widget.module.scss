@@ -127,7 +127,10 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    background-color: var.$primary-color-light;
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var.$primary-color-light;
     transition-property: color, background-color, border-color,
       text-decoration-color, fill, stroke, opacity, box-shadow, transform,
       filter, backdrop-filter;
@@ -160,7 +163,8 @@
       }
     }
     .btn {
-      background-color: var.$primary-color-dark;
+      border-color: var.$primary-color-dark;
+
       &:hover {
         background-color: var.$dark-color-hover;
       }
