@@ -3,7 +3,7 @@
 .chartWidget {
   grid-column: span 2 / span 2;
   width: 100%;
-  height: 163px;
+  height: 170px;
   border-radius: 24px;
   background-color: var.$background-color-light;
   padding: 20px;
@@ -111,14 +111,12 @@
 }
 
 @media (max-width: 450px) {
-  .chartTvl,
   .chartWidget {
     grid-column: span 1 / span 1;
   }
 }
 
 :global(body.dark) {
-  .chartTvl,
   .chartWidget {
     background-color: var.$background-color-dark;
     .headerChart {
