@@ -171,7 +171,7 @@ export default function Dashboard() {
             title="Community Revenue"
             value={communityRevenue ?? "0"}
             token="cBTC"
-            data={tvlData}
+            data={[]}
             buttonTitle="Track"
             onButtonClick={communityVaultBtc}
           />
