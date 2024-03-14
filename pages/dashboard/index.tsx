@@ -159,6 +159,7 @@ export default function Dashboard() {
               </div>
             )}
           </div>
+
           <ChartWidget
             title="Protocol Volume"
             value={protocolVolume ?? "0"}
@@ -176,6 +177,15 @@ export default function Dashboard() {
             onButtonClick={communityVaultBtc}
           />
         </div>
+        <Widget
+          text={(communityRevenue ?? "0") + " cBTC"}
+          title={`Community Revenue`}
+          buttonTitle="Track"
+          buttonLink={communityVaultBtc}
+          externalLink
+          noPrice
+          noMargin
+        />
         <Widget
           noPrice
           noHeaderPrice
