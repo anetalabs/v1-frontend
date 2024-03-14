@@ -187,7 +187,7 @@ export default function Dashboard() {
         />
         <Widget
           text={(communityRevenue ?? "0") + " cBTC"}
-          title={`Community Revenue`}
+          title={`${isMobile ? "Comm." : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={communityVaultBtc}
           externalLink
@@ -230,7 +230,9 @@ export default function Dashboard() {
           walletMeta={walletMeta}
           walletBalance={balanceCBtc}
           buttonClick={handleWalletShowing}
-          buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
+          buttonTitle={
+            !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
+          }
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
         />
