@@ -176,18 +176,14 @@ export default function Dashboard() {
           onButtonClick={communityVaultBtc}
         /> */}
         <Widget
+          title="Stake cNETA"
+          buttonTitle="Stake"
+          buttonLink="/stake"
           noPrice
           noHeaderPrice
-          titleLg={!walletMeta}
-          title="Your cBTC"
-          walletMeta={walletMeta}
-          walletBalance={balanceCBtc}
-          buttonClick={handleWalletShowing}
-          buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
-          token="cBTC"
-          icon="/images/crypto/cbtc-logo.svg#Layer_1"
-          colSpanSm
+          titleLg
           colSpan
+          colSpanSm
         />
         <Widget
           text={(communityRevenue ?? "0") + " cBTC"}
@@ -211,30 +207,32 @@ export default function Dashboard() {
           title="Community Fund"
         />
         <Widget
-          title="Stake cNETA"
-          buttonTitle="Stake"
-          buttonLink="/stake"
+          noPrice
+          noMargin
+          text="Coming Soon"
+          title="Total cNETA Staked"
+          title2="Your cNETA Staked"
+          text2="Coming Soon"
+        />
+        <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
           noPrice
           noHeaderPrice
           titleLg
         />
         <Widget
-          text="Coming Soon"
-          title={`Your ${isMobile ? "Est." : "Estimated"} Rewards`}
-          buttonTitle="Claim"
-          buttonLink="https://app.tosidrop.io/cardano/claim"
-          externalLink
           noPrice
-          noMargin
-        />
-        <Widget
-          noPrice
-          noMargin
-          text="Coming Soon"
-          title="Total cNETA Staked"
-          // adaValue2={walletMeta ? balanceCNeta ?? "loading" : "--"}
-          title2="Your cNETA Staked"
-          text2="Coming Soon"
+          noHeaderPrice
+          titleLg={!walletMeta}
+          title="Your cBTC"
+          walletMeta={walletMeta}
+          walletBalance={balanceCBtc}
+          buttonClick={handleWalletShowing}
+          buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
+          token="cBTC"
+          icon="/images/crypto/cbtc-logo.svg#Layer_1"
         />
         <Widget
           title="Next Claiming Period"
@@ -245,12 +243,13 @@ export default function Dashboard() {
           text="Coming Soon"
         />
         <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
+          text="Coming Soon"
+          title={`Your ${isMobile ? "Est." : "Estimated"} Rewards`}
+          buttonTitle="Claim"
+          buttonLink="https://app.tosidrop.io/cardano/claim"
+          externalLink
           noPrice
-          noHeaderPrice
-          titleLg
+          noMargin
         />
         <ConnectWallet
           isOpen={isWalletShowing}
