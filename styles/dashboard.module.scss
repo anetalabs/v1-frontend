@@ -7,15 +7,125 @@
   // top: calc((100vh - 650px) / 2);
   top: 16vh;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
   padding-bottom: 2rem;
+
+  .chartTvl {
+    grid-row: span 2 / span 2;
+    grid-column: span 7 / span 7;
+    width: 100%;
+    border-radius: 24px;
+    background-color: var.$background-color-light;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .headerChart {
+      height: 100px;
+      display: flex;
+      justify-content: space-between;
+      .valuesGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        .titleChart {
+          font-weight: 600;
+        }
+        .tokenChart {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          .value {
+            font-size: 20px;
+            width: 80px;
+            font-weight: var.$font-weight-semibold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            .loader,
+            .loader:before,
+            .loader:after {
+              @include var.loader();
+            }
+            .loader {
+              color: rgba(0, 0, 0, 0.5);
+              font-size: 16px;
+              animation-delay: -0.16s;
+              position: absolute;
+              top: -14px;
+              &:before,
+              &:after {
+                content: "";
+                position: absolute;
+              }
+              &:before {
+                left: -15px;
+                animation-delay: -0.32s;
+              }
+              &:after {
+                left: 15px;
+              }
+            }
+          }
+          .tokenTitle {
+            font-size: 20px;
+            font-weight: var.$font-weight-semibold;
+          }
+        }
+      }
+      .btnGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        .btnBtc,
+        .btncBtc {
+          width: 145px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #0c8ce9;
+          border-radius: 8px;
+          gap: 5px;
+          cursor: pointer;
+          transition: 0.25s;
+          &:hover {
+            background-color: var.$light-color-hover;
+          }
+          .btnText {
+            font-size: 12px;
+            font-weight: var.$font-weight-semibold;
+          }
+          .icon use {
+            stroke: var.$primary-color-font;
+          }
+        }
+      }
+    }
+    .loaderChart {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      .loader {
+        @include var.spinner();
+        border: 10px solid gray;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border-left-color: transparent;
+      }
+    }
+  }
 
   .sectionChart {
     display: grid;
     // grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    grid-column: span 4 / span 4;
+    grid-column: span 8 / span 8;
     width: 100%;
     gap: 1.25rem;
     .wrapper {
@@ -180,6 +290,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
     width: 100%;
+    .chartTvl {
+      // height: 420px;
+      grid-column: span 2 / span 2;
+      grid-row: span 1 / span 1;
+      .headerChart {
+        gap: 16px;
+      }
+    }
     .sectionChart {
       grid-template-columns: repeat(1, minmax(0, 1fr));
       gap: 16px;
@@ -198,6 +316,32 @@
 
 :global(body.dark) {
   .dashboardContainer {
+    .chartTvl {
+      background-color: var.$background-color-dark;
+      .headerChart {
+        .valuesGroup {
+          .tokenChart {
+            .value {
+              .loader {
+                color: rgba(255, 255, 255, 0.5);
+              }
+            }
+          }
+        }
+        .btnGroup {
+          .btnBtc,
+          .btncBtc {
+            background-color: black;
+            .icon use {
+              stroke: var.$secundary-color-font;
+            }
+            &:hover {
+              background-color: var.$dark-color-hover;
+            }
+          }
+        }
+      }
+    }
     .sectionChart {
       .chartTvl {
         background-color: var.$background-color-dark;

@@ -102,90 +102,79 @@ export default function Dashboard() {
         <title>Dashboard | anetaBTC</title>
       </Head>
       <section className={styles.dashboardContainer}>
-        <div className={styles.sectionChart}>
-          <div className={styles.chartTvl}>
-            <div className={styles.headerChart}>
-              <div className={styles.valuesGroup}>
-                <h2 className={styles.titleChart}>TVL</h2>
-                <div className={styles.tokenChart}>
-                  <svg width="32" height="32" id="icon">
-                    <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
-                  </svg>
-                  {loading ? (
-                    <div className={styles.value}>
-                      <div className={styles.loader}></div>
-                    </div>
-                  ) : (
-                    data && (
-                      <p className={styles.value}>
-                        {numberToFixed(data.quantity)}
-                      </p>
-                    )
-                  )}
-                  <h3 className={styles.tokenTitle}>cBTC</h3>
-                </div>
-                <p>{formattedDate}</p>
+        <div className={styles.chartTvl}>
+          <div className={styles.headerChart}>
+            <div className={styles.valuesGroup}>
+              <h2 className={styles.titleChart}>TVL</h2>
+              <div className={styles.tokenChart}>
+                <svg width="32" height="32" id="icon">
+                  <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
+                </svg>
+                {loading ? (
+                  <div className={styles.value}>
+                    <div className={styles.loader}></div>
+                  </div>
+                ) : (
+                  data && (
+                    <p className={styles.value}>
+                      {numberToFixed(data.quantity)}
+                    </p>
+                  )
+                )}
+                <h3 className={styles.tokenTitle}>cBTC</h3>
               </div>
-              <div className={styles.btnGroup}>
-                <Link
-                  href={vaultBtc}
-                  className={styles.btnBtc}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <p className={styles.btnText}>View BTC Vaults</p>
-                  <svg width="12" height="12" id="icon" className={styles.icon}>
-                    <use href="/images/icons/arrow-right.svg#icon"></use>
-                  </svg>
-                </Link>
-                <Link
-                  href={linkcBtc}
-                  className={styles.btncBtc}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <p className={styles.btnText}>View cBTC Token</p>
-                  <svg width="12" height="12" id="icon" className={styles.icon}>
-                    <use href="/images/icons/arrow-right.svg#icon"></use>
-                  </svg>
-                </Link>
-              </div>
+              <p>{formattedDate}</p>
             </div>
-            {tvlData ? (
-              <ChartComponent data={tvlData} height={200} />
-            ) : (
-              <div className={styles.loaderChart}>
-                <div className={styles.loader}></div>
-              </div>
-            )}
+            <div className={styles.btnGroup}>
+              <Link
+                href={vaultBtc}
+                className={styles.btnBtc}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p className={styles.btnText}>View BTC Vaults</p>
+                <svg width="12" height="12" id="icon" className={styles.icon}>
+                  <use href="/images/icons/arrow-right.svg#icon"></use>
+                </svg>
+              </Link>
+              <Link
+                href={linkcBtc}
+                className={styles.btncBtc}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p className={styles.btnText}>View cBTC Token</p>
+                <svg width="12" height="12" id="icon" className={styles.icon}>
+                  <use href="/images/icons/arrow-right.svg#icon"></use>
+                </svg>
+              </Link>
+            </div>
           </div>
-
-          <ChartWidget
-            title="Protocol Volume"
-            value={protocolVolume ?? "0"}
-            token="BTC"
-            data={tvlData}
-            buttonTitle="Track"
-            onButtonClick={vaultBtc}
-          />
-          <ChartWidget
-            title="Community Revenue"
-            value={communityRevenue ?? "0"}
-            token="cBTC"
-            data={[]}
-            buttonTitle="Track"
-            onButtonClick={communityVaultBtc}
-          />
+          {tvlData ? (
+            <ChartComponent data={tvlData} height={200} />
+          ) : (
+            <div className={styles.loaderChart}>
+              <div className={styles.loader}></div>
+            </div>
+          )}
         </div>
-        <Widget
-          text={(communityRevenue ?? "0") + " cBTC"}
-          title={`Community Revenue`}
+
+        <ChartWidget
+          title="Protocol Volume"
+          value={protocolVolume ?? "0"}
+          token="BTC"
+          data={tvlData}
           buttonTitle="Track"
-          buttonLink={communityVaultBtc}
-          externalLink
-          noPrice
-          noMargin
+          onButtonClick={vaultBtc}
         />
+        {/* <ChartWidget
+          title="Community Revenue"
+          value={communityRevenue ?? "0"}
+          token="cBTC"
+          data={[]}
+          buttonTitle="Track"
+          onButtonClick={communityVaultBtc}
+        /> */}
         <Widget
           noPrice
           noHeaderPrice
@@ -197,7 +186,17 @@ export default function Dashboard() {
           buttonTitle={!walletMeta ? "Connect Wallet" : undefined}
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
+          colSpanSm
           colSpan
+        />
+        <Widget
+          text={(communityRevenue ?? "0") + " cBTC"}
+          title={`Community Revenue`}
+          buttonTitle="Track"
+          buttonLink={communityVaultBtc}
+          externalLink
+          noPrice
+          noMargin
         />
         <Widget
           dailyChangePrice={dailyChangeBtcPrice}
@@ -218,7 +217,6 @@ export default function Dashboard() {
           noPrice
           noHeaderPrice
           titleLg
-          colSpan
         />
         <Widget
           text="Coming Soon"
