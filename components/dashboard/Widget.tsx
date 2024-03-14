@@ -29,12 +29,13 @@ interface WidgetProps {
   walletBalance?: string | null;
   onWalletBtnClick?: () => void;
   colSpan?: boolean;
+  colSpanSm?: boolean;
   order?: number;
 }
 
 const Widget = (props: WidgetProps) => {
   const { width } = useWindowSize();
-  const isMobile = width <= 450;
+  const isMobile = width <= 550;
   const calculateTimeLeft = () => {
     const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
     const currentTime = props.currentDate
@@ -78,7 +79,19 @@ const Widget = (props: WidgetProps) => {
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
     <div
-      className={styles.widget + " " + (props.colSpan ? styles.colSpan : "")}
+      className={
+        (isMobile
+          ? props.colSpanSm
+            ? styles.colSpan2
+            : styles.colSpan1
+          : props.colSpan
+          ? styles.colSpan5
+          : styles.colSpan3) +
+        " " +
+        styles.widget +
+        " " +
+        (props.colSpanSm ? styles.colSpanSm : "")
+      }
       style={{
         order: isMobile && props.order ? props.order : undefined,
       }}
