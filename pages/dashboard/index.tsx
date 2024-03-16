@@ -295,16 +295,27 @@ export default function Dashboard() {
         <Widget
           // text="Coming Soon"
           text={
-            stakingInfo
-              ? (stakingInfo?.rewards.btc.toFixed(5) ?? "0") + " BTC"
-              : "loading"
+            walletMeta
+              ? stakingInfo
+                ? (stakingInfo?.rewards.btc.toFixed(5) ?? "0") + " BTC"
+                : "loading"
+              : undefined
           }
-          title={`Your ${isMobile ? "Est." : "Estimated"} Rewards`}
-          buttonTitle="Claim"
-          buttonLink="https://app.tosidrop.io/cardano/claim"
+          title={`Your ${
+            walletMeta ? (isMobile ? "Est." : "Estimated") : ""
+          } Rewards`}
+          buttonTitle={
+            walletMeta ? "Claim" : isMobile ? "Connect" : "Connect Wallet"
+          }
+          buttonClick={!walletMeta ? handleWalletShowing : undefined}
+          buttonLink={
+            walletMeta ? "https://app.tosidrop.io/cardano/claim" : undefined
+          }
           externalLink
+          titleLg={!walletMeta}
+          noMargin={!!walletMeta}
           noPrice
-          noMargin
+          noHeaderPrice
         />
         <ConnectWallet
           isOpen={isWalletShowing}
