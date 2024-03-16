@@ -27,6 +27,7 @@ export default function Dashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
+    stakingInfo,
   } = useDashboard();
 
   const { width } = useWindowSize();
@@ -161,7 +162,7 @@ export default function Dashboard() {
 
         <ChartWidget
           title="Protocol Volume"
-          value={protocolVolume ?? "0"}
+          value={protocolVolume ?? "loading"}
           token="BTC"
           data={tvlData}
           buttonTitle="Track"
@@ -179,6 +180,7 @@ export default function Dashboard() {
           title="Stake cNETA"
           buttonTitle="Stake"
           buttonLink="/stake"
+          buttonDisabled={!stakingInfo?.staking ?? true}
           noPrice
           noHeaderPrice
           titleLg
@@ -186,7 +188,7 @@ export default function Dashboard() {
           colSpanSm
         />
         <Widget
-          text={(communityRevenue ?? "0") + " cBTC"}
+          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Comm." : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={communityVaultBtc}
@@ -209,10 +211,24 @@ export default function Dashboard() {
         <Widget
           noPrice
           noMargin
-          text="Coming Soon"
           title="Total cNETA Staked"
+          // text="Coming Soon"
+          text={
+            stakingInfo
+              ? stakingInfo?.staking
+                ? (stakingInfo?.totalStake.toFixed(5) ?? "0") + " BTC"
+                : "Coming Soon"
+              : "loading"
+          }
           title2="Your cNETA Staked"
-          text2="Coming Soon"
+          // text2="Coming Soon"
+          text2={
+            stakingInfo
+              ? stakingInfo?.staking
+                ? (stakingInfo?.stake.toFixed(5) ?? "0") + " BTC"
+                : "Coming Soon"
+              : "loading"
+          }
         />
         <Widget
           title="Mint cBTC"
@@ -240,12 +256,17 @@ export default function Dashboard() {
           title="Next Claiming Period"
           noPrice
           // currentDate="2024-03-12 21:45:00 UTC"
-          // timerInterval={5}
-          // timerStart="2024/01/15 21:45:00 UTC"
-          text="Coming Soon"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+          // text="Coming Soon"
         />
         <Widget
-          text="Coming Soon"
+          // text="Coming Soon"
+          text={
+            stakingInfo
+              ? (stakingInfo?.rewards.btc.toFixed(5) ?? "0") + " BTC"
+              : "loading"
+          }
           title={`Your ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle="Claim"
           buttonLink="https://app.tosidrop.io/cardano/claim"
