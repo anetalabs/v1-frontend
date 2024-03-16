@@ -15,7 +15,7 @@ export default function useDashboard() {
   const vault = useBitcoinVault();
   const communityVault = useCommunityVault();
   const communityRevenueInfo = useCommunityRevenue();
-  const stakingInfo = useStakingInfo();
+  const [stakingInfo, fetchStakingInfo] = useStakingInfo();
   const { usdAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
@@ -121,8 +121,6 @@ export default function useDashboard() {
     }
   }, [anetaData]);
 
-  console.log(stakingInfo);
-
   return {
     usdBtcPrice,
     usdcBtcPrice,
@@ -136,5 +134,6 @@ export default function useDashboard() {
     protocolVolume,
     communityRevenue,
     stakingInfo,
+    fetchStakingInfo,
   };
 }

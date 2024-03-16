@@ -35,9 +35,9 @@ export const adaFormat = (value: string) => {
   }).format(Number(value))}`
 }
 
-export const numberFormat = (value: string) => {
+export const numberFormat = (value: string, maxFractionDigits?: number) => {
   return `${Intl.NumberFormat("en", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 4,
+    maximumFractionDigits: maxFractionDigits ?? 4,
   }).format(Number(value))}`;
 };

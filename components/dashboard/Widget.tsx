@@ -23,6 +23,7 @@ interface WidgetProps {
   currentDate?: string | number | Date;
   timerInterval?: number;
   text?: string;
+  textLg?: boolean;
   text2?: string;
   title2?: string;
   noMargin?: boolean;
@@ -153,7 +154,9 @@ const Widget = (props: WidgetProps) => {
 
       {props.text ? (
         props.text !== "loading" ? (
-          <p className={styles.valueText}>{props.text}</p>
+          <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+            {props.text}
+          </p>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>
