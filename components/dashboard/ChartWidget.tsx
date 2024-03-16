@@ -1,7 +1,6 @@
 import { AnetaData } from "../../hooks/useAnetaData";
 import ChartComponent from "./ChartComponent";
 import styles from "../../styles/chartWidget.module.scss";
-import { numericFormatter } from "react-number-format";
 import Link from "next/link";
 
 interface ChartWidgetProps {
@@ -20,9 +19,15 @@ const ChartWidget = (props: ChartWidgetProps) => {
         <div className={styles.valuesGroup}>
           <h2 className={styles.titleChart}>{props.title}</h2>
           <div className={styles.tokenChart}>
-            <h3 className={styles.tokenTitle}>
-              {props.value} {props.token}
-            </h3>
+            {props.value === "loading" ? (
+              <div className={styles.value}>
+                <div className={styles.loader}></div>
+              </div>
+            ) : (
+              <h3 className={styles.tokenTitle}>
+                {props.value} {props.token}
+              </h3>
+            )}
           </div>
         </div>
         {props.buttonTitle && (

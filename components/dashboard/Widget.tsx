@@ -13,6 +13,7 @@ interface WidgetProps {
   title?: string;
   buttonTitle?: string;
   buttonClick?: () => void;
+  buttonDisabled?: boolean;
   buttonLink?: string;
   externalLink?: boolean;
   noPrice?: boolean;
@@ -150,7 +151,15 @@ const Widget = (props: WidgetProps) => {
         </div>
       )}
 
-      {props.text && <p className={styles.valueText}>{props.text}</p>}
+      {props.text ? (
+        props.text !== "loading" ? (
+          <p className={styles.valueText}>{props.text}</p>
+        ) : (
+          <div className={styles.loaderPrice}>
+            <div className={styles.loader}></div>
+          </div>
+        )
+      ) : undefined}
       {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
       {props.text2 ? (
         props.text2 !== "loading" ? (
@@ -165,13 +174,19 @@ const Widget = (props: WidgetProps) => {
         props.buttonLink ? (
           <Link
             href={props.buttonLink}
-            className={styles.btn}
+            className={
+              styles.btn + " " + (props.buttonDisabled ? styles.disabled : "")
+            }
             target={props.externalLink ? "_blank" : undefined}
           >
             {props.buttonTitle}
           </Link>
         ) : (
-          <button onClick={props.buttonClick} className={styles.btn}>
+          <button
+            disabled={props.buttonDisabled}
+            onClick={props.buttonClick}
+            className={styles.btn}
+          >
             {props.buttonTitle}
           </button>
         )

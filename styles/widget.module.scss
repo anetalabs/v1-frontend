@@ -70,13 +70,12 @@
       font-weight: var.$font-weight-medium;
     }
   }
-
   .loaderPrice {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 30px;
-    height: 60px;
+    height: 30px;
     position: relative;
     .loader,
     .loader:before,
@@ -85,10 +84,10 @@
     }
     .loader {
       color: rgba(0, 0, 0, 0.5);
-      font-size: 60px;
+      font-size: 30px;
       animation-delay: -0.16s;
       position: absolute;
-      top: 10px;
+      top: 0px;
       &:before,
       &:after {
         content: "";
@@ -157,6 +156,13 @@
     &:hover {
       background-color: var.$light-color-hover;
     }
+    &:disabled,
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      background-color: transparent !important;
+      pointer-events: none;
+    }
   }
   .bottomMargin {
     height: 0.5rem;
@@ -214,9 +220,12 @@
     .btn {
       border-color: var.$primary-color-dark;
 
-      &:hover {
-        background-color: var.$dark-color-hover;
-      }
+        &:hover {
+          background-color: var.$dark-color-hover;
+        }
+        &:disabled {
+          background-color: transparent;
+        }
     }
   }
 }
