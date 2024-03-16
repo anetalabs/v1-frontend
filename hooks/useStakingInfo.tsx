@@ -17,7 +17,7 @@ const useStakingInfo = () => {
     fetchStakingInfo();
   }, [fetchStakingInfo]);
 
-  return info;
+  return [info, fetchStakingInfo];
 };
 
 export default useStakingInfo;

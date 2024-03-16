@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
 import useAssetsApi from "../../hooks/useAssetsApi";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { formatAmount, numberToFixed } from "../../utils/format";
+import { formatAmount, numberFormat, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
@@ -28,6 +28,7 @@ export default function Dashboard() {
     protocolVolume,
     communityRevenue,
     stakingInfo,
+    fetchStakingInfo,
   } = useDashboard();
 
   const { width } = useWindowSize();
@@ -89,6 +90,18 @@ export default function Dashboard() {
     setBalanceCBtc(formatAmount(sumBalanceCBTC / 100000000));
     setBalanceCNeta(formatAmount(sumBalanceCNETA));
   };
+
+  const handleStake = useCallback(async () => {
+    try {
+      const res = await fetch("api/stake");
+      const data = await res.json();
+      if (data.result === "ok") {
+        fetchStakingInfo();
+      }
+    } catch (error) {
+      console.error("Error fetching stake:", error);
+    }
+  }, [fetchStakingInfo]);
 
   useEffect(() => {
     if (address !== "") {
@@ -177,13 +190,24 @@ export default function Dashboard() {
           onButtonClick={communityVaultBtc}
         /> */}
         <Widget
-          title="Stake cNETA"
-          buttonTitle="Stake"
-          buttonLink="/stake"
-          buttonDisabled={!stakingInfo?.staking ?? true}
+          title={
+            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
+          }
+          text={
+            walletMeta && stakingInfo
+              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " BTC"
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
+          }
+          buttonClick={() => handleStake()}
+          // buttonLink="/stake"
+          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
           noPrice
           noHeaderPrice
           titleLg
+          textLg
           colSpan
           colSpanSm
         />
@@ -216,18 +240,26 @@ export default function Dashboard() {
           text={
             stakingInfo
               ? stakingInfo?.staking
-                ? (stakingInfo?.totalStake.toFixed(5) ?? "0") + " BTC"
+                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
+                  " BTC"
                 : "Coming Soon"
               : "loading"
           }
-          title2="Your cNETA Staked"
+          title2={walletMeta ? "Your cNETA Staked" : undefined}
           // text2="Coming Soon"
           text2={
-            stakingInfo
+            !walletMeta
+              ? undefined
+              : stakingInfo
               ? stakingInfo?.staking
-                ? (stakingInfo?.stake.toFixed(5) ?? "0") + " BTC"
+                ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") +
+                  " BTC"
                 : "Coming Soon"
               : "loading"
+          }
+          buttonClick={handleWalletShowing}
+          buttonTitle={
+            !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
           }
         />
         <Widget

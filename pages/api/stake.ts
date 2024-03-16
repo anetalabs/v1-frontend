@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import mempoolJS from "@mempool/mempool.js";
 
 const ADDRESS = process.env.STAKING_ADDRESS ?? "";
 
@@ -12,7 +13,7 @@ export default async function handler(
 
   try {
     const result = await fetch(
-      "https://aneta-staking-backend.vercel.app/api/staking/info",
+      "https://aneta-staking-backend.vercel.app/api/staking/stake",
       {
         method: "POST",
         headers: {
@@ -25,7 +26,7 @@ export default async function handler(
     );
     const data = await result.json();
 
-    res.status(200).json(data.info);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "An error occurred" });
