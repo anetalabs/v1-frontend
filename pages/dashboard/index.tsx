@@ -300,15 +300,22 @@ export default function Dashboard() {
           text={
             walletMeta
               ? stakingInfo
-                ? (stakingInfo?.rewards.btc.toFixed(5) ?? "0") + " BTC"
+                ? numberFormat(stakingInfo?.rewards.btc.toString(), 5) + " cBTC"
                 : "loading"
               : undefined
           }
-          title={`Your ${
+          text2={
+            walletMeta
+              ? stakingInfo
+                ? numberFormat(stakingInfo?.rewards.erg.toString(), 5) + " ERG"
+                : "loading"
+              : undefined
+          }
+          title={`Total ${
             walletMeta ? (isMobile ? "Est." : "Estimated") : ""
           } Rewards`}
           buttonTitle={
-            walletMeta ? "Claim" : isMobile ? "Connect" : "Connect Wallet"
+            walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
           buttonLink={
@@ -316,7 +323,6 @@ export default function Dashboard() {
           }
           externalLink
           titleLg={!walletMeta}
-          noMargin={!!walletMeta}
           noPrice
           noHeaderPrice
         />
