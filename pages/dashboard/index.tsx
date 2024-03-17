@@ -281,7 +281,7 @@ export default function Dashboard() {
           }
           text={
             walletMeta && stakingInfo
-              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " BTC"
+              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " cNETA"
               : undefined
           }
           buttonTitle={
