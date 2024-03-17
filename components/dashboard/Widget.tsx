@@ -21,6 +21,7 @@ interface WidgetProps {
   noPrice?: boolean;
   noHeaderPrice?: boolean;
   titleLg?: boolean;
+  titleLeft?: boolean;
   timerStart?: string | number | Date;
   currentDate?: string | number | Date;
   timerInterval?: number;
@@ -101,7 +102,13 @@ const Widget = (props: WidgetProps) => {
       }}
     >
       {props.title && (
-        <div className={props.titleLg ? styles.titleLg : styles.title}>
+        <div
+          className={
+            (props.titleLg ? styles.titleLg : styles.title) +
+            " " +
+            (props.titleLeft ? styles.titleLeft : "")
+          }
+        >
           <span>{props.title}</span>
           {props.headerButtonTitle && (
             <div className={styles.btnGroup}>

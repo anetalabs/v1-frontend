@@ -264,7 +264,7 @@ export default function Dashboard() {
         <Widget
           noPrice
           noHeaderPrice
-          titleLg={!walletMeta}
+          titleLg
           title="Your cBTC"
           walletMeta={walletMeta}
           walletBalance={balanceCBtc}
@@ -274,6 +274,7 @@ export default function Dashboard() {
           }
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
+          titleLeft={!!walletMeta}
         />
         <Widget
           title={
