@@ -190,27 +190,16 @@ export default function Dashboard() {
           onButtonClick={communityVaultBtc}
         /> */}
         <Widget
-          title={
-            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
-          }
-          text={
-            walletMeta && stakingInfo
-              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " BTC"
-              : undefined
-          }
-          buttonTitle={
-            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
-          }
-          buttonClick={() => handleStake()}
-          // buttonLink="/stake"
-          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
+          title="Next Claiming Period"
           noPrice
-          noHeaderPrice
-          titleLg
-          textLg
+          // currentDate="2024-03-12 21:45:00 UTC"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+          // text="Coming Soon"
           colSpan
           colSpanSm
         />
+
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Comm." : "Community"} Revenue`}
@@ -285,12 +274,24 @@ export default function Dashboard() {
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
         />
         <Widget
-          title="Next Claiming Period"
+          title={
+            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
+          }
+          text={
+            walletMeta && stakingInfo
+              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " BTC"
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
+          }
+          buttonClick={() => handleStake()}
+          // buttonLink="/stake"
+          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
           noPrice
-          // currentDate="2024-03-12 21:45:00 UTC"
-          timerInterval={5}
-          timerStart="2024/01/15 21:45:00 UTC"
-          // text="Coming Soon"
+          noHeaderPrice
+          titleLg
+          textLg
         />
         <Widget
           // text="Coming Soon"
