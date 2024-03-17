@@ -82,17 +82,21 @@ export default function Stake() {
                     </p>
                     <div className={styles.amount}>
                       <p>
-                        {numberFormat(
-                          stakingInfo?.rewards.btc.toString() ?? "0",
-                          5
-                        )}{" "}
+                        {walletMeta
+                          ? numberFormat(
+                              stakingInfo?.rewards.btc.toString() ?? "0",
+                              5
+                            )
+                          : "0.00000"}{" "}
                         cBTC
                       </p>
                       <p>
-                        {numberFormat(
-                          stakingInfo?.rewards.erg.toString() ?? "0",
-                          5
-                        )}{" "}
+                        {walletMeta
+                          ? numberFormat(
+                              stakingInfo?.rewards.erg.toString() ?? "0",
+                              5
+                            )
+                          : "0"}{" "}
                         rsERG
                       </p>
                     </div>
