@@ -16,6 +16,8 @@ interface WidgetProps {
   buttonDisabled?: boolean;
   buttonLink?: string;
   externalLink?: boolean;
+  headerButtonTitle?: string;
+  headerButtonClick?: (() => void) | string;
   noPrice?: boolean;
   noHeaderPrice?: boolean;
   titleLg?: boolean;
@@ -99,9 +101,39 @@ const Widget = (props: WidgetProps) => {
       }}
     >
       {props.title && (
-        <h3 className={props.titleLg ? styles.titleLg : styles.title}>
-          {props.title}
-        </h3>
+        <div className={props.titleLg ? styles.titleLg : styles.title}>
+          <span>{props.title}</span>
+          {props.headerButtonTitle && (
+            <div className={styles.btnGroup}>
+              {typeof props.headerButtonClick === "string" ? (
+                <Link
+                  className={styles.btnBtc}
+                  href={props.headerButtonClick}
+                  target="_blank"
+                >
+                  <span className={styles.btnText}>
+                    {props.headerButtonTitle}
+                  </span>
+                  <svg width="12" height="12" id="icon" className={styles.icon}>
+                    <use href="/images/icons/arrow-right.svg#icon"></use>
+                  </svg>
+                </Link>
+              ) : (
+                <button
+                  className={styles.btnBtc}
+                  onClick={props.headerButtonClick}
+                >
+                  <span className={styles.btnText}>
+                    {props.headerButtonTitle}
+                  </span>
+                  <svg width="12" height="12" id="icon" className={styles.icon}>
+                    <use href="/images/icons/arrow-right.svg#icon"></use>
+                  </svg>
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       )}
       {!props.noHeaderPrice && props.token && (
         <div className={styles.headerPrice}>

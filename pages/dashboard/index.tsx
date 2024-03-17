@@ -196,6 +196,8 @@ export default function Dashboard() {
           timerInterval={5}
           timerStart="2024/01/15 21:45:00 UTC"
           // text="Coming Soon"
+          headerButtonTitle={walletMeta ? "Claim" : undefined}
+          headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
         />
