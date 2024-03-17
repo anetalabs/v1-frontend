@@ -29,13 +29,48 @@
   justify-content: space-between;
   .title {
     font-size: 18px;
-    font-weight: var.$font-weight-semibold;
   }
   .titleLg {
     font-size: 24px;
     text-align: center;
     margin-top: 0.5rem;
+  }
+  .titleLeft {
+    text-align: left;
+  }
+  .title {
     font-weight: var.$font-weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    .btnGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      .btnBtc,
+      .btncBtc {
+        width: 145px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #0c8ce9;
+        border-radius: 8px;
+        gap: 5px;
+        cursor: pointer;
+        transition: 0.25s;
+        &:hover {
+          background-color: var.$light-color-hover;
+        }
+        .btnText {
+          font-size: 12px;
+          font-weight: var.$font-weight-semibold;
+        }
+        .icon use {
+          stroke: var.$primary-color-font;
+        }
+      }
+    }
   }
   .headerPrice {
     display: flex;
@@ -106,6 +141,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 1rem;
     gap: 0.5rem;
     .time {
       display: flex;
@@ -216,6 +252,20 @@
         }
       }
     }
+    .title {
+      .btnGroup {
+        .btnBtc,
+        .btncBtc {
+          background-color: transparent;
+          .icon use {
+            stroke: var.$secundary-color-font;
+          }
+          &:hover {
+            background-color: var.$dark-color-hover;
+          }
+        }
+      }
+    }
     .loaderPrice {
       .loader {
         color: rgba(255, 255, 255, 0.5);
@@ -224,12 +274,12 @@
     .btn {
       border-color: var.$primary-color-dark;
 
-        &:hover {
-          background-color: var.$dark-color-hover;
-        }
-        &:disabled {
-          background-color: transparent;
-        }
+      &:hover {
+        background-color: var.$dark-color-hover;
+      }
+      &:disabled {
+        background-color: transparent;
+      }
     }
   }
 }

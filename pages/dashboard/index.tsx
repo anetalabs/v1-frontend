@@ -190,27 +190,18 @@ export default function Dashboard() {
           onButtonClick={communityVaultBtc}
         /> */}
         <Widget
-          title={
-            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
-          }
-          text={
-            walletMeta && stakingInfo
-              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " BTC"
-              : undefined
-          }
-          buttonTitle={
-            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
-          }
-          buttonClick={() => handleStake()}
-          // buttonLink="/stake"
-          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
+          title="Next Claiming Period"
           noPrice
-          noHeaderPrice
-          titleLg
-          textLg
+          // currentDate="2024-03-12 21:45:00 UTC"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+          // text="Coming Soon"
+          headerButtonTitle={walletMeta ? "Claim" : undefined}
+          headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
         />
+
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Comm." : "Community"} Revenue`}
@@ -273,7 +264,7 @@ export default function Dashboard() {
         <Widget
           noPrice
           noHeaderPrice
-          titleLg={!walletMeta}
+          titleLg
           title="Your cBTC"
           walletMeta={walletMeta}
           walletBalance={balanceCBtc}
@@ -283,29 +274,49 @@ export default function Dashboard() {
           }
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
+          titleLeft={!!walletMeta}
         />
         <Widget
-          title="Next Claiming Period"
+          title={
+            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
+          }
+          text={
+            walletMeta && stakingInfo
+              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " cNETA"
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
+          }
+          buttonClick={() => handleStake()}
+          // buttonLink="/stake"
+          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
           noPrice
-          // currentDate="2024-03-12 21:45:00 UTC"
-          timerInterval={5}
-          timerStart="2024/01/15 21:45:00 UTC"
-          // text="Coming Soon"
+          noHeaderPrice
+          titleLg
+          textLg
         />
         <Widget
           // text="Coming Soon"
           text={
             walletMeta
               ? stakingInfo
-                ? (stakingInfo?.rewards.btc.toFixed(5) ?? "0") + " BTC"
+                ? numberFormat(stakingInfo?.rewards.btc.toString(), 5) + " cBTC"
                 : "loading"
               : undefined
           }
-          title={`Your ${
+          text2={
+            walletMeta
+              ? stakingInfo
+                ? numberFormat(stakingInfo?.rewards.erg.toString(), 5) + " ERG"
+                : "loading"
+              : undefined
+          }
+          title={`Total ${
             walletMeta ? (isMobile ? "Est." : "Estimated") : ""
           } Rewards`}
           buttonTitle={
-            walletMeta ? "Claim" : isMobile ? "Connect" : "Connect Wallet"
+            walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
           buttonLink={
@@ -313,7 +324,6 @@ export default function Dashboard() {
           }
           externalLink
           titleLg={!walletMeta}
-          noMargin={!!walletMeta}
           noPrice
           noHeaderPrice
         />
