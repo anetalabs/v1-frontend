@@ -262,6 +262,33 @@ export default function Dashboard() {
           titleLg
         />
         <Widget
+          // text="Coming Soon"
+          text={
+            walletMeta
+              ? stakingInfo
+                ? numberFormat(stakingInfo?.rewards.btc.toString(), 5) + " cBTC"
+                : "loading"
+              : undefined
+          }
+          text2={
+            walletMeta
+              ? stakingInfo
+                ? numberFormat(stakingInfo?.rewards.erg.toString(), 5) + " ERG"
+                : "loading"
+              : undefined
+          }
+          title={`Total ${
+            walletMeta ? (isMobile ? "Est." : "Estimated") : ""
+          } Rewards`}
+          buttonTitle={
+            walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
+          }
+          buttonClick={!walletMeta ? handleWalletShowing : undefined}
+          titleLg={!walletMeta}
+          noPrice
+          noHeaderPrice
+        />
+        {/* <Widget
           noPrice
           noHeaderPrice
           titleLg
@@ -275,7 +302,7 @@ export default function Dashboard() {
           token="cBTC"
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
           titleLeft={!!walletMeta}
-        />
+        /> */}
         <Widget
           title={
             walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
@@ -301,28 +328,30 @@ export default function Dashboard() {
           text={
             walletMeta
               ? stakingInfo
-                ? numberFormat(stakingInfo?.rewards.btc.toString(), 5) + " cBTC"
+                ? numberFormat(
+                    stakingInfo?.totalStakeNextDistribution.btc.toString(),
+                    5
+                  ) + " cBTC"
                 : "loading"
               : undefined
           }
           text2={
             walletMeta
               ? stakingInfo
-                ? numberFormat(stakingInfo?.rewards.erg.toString(), 5) + " ERG"
+                ? numberFormat(
+                    stakingInfo?.totalStakeNextDistribution.erg.toString(),
+                    5
+                  ) + " ERG"
                 : "loading"
               : undefined
           }
-          title={`Total ${
-            walletMeta ? (isMobile ? "Est." : "Estimated") : ""
-          } Rewards`}
+          title={`Rewards ${
+            walletMeta ? (isMobile ? "Next Ep." : "Next Epoch") : ""
+          }`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
-          buttonLink={
-            walletMeta ? "https://app.tosidrop.io/cardano/claim" : undefined
-          }
-          externalLink
           titleLg={!walletMeta}
           noPrice
           noHeaderPrice
