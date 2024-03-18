@@ -4,6 +4,7 @@ import { createContext, ReactNode, useState} from "react";
 import { ModalState } from "../hooks/useModal";
 import { Config } from "../utils";
 import { CardanoNetwork } from "../utils/api";
+import { CONSTANTS } from "../utils/constants";
 
 interface GlobalContextState {
   walletMeta: Cip30Wallet | null;
@@ -16,6 +17,12 @@ interface GlobalContextState {
   setModalState: (_: ModalState) => void;
   config: Config;
   setConfig: (_: Config) => void;
+  stakingInfo: any;
+  setStakingInfo: (_: any) => void;
+  address: string;
+  setAddress: (_: string) => void;
+  walletAddress: string;
+  setWalletAddress: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -43,6 +50,12 @@ export const GlobalContext = createContext<GlobalContextState>({
     cnetaAssetId: "",
   },
   setConfig: () => {},
+  stakingInfo: undefined,
+  setStakingInfo: () => {},
+  address: "",
+  setAddress: () => {},
+  walletAddress: "",
+  setWalletAddress: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -69,6 +82,11 @@ export default function GlobalContextProvider({
     cbtcAssetId: "",
     cnetaAssetId: "",
   });
+  const [stakingInfo, setStakingInfo] = useState<any>();
+  const [walletAddress, setWalletAddress] = useState(
+    CONSTANTS.STRINGS.wallet_connecting
+  );
+  const [address, setAddress] = useState<string>("");
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -81,6 +99,12 @@ export default function GlobalContextProvider({
     setModalState,
     config,
     setConfig,
+    stakingInfo,
+    setStakingInfo,
+    address,
+    setAddress,
+    walletAddress,
+    setWalletAddress,
   };
 
   return (
