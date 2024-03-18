@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-const ADDRESS = process.env.STAKING_ADDRESS ?? "";
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     return res.status(405).end();
   }
+
+  const address = req.body;
 
   try {
     const result = await fetch(
@@ -19,7 +19,7 @@ export default async function handler(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          address: ADDRESS,
+          address: address,
         }),
       }
     );

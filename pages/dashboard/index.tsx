@@ -13,6 +13,7 @@ import Head from "next/head";
 import ChartWidget from "../../components/dashboard/ChartWidget";
 import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
+import useStake from "../../hooks/useStake";
 
 export default function Dashboard() {
   const {
@@ -27,9 +28,9 @@ export default function Dashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
-    stakingInfo,
-    fetchStakingInfo,
   } = useDashboard();
+
+  const { stakingInfo, fetchStake } = useStake();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -39,8 +40,7 @@ export default function Dashboard() {
   const { walletMeta, address, walletAddress } = useCardanoWallet();
   const { getUtxos } = useLucid();
   const [isWalletShowing, setIsWalletShowing] = useState(false);
-  const [balanceCBtc, setBalanceCBtc] = useState<null | string>(null);
-  const [balanceCNeta, setBalanceCNeta] = useState<null | string>(null);
+  const [stakeLoading, setStakeLoading] = useState(false);
 
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
@@ -87,21 +87,12 @@ export default function Dashboard() {
       }
       return total;
     }, 0);
-    setBalanceCBtc(formatAmount(sumBalanceCBTC / 100000000));
-    setBalanceCNeta(formatAmount(sumBalanceCNETA));
   };
 
   const handleStake = useCallback(async () => {
-    try {
-      const res = await fetch("api/stake");
-      const data = await res.json();
-      if (data.result === "ok") {
-        fetchStakingInfo();
-      }
-    } catch (error) {
-      console.error("Error fetching stake:", error);
-    }
-  }, [fetchStakingInfo]);
+    setStakeLoading(true);
+    fetchStake(address);
+  }, [fetchStake, address]);
 
   useEffect(() => {
     if (address !== "") {
@@ -109,6 +100,12 @@ export default function Dashboard() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
+
+  useEffect(() => {
+    if (stakingInfo?.staking) {
+      setStakeLoading(false);
+    }
+  }, [stakingInfo]);
 
   return (
     <>
@@ -196,7 +193,11 @@ export default function Dashboard() {
           timerInterval={5}
           timerStart="2024/01/15 21:45:00 UTC"
           // text="Coming Soon"
-          headerButtonTitle={walletMeta ? "Claim" : undefined}
+          headerButtonTitle={
+            walletMeta && address && walletAddress !== "Connecting..."
+              ? "Claim"
+              : undefined
+          }
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
@@ -229,23 +230,20 @@ export default function Dashboard() {
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
-            stakingInfo
-              ? stakingInfo?.staking
+            walletMeta
+              ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
                   " BTC"
-                : "Coming Soon"
-              : "loading"
+                : "loading"
+              : "0 BTC"
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           // text2="Coming Soon"
           text2={
             !walletMeta
               ? undefined
-              : stakingInfo
-              ? stakingInfo?.staking
-                ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") +
-                  " BTC"
-                : "Coming Soon"
+              : stakingInfo && address && walletAddress !== "Connecting..."
+              ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") + " BTC"
               : "loading"
           }
           buttonClick={handleWalletShowing}
@@ -265,14 +263,14 @@ export default function Dashboard() {
           // text="Coming Soon"
           text={
             walletMeta
-              ? stakingInfo
+              ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(stakingInfo?.rewards.btc.toString(), 5) + " cBTC"
                 : "loading"
               : undefined
           }
           text2={
             walletMeta
-              ? stakingInfo
+              ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(stakingInfo?.rewards.erg.toString(), 5) + " ERG"
                 : "loading"
               : undefined
@@ -305,19 +303,41 @@ export default function Dashboard() {
         /> */}
         <Widget
           title={
-            walletMeta && stakingInfo?.staking ? "Live Stake" : "Stake cNETA"
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "Live Stake"
+              : "Stake cNETA"
           }
           text={
-            walletMeta && stakingInfo
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
               ? numberFormat(stakingInfo.liveStake.toString(), 5) + " cNETA"
               : undefined
           }
           buttonTitle={
-            !walletMeta || !stakingInfo?.staking ? "Stake" : undefined
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? stakeLoading
+                ? "Staking..."
+                : "Stake"
+              : undefined
           }
           buttonClick={() => handleStake()}
           // buttonLink="/stake"
-          buttonDisabled={(!walletMeta || !stakingInfo) ?? true}
+          buttonDisabled={
+            (!walletMeta ||
+              !stakingInfo ||
+              !address ||
+              walletAddress === "Connecting..." ||
+              stakeLoading) ??
+            true
+          }
           noPrice
           noHeaderPrice
           titleLg
@@ -327,7 +347,7 @@ export default function Dashboard() {
           // text="Coming Soon"
           text={
             walletMeta
-              ? stakingInfo
+              ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
                     stakingInfo?.totalStakeNextDistribution.btc.toString(),
                     5
@@ -337,7 +357,7 @@ export default function Dashboard() {
           }
           text2={
             walletMeta
-              ? stakingInfo
+              ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
                     stakingInfo?.totalStakeNextDistribution.erg.toString(),
                     5

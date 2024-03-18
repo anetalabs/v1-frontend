@@ -8,14 +8,12 @@ import useCommunityFund from "./useCommunityFund";
 import useBitcoinVault from "./useBitcoinVault";
 import useCommunityVault from "./useCommunityVault";
 import useCommunityRevenue from "./useCommunityRevenue";
-import useStakingInfo from "./useStakingInfo";
 
 export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
   const vault = useBitcoinVault();
   const communityVault = useCommunityVault();
   const communityRevenueInfo = useCommunityRevenue();
-  const [stakingInfo, fetchStakingInfo] = useStakingInfo();
   const { usdAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
@@ -133,7 +131,5 @@ export default function useDashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
-    stakingInfo,
-    fetchStakingInfo,
   };
 }
