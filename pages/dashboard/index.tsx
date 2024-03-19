@@ -206,7 +206,7 @@ export default function Dashboard() {
 
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
-          title={`${isMobile ? "Comm." : "Community"} Revenue`}
+          title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={communityVaultBtc}
           externalLink
@@ -276,16 +276,14 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Total ${
-            walletMeta ? (isMobile ? "Est." : "Estimated") : ""
-          } Rewards`}
+          title={`Total ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
-          titleLg={!walletMeta}
           noPrice
           noHeaderPrice
+          titleCenter
         />
         {/* <Widget
           noPrice
@@ -366,16 +364,14 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Rewards ${
-            walletMeta ? (isMobile ? "Next Ep." : "Next Epoch") : ""
-          }`}
+          title={`Rewards Next Epoch`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
-          titleLg={!walletMeta}
           noPrice
           noHeaderPrice
+          titleCenter
         />
         <ConnectWallet
           isOpen={isWalletShowing}

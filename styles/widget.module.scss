@@ -27,9 +27,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  .title {
-    font-size: 18px;
-  }
   .titleLg {
     font-size: 24px;
     text-align: center;
@@ -38,7 +35,14 @@
   .titleLeft {
     text-align: left;
   }
+  .titleCenter {
+    text-align: center !important;
+    justify-content: center !important;
+    margin-top: 0.75rem;
+  }
   .title {
+    font-size: 18px;
+    white-space: nowrap;
     font-weight: var.$font-weight-semibold;
     display: flex;
     align-items: center;
@@ -225,7 +229,7 @@
     }
 
     .title {
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .titleLg {
