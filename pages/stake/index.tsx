@@ -80,7 +80,11 @@ export default function Stake() {
                     <p>
                       {walletMeta
                         ? numberFormat(
-                            stakingInfo?.rewards.btc.toString() ?? "0",
+                            (
+                              (stakingInfo?.stake / stakingInfo?.totalStake) *
+                              stakingInfo?.totalStakeNextDistribution.btc
+                            ).toString() ?? "0.00000",
+                            5,
                             5
                           )
                         : "0.00000"}{" "}
@@ -89,7 +93,10 @@ export default function Stake() {
                     <p>
                       {walletMeta
                         ? numberFormat(
-                            stakingInfo?.rewards.erg.toString() ?? "0",
+                            (
+                              (stakingInfo?.stake / stakingInfo?.totalStake) *
+                              stakingInfo?.totalStakeNextDistribution.erg
+                            ).toString() ?? "0",
                             5
                           )
                         : "0"}{" "}
