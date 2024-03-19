@@ -201,7 +201,7 @@ export default function Dashboard() {
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
-          noMargin={isMobile}
+          noMargin={isMobile && !!walletMeta && !!address}
         />
 
         <Widget
@@ -283,7 +283,7 @@ export default function Dashboard() {
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
           noPrice
           noHeaderPrice
-          titleCenter
+          titleCenter={!walletMeta}
         />
         {/* <Widget
           noPrice
@@ -371,7 +371,7 @@ export default function Dashboard() {
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
           noPrice
           noHeaderPrice
-          titleCenter
+          titleCenter={!walletMeta}
         />
         <ConnectWallet
           isOpen={isWalletShowing}
