@@ -36,14 +36,14 @@ export default function Stake() {
       </Head>
       <main className={styles.stake}>
         {walletMeta && !stakingInfo ? (
-          <div className={styles.loaderChart}>
+          <div className={styles.loaderContainer}>
             <div className={styles.loader}></div>
           </div>
         ) : (
           <>
             <section>
               {!walletMeta && <p>Connect your wallet to stake.</p>}
-              {walletMeta && !stakingInfo?.staking && (
+              {walletMeta && !stakingInfo && (
                 <p>
                   You are currently holding{" "}
                   <b>
