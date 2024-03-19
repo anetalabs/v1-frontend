@@ -143,7 +143,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View BTC Vaults</p>
+                <span className={styles.btnText}>View BTC Vaults</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -154,7 +154,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View cBTC Token</p>
+                <span className={styles.btnText}>View cBTC Token</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
