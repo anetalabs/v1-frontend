@@ -143,7 +143,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View BTC Vaults</p>
+                <span className={styles.btnText}>View BTC Vaults</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -154,7 +154,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View cBTC Token</p>
+                <span className={styles.btnText}>View cBTC Token</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -201,11 +201,12 @@ export default function Dashboard() {
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
+          noMargin={isMobile && !!walletMeta && !!address}
         />
 
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
-          title={`${isMobile ? "Comm." : "Community"} Revenue`}
+          title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={communityVaultBtc}
           externalLink
@@ -275,16 +276,14 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Total ${
-            walletMeta ? (isMobile ? "Est." : "Estimated") : ""
-          } Rewards`}
+          title={`Total ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
-          titleLg={!walletMeta}
           noPrice
           noHeaderPrice
+          titleCenter={!walletMeta}
         />
         {/* <Widget
           noPrice
@@ -365,16 +364,14 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Rewards ${
-            walletMeta ? (isMobile ? "Next Ep." : "Next Epoch") : ""
-          }`}
+          title={`Rewards Next Epoch`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
           buttonClick={!walletMeta ? handleWalletShowing : undefined}
-          titleLg={!walletMeta}
           noPrice
           noHeaderPrice
+          titleCenter={!walletMeta}
         />
         <ConnectWallet
           isOpen={isWalletShowing}

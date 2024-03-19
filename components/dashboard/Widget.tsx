@@ -3,6 +3,7 @@ import styles from "../../styles/widget.module.scss";
 import Link from "next/link";
 import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import useWindowSize from "../../hooks/useResponsive";
+import { classNames } from "../../utils/Classnames";
 
 interface WidgetProps {
   dailyChangePrice?: string;
@@ -22,6 +23,7 @@ interface WidgetProps {
   noHeaderPrice?: boolean;
   titleLg?: boolean;
   titleLeft?: boolean;
+  titleCenter?: boolean;
   timerStart?: string | number | Date;
   currentDate?: string | number | Date;
   timerInterval?: number;
@@ -103,11 +105,11 @@ const Widget = (props: WidgetProps) => {
     >
       {props.title && (
         <div
-          className={
-            (props.titleLg ? styles.titleLg : styles.title) +
-            " " +
-            (props.titleLeft ? styles.titleLeft : "")
-          }
+          className={classNames(
+            props.titleLg ? styles.titleLg : styles.title,
+            props.titleLeft ? styles.titleLeft : "",
+            props.titleCenter ? styles.titleCenter : ""
+          )}
         >
           <span>{props.title}</span>
           {props.headerButtonTitle && (
