@@ -201,6 +201,7 @@ export default function Dashboard() {
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
           colSpan
           colSpanSm
+          noMargin={isMobile}
         />
 
         <Widget
