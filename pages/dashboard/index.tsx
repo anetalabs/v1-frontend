@@ -227,7 +227,7 @@ export default function Dashboard() {
         />
         <Widget
           noPrice
-          noMargin={false}
+          noMargin={!walletMeta || stakingInfo?.staking}
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
@@ -264,20 +264,20 @@ export default function Dashboard() {
             !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
           }
           titleCenter={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? false
-              : true
+            !(
+              walletMeta &&
+              stakingInfo?.staking &&
+              address &&
+              walletAddress !== "Connecting..."
+            )
           }
           textLg={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? false
-              : true
+            !(
+              walletMeta &&
+              stakingInfo?.staking &&
+              address &&
+              walletAddress !== "Connecting..."
+            )
           }
         />
         <Widget
