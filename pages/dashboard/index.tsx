@@ -264,20 +264,23 @@ export default function Dashboard() {
             !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
           }
           titleCenter={
+            !!walletMeta &&
             !(
-              walletMeta &&
               stakingInfo?.staking &&
               address &&
               walletAddress !== "Connecting..."
             )
           }
-          textLg={
-            !(
-              walletMeta &&
-              stakingInfo?.staking &&
-              address &&
-              walletAddress !== "Connecting..."
-            )
+          // textLg={
+          //   !(
+          //     walletMeta &&
+          //     stakingInfo?.staking &&
+          //     address &&
+          //     walletAddress !== "Connecting..."
+          //   )
+          // }
+          paddingTop={
+            walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
           }
         />
         <Widget
@@ -314,7 +317,7 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Total ${isMobile ? "Est." : "Estimated"} Rewards`}
+          title={`Your Total ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
@@ -402,7 +405,7 @@ export default function Dashboard() {
                 : "loading"
               : undefined
           }
-          title={`Rewards Next Epoch`}
+          title={`Your Rewards Next Epoch`}
           buttonTitle={
             walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
           }
