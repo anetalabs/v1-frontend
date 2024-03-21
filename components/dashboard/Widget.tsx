@@ -38,6 +38,7 @@ interface WidgetProps {
   colSpan?: boolean;
   colSpanSm?: boolean;
   order?: number;
+  paddingTop?: string;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -101,6 +102,7 @@ const Widget = (props: WidgetProps) => {
       }
       style={{
         order: isMobile && props.order ? props.order : undefined,
+        paddingTop: props.paddingTop ?? undefined,
       }}
     >
       {props.title && (
