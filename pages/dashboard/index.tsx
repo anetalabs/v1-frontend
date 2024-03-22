@@ -233,8 +233,8 @@ export default function Dashboard() {
           text={
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
-                  " BTC"
+                ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
+                    "0") + " BTC"
                 : "loading"
               : "0 BTC"
           }
@@ -263,14 +263,14 @@ export default function Dashboard() {
           buttonTitle={
             !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
           }
-          titleCenter={
-            !!walletMeta &&
-            !(
-              stakingInfo?.staking &&
-              address &&
-              walletAddress !== "Connecting..."
-            )
-          }
+          // titleCenter={
+          //   !!walletMeta &&
+          //   !(
+          //     stakingInfo?.staking &&
+          //     address &&
+          //     walletAddress !== "Connecting..."
+          //   )
+          // }
           // textLg={
           //   !(
           //     walletMeta &&
@@ -279,9 +279,9 @@ export default function Dashboard() {
           //     walletAddress !== "Connecting..."
           //   )
           // }
-          paddingTop={
-            walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
-          }
+          // paddingTop={
+          //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
+          // }
         />
         <Widget
           title="Mint cBTC"
@@ -297,9 +297,7 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
-                    (
-                      stakingInfo?.totalStakeNextDistribution.btc * 36
-                    ).toString(),
+                    (stakingInfo?.expectedRewards.btc * 36).toString(),
                     5
                   ) + " cBTC"
                 : "loading"
@@ -309,9 +307,7 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
-                    (
-                      stakingInfo?.totalStakeNextDistribution.erg * 36
-                    ).toString(),
+                    (stakingInfo?.expectedRewards.erg * 36).toString(),
                     5
                   ) + " ERG"
                 : "loading"
