@@ -263,14 +263,14 @@ export default function Dashboard() {
           buttonTitle={
             !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
           }
-          titleCenter={
-            !!walletMeta &&
-            !(
-              stakingInfo?.staking &&
-              address &&
-              walletAddress !== "Connecting..."
-            )
-          }
+          // titleCenter={
+          //   !!walletMeta &&
+          //   !(
+          //     stakingInfo?.staking &&
+          //     address &&
+          //     walletAddress !== "Connecting..."
+          //   )
+          // }
           // textLg={
           //   !(
           //     walletMeta &&
@@ -279,9 +279,9 @@ export default function Dashboard() {
           //     walletAddress !== "Connecting..."
           //   )
           // }
-          paddingTop={
-            walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
-          }
+          // paddingTop={
+          //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
+          // }
         />
         <Widget
           title="Mint cBTC"
