@@ -297,9 +297,7 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
-                    (
-                      stakingInfo?.totalStakeNextDistribution.btc * 36
-                    ).toString(),
+                    (stakingInfo?.expectedRewards.btc * 36).toString(),
                     5
                   ) + " cBTC"
                 : "loading"
@@ -309,9 +307,7 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? numberFormat(
-                    (
-                      stakingInfo?.totalStakeNextDistribution.erg * 36
-                    ).toString(),
+                    (stakingInfo?.expectedRewards.erg * 36).toString(),
                     5
                   ) + " ERG"
                 : "loading"
