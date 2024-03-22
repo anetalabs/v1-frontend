@@ -233,8 +233,8 @@ export default function Dashboard() {
           text={
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
-                  " BTC"
+                ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
+                    "0") + " BTC"
                 : "loading"
               : "0 BTC"
           }
