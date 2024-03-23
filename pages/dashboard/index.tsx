@@ -234,35 +234,24 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
-                    "0") + " BTC"
+                    "0") + " cNETA"
                 : "loading"
-              : "0 BTC"
+              : "0 cNETA"
           }
-          title2={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? "Your cNETA Staked"
-              : undefined
-          }
+          title2={walletMeta ? "Your cNETA Staked" : undefined}
           // text2="Coming Soon"
           text2={
-            !(
-              walletMeta &&
-              stakingInfo?.staking &&
-              address &&
-              walletAddress !== "Connecting..."
-            )
+            !walletMeta
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
-              ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") + " BTC"
+              ? stakingInfo.staking
+                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
+                  " cNETA"
+                : "0 cNETA"
               : "loading"
           }
-          buttonClick={handleWalletShowing}
-          buttonTitle={
-            !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
-          }
+          buttonTitle={!walletMeta ? "Stake" : undefined}
+          buttonLink="/stake"
           // titleCenter={
           //   !!walletMeta &&
           //   !(
@@ -294,33 +283,45 @@ export default function Dashboard() {
         <Widget
           // text="Coming Soon"
           text={
-            walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? numberFormat(
-                    (stakingInfo?.expectedRewards.btc * 36).toString(),
-                    5
-                  ) + " cBTC"
-                : "loading"
+            walletMeta &&
+            stakingInfo &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(
+                  (stakingInfo?.expectedRewards.btc * 36).toString(),
+                  5
+                ) + " cBTC"
               : undefined
           }
           text2={
-            walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? numberFormat(
-                    (stakingInfo?.expectedRewards.erg * 36).toString(),
-                    5
-                  ) + " ERG"
-                : "loading"
+            walletMeta &&
+            stakingInfo &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(
+                  (stakingInfo?.expectedRewards.erg * 36).toString(),
+                  5
+                ) + " ERG"
               : undefined
           }
           title={`Your Total ${isMobile ? "Est." : "Estimated"} Rewards`}
           buttonTitle={
-            walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
           }
-          buttonClick={!walletMeta ? handleWalletShowing : undefined}
+          buttonLink="/stake"
           noPrice
           noHeaderPrice
-          titleCenter={!walletMeta}
+          titleCenter={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+          }
         />
         {/* <Widget
           noPrice
@@ -359,21 +360,10 @@ export default function Dashboard() {
             !stakingInfo?.staking ||
             !address ||
             walletAddress === "Connecting..."
-              ? stakeLoading
-                ? "Staking..."
-                : "Stake"
+              ? "Stake"
               : undefined
           }
-          buttonClick={() => handleStake()}
-          // buttonLink="/stake"
-          buttonDisabled={
-            (!walletMeta ||
-              !stakingInfo ||
-              !address ||
-              walletAddress === "Connecting..." ||
-              stakeLoading) ??
-            true
-          }
+          buttonLink="/stake"
           noPrice
           noHeaderPrice
           titleLg
@@ -382,33 +372,41 @@ export default function Dashboard() {
         <Widget
           // text="Coming Soon"
           text={
-            walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? numberFormat(
-                    stakingInfo?.totalStakeNextDistribution.btc.toString(),
-                    5
-                  ) + " cBTC"
-                : "loading"
+            walletMeta &&
+            stakingInfo &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(stakingInfo?.expectedRewards.btc.toString(), 5) +
+                " cBTC"
               : undefined
           }
           text2={
-            walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? numberFormat(
-                    stakingInfo?.totalStakeNextDistribution.erg.toString(),
-                    5
-                  ) + " ERG"
-                : "loading"
+            walletMeta &&
+            stakingInfo &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(stakingInfo?.expectedRewards.erg.toString(), 5) +
+                " ERG"
               : undefined
           }
           title={`Your Rewards Next Epoch`}
           buttonTitle={
-            walletMeta ? undefined : isMobile ? "Connect" : "Connect Wallet"
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
           }
-          buttonClick={!walletMeta ? handleWalletShowing : undefined}
+          buttonLink="/stake"
           noPrice
           noHeaderPrice
-          titleCenter={!walletMeta}
+          titleCenter={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+          }
         />
         <ConnectWallet
           isOpen={isWalletShowing}
