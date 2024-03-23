@@ -238,36 +238,19 @@ export default function Dashboard() {
                 : "loading"
               : "0 cNETA"
           }
-          title2={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? "Your cNETA Staked"
-              : undefined
-          }
+          title2={walletMeta ? "Your cNETA Staked" : undefined}
           // text2="Coming Soon"
           text2={
-            !(
-              walletMeta &&
-              stakingInfo?.staking &&
-              address &&
-              walletAddress !== "Connecting..."
-            )
+            !walletMeta
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
-              ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") +
-                " cNETA"
+              ? stakingInfo.staking
+                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
+                  " cNETA"
+                : "0 cNETA"
               : "loading"
           }
-          buttonTitle={
-            !walletMeta ||
-            !stakingInfo?.staking ||
-            !address ||
-            walletAddress === "Connecting..."
-              ? "Stake"
-              : undefined
-          }
+          buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
           // titleCenter={
           //   !!walletMeta &&
