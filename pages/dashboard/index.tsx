@@ -234,9 +234,9 @@ export default function Dashboard() {
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
-                    "0") + " BTC"
+                    "0") + " cNETA"
                 : "loading"
-              : "0 BTC"
+              : "0 cNETA"
           }
           title2={
             walletMeta &&
@@ -256,7 +256,8 @@ export default function Dashboard() {
             )
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
-              ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") + " BTC"
+              ? (numberFormat(stakingInfo?.stake.toString(), 5) ?? "0") +
+                " cNETA"
               : "loading"
           }
           buttonClick={handleWalletShowing}
