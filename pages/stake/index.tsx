@@ -43,7 +43,7 @@ export default function Stake() {
           <>
             <section>
               {!walletMeta && <p>Connect your wallet to stake.</p>}
-              {walletMeta && !stakingInfo && (
+              {walletMeta && !stakingInfo?.staking && (
                 <p>
                   You are currently holding{" "}
                   <b>
