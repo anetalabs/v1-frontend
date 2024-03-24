@@ -245,7 +245,7 @@ export default function Dashboard() {
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
               ? stakingInfo.staking
-                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
+                ? (numberFormat(stakingInfo?.liveStake.toString(), 5) ?? "0") +
                   " cNETA"
                 : "0 cNETA"
               : "loading"
