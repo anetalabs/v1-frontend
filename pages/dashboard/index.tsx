@@ -284,7 +284,7 @@ export default function Dashboard() {
           // text="Coming Soon"
           text={
             walletMeta &&
-            stakingInfo &&
+            stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(
@@ -295,7 +295,7 @@ export default function Dashboard() {
           }
           text2={
             walletMeta &&
-            stakingInfo &&
+            stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(
@@ -373,7 +373,7 @@ export default function Dashboard() {
           // text="Coming Soon"
           text={
             walletMeta &&
-            stakingInfo &&
+            stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(stakingInfo?.expectedRewards.btc.toString(), 5) +
@@ -382,7 +382,7 @@ export default function Dashboard() {
           }
           text2={
             walletMeta &&
-            stakingInfo &&
+            stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(stakingInfo?.expectedRewards.erg.toString(), 5) +
