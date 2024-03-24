@@ -227,7 +227,7 @@ export default function Dashboard() {
         />
         <Widget
           noPrice
-          noMargin={!walletMeta || stakingInfo?.staking}
+          noMargin
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
