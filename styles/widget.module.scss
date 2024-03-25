@@ -19,6 +19,7 @@
 }
 
 .widget {
+  position: relative;
   width: 100%;
   min-height: 160px;
   background-color: var.$background-color-light;
@@ -47,6 +48,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between; 
+    .titleWrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .btnGroup {
       display: flex;
       flex-direction: column;
@@ -208,6 +214,11 @@
       pointer-events: none;
     }
   }
+  .tooltipWrapper {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
   .bottomMargin {
     height: 0.5rem;
     width: 100%;
@@ -230,6 +241,9 @@
 
     .title {
       font-size: 15px;
+      .titleWrapper {
+        gap: 3px;
+      }
     }
 
     .titleLg {
