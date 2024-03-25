@@ -1,15 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
 import useAssetsApi from "../../hooks/useAssetsApi";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { formatAmount, numberToFixed } from "../../utils/format";
+import { formatAmount, numberFormat, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
-import Image from "next/image";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
 import useLucid from "../../hooks/useLucid";
 import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
+import Head from "next/head";
+import ChartWidget from "../../components/dashboard/ChartWidget";
+import Widget from "../../components/dashboard/Widget";
+import useWindowSize from "../../hooks/useResponsive";
+import useStake from "../../hooks/useStake";
 
 export default function Dashboard() {
   const {
@@ -20,27 +24,43 @@ export default function Dashboard() {
     dailyChangeBtcPrice,
     formattedDate,
     tvlData,
+    adaFundPrice,
+    usdFundPrice,
+    protocolVolume,
+    communityRevenue,
   } = useDashboard();
+
+  const { stakingInfo, fetchStake } = useStake();
+
+  const { width } = useWindowSize();
+  const isMobile = width <= 450;
 
   const { data, loading } = useAssetsApi();
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
   const { getUtxos } = useLucid();
   const [isWalletShowing, setIsWalletShowing] = useState(false);
-  const [balanceCBtc, setBalanceCBtc] = useState<null | string>(null);
-  const [balanceCNeta, setBalanceCNeta] = useState<null | string>(null);
+  const [stakeLoading, setStakeLoading] = useState(false);
 
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
   let vaultBtc = "";
+  let communityVaultBtc = "";
 
   if (config.network === "Mainnet") {
     linkcBtc = `https://cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/address/${config.btcWrapAddress}`;
+    communityVaultBtc = `https://mempool.space/address/${config.btcWrapCommunityAddress}`;
   } else {
     linkcBtc = `https://preprod.cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/testnet/address/${config.btcWrapAddress}`;
+    communityVaultBtc = `https://mempool.space/testnet/address/${config.btcWrapCommunityAddress}`;
   }
+
+  const handleWalletShowing = () => {
+    if (isWalletShowing) setIsWalletShowing(false);
+    else setIsWalletShowing(true);
+  };
 
   const getBalance = async () => {
     const utxos = await getUtxos();
@@ -67,9 +87,12 @@ export default function Dashboard() {
       }
       return total;
     }, 0);
-    setBalanceCBtc(formatAmount(sumBalanceCBTC / 100000000));
-    setBalanceCNeta(formatAmount(sumBalanceCNETA));
   };
+
+  const handleStake = useCallback(async () => {
+    setStakeLoading(true);
+    fetchStake(address);
+  }, [fetchStake, address]);
 
   useEffect(() => {
     if (address !== "") {
@@ -78,9 +101,18 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
+  useEffect(() => {
+    if (stakingInfo?.staking) {
+      setStakeLoading(false);
+    }
+  }, [stakingInfo]);
+
   return (
-    <section className={styles.dashboardContainer}>
-      <div className={styles.sectionChart}>
+    <>
+      <Head>
+        <title>Dashboard | anetaBTC</title>
+      </Head>
+      <section className={styles.dashboardContainer}>
         <div className={styles.chartTvl}>
           <div className={styles.headerChart}>
             <div className={styles.valuesGroup}>
@@ -111,7 +143,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View BTC Vaults</p>
+                <span className={styles.btnText}>View BTC Vaults</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -122,7 +154,7 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className={styles.btnText}>View cBTC Token</p>
+                <span className={styles.btnText}>View cBTC Token</span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -130,139 +162,258 @@ export default function Dashboard() {
             </div>
           </div>
           {tvlData ? (
-            <ChartComponent data={tvlData} />
+            <ChartComponent data={tvlData} height={200} />
           ) : (
             <div className={styles.loaderChart}>
               <div className={styles.loader}></div>
             </div>
           )}
         </div>
-        <div className={styles.sectionPrice}>
-          <div className={styles.priceBtc}>
-            <div className={styles.headerPrice}>
-              <div className={styles.token}>
-                <svg width="25" height="25" id="icon">
-                  <use href="/images/crypto/bitcoin-logo.svg#Layer_1"></use>
-                </svg>
-                <p className={styles.tokenTitle}>BTC Price</p>
-              </div>
-              {dailyChangeBtcPrice && (
-                <p
-                  className={`${styles.changeDaily} ${
-                    dailyChangeBtcPrice?.startsWith("-") ? styles.negative : ""
-                  }`}
-                >
-                  {dailyChangeBtcPrice?.startsWith("-") ? undefined : "+"}
-                  {dailyChangeBtcPrice}%
-                </p>
-              )}
-            </div>
-            {adaBtcPrice && usdBtcPrice ? (
-              <>
-                <div className={styles.adaPrice}>{adaBtcPrice}</div>
-                <p className={styles.usdPrice}>{usdBtcPrice}</p>
-              </>
-            ) : (
-              <>
-                <div className={styles.loaderPrice}>
-                  <div className={styles.loader}></div>
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.pricecBtc}>
-            <div className={styles.headerPrice}>
-              <div className={styles.token}>
-                <svg width="25" height="25" id="icon">
-                  <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
-                </svg>
-                <p className={styles.tokenTitle}>cBTC Price</p>
-              </div>
-            </div>
-            {adacBtcPrice && usdcBtcPrice ? (
-              <>
-                <div className={styles.adaPrice}>{adacBtcPrice}</div>
-                <p className={styles.usdPrice}>{usdcBtcPrice}</p>
-              </>
-            ) : (
-              <>
-                <div className={styles.loaderPrice}>
-                  <div className={styles.loader}></div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className={styles.sectionBalance}>
-        <div className={styles.balanceGroup}>
-          <div className={styles.balance}>
-            <h3 className={styles.balanceTitle}>Your cBTC</h3>
-            {walletMeta ? (
-              <div className={styles.balanceValue}>
-                <svg width="25" height="25" id="icon">
-                  <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
-                </svg>
-                <p className={styles.text}>cBTC</p>
-                <p className={styles.value}>{balanceCBtc}</p>
-              </div>
-            ) : (
-              <button
-                className={styles.connectBtn}
-                onClick={() =>
-                  isWalletShowing
-                    ? setIsWalletShowing(false)
-                    : setIsWalletShowing(true)
-                }
-              >
-                Connect Wallet
-              </button>
-            )}
-          </div>
-          <div className={styles.balance}>
-            <h3 className={styles.balanceTitle}>Your cNETA</h3>
-            {walletMeta ? (
-              <div className={styles.balanceValue}>
-                <Image
-                  src="/images/crypto/cneta-logo.png"
-                  alt="logo-cneta"
-                  width={25}
-                  height={25}
-                />
-                <p className={styles.text}>cNETA</p>
-                <p className={styles.value}>{balanceCNeta}</p>
-              </div>
-            ) : (
-              <button
-                className={styles.connectBtn}
-                onClick={() =>
-                  isWalletShowing
-                    ? setIsWalletShowing(false)
-                    : setIsWalletShowing(true)
-                }
-              >
-                Connect Wallet
-              </button>
-            )}
-          </div>
-        </div>
+
+        <ChartWidget
+          title="Protocol Volume"
+          value={protocolVolume ?? "loading"}
+          token="BTC"
+          data={tvlData}
+          buttonTitle="Track"
+          onButtonClick={vaultBtc}
+        />
+        {/* <ChartWidget
+          title="Community Revenue"
+          value={communityRevenue ?? "0"}
+          token="cBTC"
+          data={[]}
+          buttonTitle="Track"
+          onButtonClick={communityVaultBtc}
+        /> */}
+        <Widget
+          title="Next Claiming Period"
+          noPrice
+          // currentDate="2024-03-12 21:45:00 UTC"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+          // text="Coming Soon"
+          headerButtonTitle={
+            walletMeta && address && walletAddress !== "Connecting..."
+              ? "Claim"
+              : undefined
+          }
+          headerButtonClick="https://app.tosidrop.io/cardano/claim"
+          colSpan
+          colSpanSm
+          noMargin={isMobile && !!walletMeta && !!address}
+        />
+
+        <Widget
+          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
+          title={`${isMobile ? "Community" : "Community"} Revenue`}
+          buttonTitle="Track"
+          buttonLink={communityVaultBtc}
+          externalLink
+          noPrice
+          noMargin
+        />
+        <Widget
+          dailyChangePrice={dailyChangeBtcPrice}
+          adaPrice={adaBtcPrice}
+          usdPrice={usdBtcPrice}
+          token="BTC"
+          icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
+        />
+        <Widget
+          adaPrice={adaFundPrice}
+          usdPrice={usdFundPrice}
+          title="Community Fund"
+        />
+        <Widget
+          noPrice
+          noMargin
+          title="Total cNETA Staked"
+          // text="Coming Soon"
+          text={
+            walletMeta
+              ? stakingInfo && address && walletAddress !== "Connecting..."
+                ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
+                    "0") + " cNETA"
+                : "loading"
+              : "0 cNETA"
+          }
+          title2={walletMeta ? "Your cNETA Staked" : undefined}
+          title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          text2={
+            !walletMeta
+              ? undefined
+              : stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo.staking
+                ? (numberFormat(stakingInfo?.liveStake.toString(), 5) ?? "0") +
+                  " cNETA"
+                : "0 cNETA"
+              : "loading"
+          }
+          buttonTitle={!walletMeta ? "Stake" : undefined}
+          buttonLink="/stake"
+          // titleCenter={
+          //   !!walletMeta &&
+          //   !(
+          //     stakingInfo?.staking &&
+          //     address &&
+          //     walletAddress !== "Connecting..."
+          //   )
+          // }
+          // textLg={
+          //   !(
+          //     walletMeta &&
+          //     stakingInfo?.staking &&
+          //     address &&
+          //     walletAddress !== "Connecting..."
+          //   )
+          // }
+          // paddingTop={
+          //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
+          // }
+        />
+        <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        />
+        <Widget
+          // text="Coming Soon"
+          text={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(
+                  (stakingInfo?.expectedRewards.btc * 36).toString(),
+                  5
+                ) + " cBTC"
+              : undefined
+          }
+          text2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(
+                  (stakingInfo?.expectedRewards.erg * 36).toString(),
+                  5
+                ) + " ERG"
+              : undefined
+          }
+          title={`Your Total ${isMobile ? "Est." : "Estimated"} Rewards`}
+          buttonTitle={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
+          }
+          buttonLink="/stake"
+          noPrice
+          noHeaderPrice
+          titleCenter={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+          }
+        />
+        {/* <Widget
+          noPrice
+          noHeaderPrice
+          titleLg
+          title="Your cBTC"
+          walletMeta={walletMeta}
+          walletBalance={balanceCBtc}
+          buttonClick={handleWalletShowing}
+          buttonTitle={
+            !walletMeta ? (isMobile ? "Connect" : "Connect Wallet") : undefined
+          }
+          token="cBTC"
+          icon="/images/crypto/cbtc-logo.svg#Layer_1"
+          titleLeft={!!walletMeta}
+        /> */}
+        <Widget
+          title={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "Live Stake"
+              : "Stake cNETA"
+          }
+          text={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " cNETA"
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
+          }
+          buttonLink="/stake"
+          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          noPrice
+          noHeaderPrice
+          titleLg
+          textLg
+        />
+        <Widget
+          // text="Coming Soon"
+          text={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(stakingInfo?.expectedRewards.btc.toString(), 5) +
+                " cBTC"
+              : undefined
+          }
+          text2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? numberFormat(stakingInfo?.expectedRewards.erg.toString(), 5) +
+                " ERG"
+              : undefined
+          }
+          title={`Your Rewards Next Epoch`}
+          buttonTitle={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
+          }
+          buttonLink="/stake"
+          noPrice
+          noHeaderPrice
+          titleCenter={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+          }
+        />
         <ConnectWallet
           isOpen={isWalletShowing}
           setIsOpen={setIsWalletShowing}
         />
-        <div className={styles.mint}>
-          <h3 className={styles.mintTitle}>Mint cBTC, Earn cNETA</h3>
-          <Link href="/" className={styles.mintBtn}>
-            Mint cBTC
-          </Link>
-        </div>
-        <div className={styles.claim}>
-          <h3 className={styles.claimTitle}>Claim Rewards</h3>
-          <Link href="https://app.tosidrop.io/cardano/claim" className={styles.claimBtn} target="_blank" rel="noreferrer">
-            Claim
-          </Link>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

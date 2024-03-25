@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# lockfile
+pnpm-lock.yaml
+package-lock.json
+
+certificates

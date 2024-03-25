@@ -10,7 +10,6 @@ import {
 import { useContext } from "react";
 import { GlobalContext } from "../components/GlobalContext";
 import { CONSTANTS } from "../utils/constants";
-import { get } from "http";
 
 export default function useLucid() {
   const { lucid, walletApi, config } = useContext(GlobalContext);
@@ -23,7 +22,7 @@ export default function useLucid() {
     burnAmount: number;
     btcAddress: string;
   }) => {
-    const burnAmountInSats = Number((burnAmount*Math.pow(10, 8)).toFixed(0));
+    const burnAmountInSats = Number((burnAmount * Math.pow(10, 8)).toFixed(0));
     const lucid = initLucid();
 
     const cBTCMintingPolicy: Script = {
@@ -44,7 +43,9 @@ export default function useLucid() {
     */
 
     const walletUtxos = await getUtxos();
-    const filteredUtxos = walletUtxos.filter((item) => item.assets.hasOwnProperty(unit));
+    const filteredUtxos = walletUtxos.filter((item) =>
+      item.assets.hasOwnProperty(unit)
+    );
 
     /*
     const replacer = (key: any, value: any) => typeof value === "bigint" ? value.toString() : value;
@@ -56,7 +57,7 @@ export default function useLucid() {
 
     console.log(unit);
     */
-    
+
     if (!filteredUtxos.length) {
       throw new Error("cBTC not found in wallet.");
     }
@@ -80,9 +81,9 @@ export default function useLucid() {
     return txHash;
   };
 
-  const getUtxos = async ( ): Promise< UTxO[] > => {
-    return  await lucid?.wallet.getUtxos() || [];
-  }
+  const getUtxos = async (): Promise<UTxO[]> => {
+    return (await lucid?.wallet.getUtxos()) || [];
+  };
 
   const getUserPaymentCredential = async (): Promise<string> => {
     const lucid = initLucid();
@@ -99,5 +100,5 @@ export default function useLucid() {
     return lucid;
   };
 
-  return { unwrap, getUserPaymentCredential , getUtxos};
+  return { unwrap, getUserPaymentCredential, getUtxos };
 }

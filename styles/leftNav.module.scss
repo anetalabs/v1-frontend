@@ -13,6 +13,12 @@
   @media (min-width: 2000px){
     left: calc(((100vw - 2000px)/2) + 85px);
   }
+  @media (max-width: 1000px){
+    transform: scale(.9);
+    z-index: 50;
+    top: 60px;
+    left: 0;
+  }
   .network{
     background-color: var.$background-color-dark;
     position: absolute;
@@ -76,6 +82,7 @@
       align-items: center;
       justify-content: center;
       gap: 16px;
+      margin-top: 20px;
       .link{
         display: flex;
         align-items: center;

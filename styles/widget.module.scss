@@ -1,0 +1,303 @@
+@use "./variables.scss" as var;
+
+.colSpan5 {
+  grid-column: span 5 / span 5;
+}
+
+.colSpan3 {
+  grid-column: span 3 / span 3;
+}
+
+@media (max-width: 550px) {
+  .colSpan2 {
+    grid-column: span 2 / span 2;
+  }
+
+  .colSpan1 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+.widget {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  background-color: var.$background-color-light;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .titleLg {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  .titleLeft {
+    text-align: left;
+  }
+  .titleCenter {
+    text-align: center !important;
+    justify-content: center !important;
+    // margin-top: 0.75rem;
+  }
+  .title {
+    font-size: 18px;
+    // white-space: nowrap;
+    font-weight: var.$font-weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    .titleWrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btnGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      .btnBtc,
+      .btncBtc {
+        width: 145px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #0c8ce9;
+        border-radius: 8px;
+        gap: 5px;
+        cursor: pointer;
+        transition: 0.25s;
+        &:hover {
+          background-color: var.$light-color-hover;
+        }
+        .btnText {
+          font-size: 12px;
+          font-weight: var.$font-weight-semibold;
+        }
+        .icon use {
+          stroke: var.$primary-color-font;
+        }
+      }
+    }
+  }
+  .headerPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .token {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      .tokenTitle {
+        font-size: 18px;
+        font-weight: var.$font-weight-semibold;
+      }
+    }
+    .changeDaily {
+      color: var.$info-color-light;
+      font-size: 18px;
+      font-weight: var.$font-weight-medium;
+      &.negative {
+        color: var.$error-color;
+      }
+    }
+  }
+  .priceGroup {
+    .adaPrice {
+      font-size: 28px;
+      font-weight: var.$font-weight-medium;
+      margin-bottom: 4px;
+    }
+    .usdPrice {
+      font-size: 14px;
+      font-weight: var.$font-weight-medium;
+    }
+  }
+  .loaderPrice {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 30px;
+    height: 30px;
+    position: relative;
+    .loader,
+    .loader:before,
+    .loader:after {
+      @include var.loader();
+    }
+    .loader {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 30px;
+      animation-delay: -0.16s;
+      position: absolute;
+      top: 0px;
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+      }
+      &:before {
+        left: -20px;
+        animation-delay: -0.32s;
+      }
+      &:after {
+        left: 20px;
+      }
+    }
+  }
+  .timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    gap: 0.5rem;
+    .time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .timeValue {
+        font-size: 26px;
+      }
+    }
+  }
+  .valueText {
+    font-size: 22px;
+  }
+  .valueTextLg {
+    font-size: 24px;
+    text-align: center;
+  }
+  .balanceValue {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .text,
+    .value {
+      font-size: 18px;
+    }
+    .value {
+      font-weight: var.$font-weight-semibold;
+    }
+  }
+  .btn {
+    cursor: pointer;
+    margin-top: auto;
+    width: 100%;
+    font-size: 24px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: var.$font-weight-semibold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var.$primary-color-light;
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    &:hover {
+      background-color: var.$light-color-hover;
+    }
+    &:disabled,
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      background-color: transparent !important;
+      pointer-events: none;
+    }
+  }
+  .tooltipWrapper {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
+  .bottomMargin {
+    height: 0.5rem;
+    width: 100%;
+  }
+
+  @media (max-width: 550px) {
+    min-height: 140px;
+    .headerPrice {
+      flex-direction: column;
+      align-items: flex-start;
+      .changeDaily {
+        font-size: 14px;
+      }
+    }
+    .priceGroup {
+      .adaPrice {
+        font-size: 24px;
+      }
+    }
+
+    .title {
+      font-size: 15px;
+      .titleWrapper {
+        gap: 3px;
+      }
+    }
+
+    .titleLg {
+      font-size: 22px;
+    }
+
+    .btn {
+      width: auto;
+      font-size: 22px;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+  }
+}
+
+:global(body.dark) {
+  .widget {
+    background-color: var.$background-color-dark;
+    .headerPrice {
+      .changeDaily {
+        color: var.$info-color-dark;
+        &.negative {
+          color: var.$error-color;
+        }
+      }
+    }
+    .title {
+      .btnGroup {
+        .btnBtc,
+        .btncBtc {
+          background-color: transparent;
+          .icon use {
+            stroke: var.$secundary-color-font;
+          }
+          &:hover {
+            background-color: var.$dark-color-hover;
+          }
+        }
+      }
+    }
+    .loaderPrice {
+      .loader {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+    .btn {
+      border-color: var.$primary-color-dark;
+
+      &:hover {
+        background-color: var.$dark-color-hover;
+      }
+      &:disabled {
+        background-color: transparent;
+      }
+    }
+  }
+}

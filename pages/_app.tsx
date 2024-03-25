@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import React, { useState, useEffect, useReducer, createContext } from "react";
+import React, { useEffect, useReducer, createContext } from "react";
 import GlobalContextProvider from "../components/GlobalContext";
 import KYA from "../components/home/KYA";
 import Init from "../components/Init";

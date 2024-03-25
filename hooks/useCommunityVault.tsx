@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback} from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const useBitcoinVault = () => {
+const useCommunityVault = () => {
   const [address, setAddress] = useState<any>();
 
   const fetchBitcoinAddress = useCallback(async () => {
     try {
-      const res = await fetch("/api/bitcoinvault");
+      const res = await fetch("/api/communityvault");
       const data = await res.json();
       setAddress(data);
     } catch (error) {
@@ -20,4 +20,4 @@ const useBitcoinVault = () => {
   return address;
 };
 
-export default useBitcoinVault;
+export default useCommunityVault;
