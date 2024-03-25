@@ -227,7 +227,7 @@ export default function Dashboard() {
         />
         <Widget
           noPrice
-          noMargin={!walletMeta || stakingInfo?.staking}
+          noMargin
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
@@ -239,13 +239,13 @@ export default function Dashboard() {
               : "0 cNETA"
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
-          // text2="Coming Soon"
+          title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
           text2={
             !walletMeta
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
               ? stakingInfo.staking
-                ? (numberFormat(stakingInfo?.totalStake.toString(), 5) ?? "0") +
+                ? (numberFormat(stakingInfo?.liveStake.toString(), 5) ?? "0") +
                   " cNETA"
                 : "0 cNETA"
               : "loading"
@@ -364,6 +364,7 @@ export default function Dashboard() {
               : undefined
           }
           buttonLink="/stake"
+          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
           noPrice
           noHeaderPrice
           titleLg

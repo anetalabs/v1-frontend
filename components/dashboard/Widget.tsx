@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import useWindowSize from "../../hooks/useResponsive";
 import { classNames } from "../../utils/Classnames";
+import Tooltip from "../Tooltip";
 
 interface WidgetProps {
   dailyChangePrice?: string;
@@ -39,6 +40,9 @@ interface WidgetProps {
   colSpanSm?: boolean;
   order?: number;
   paddingTop?: string;
+  tooltip?: string;
+  titleTooltip?: string;
+  title2Tooltip?: string;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -113,7 +117,17 @@ const Widget = (props: WidgetProps) => {
             props.titleCenter ? styles.titleCenter : ""
           )}
         >
-          <span>{props.title}</span>
+          <div className={styles.titleWrapper}>
+            <span>{props.title}</span>
+            {props.titleTooltip && (
+              <Tooltip
+                content={props.titleTooltip}
+                position={isMobile ? "left" : "top"}
+              >
+                i
+              </Tooltip>
+            )}
+          </div>
           {props.headerButtonTitle && (
             <div className={styles.btnGroup}>
               {typeof props.headerButtonClick === "string" ? (
@@ -206,7 +220,23 @@ const Widget = (props: WidgetProps) => {
           </div>
         )
       ) : undefined}
-      {props.title2 && <h3 className={styles.title}>{props.title2}</h3>}
+      {props.title2 && (
+        <div
+          className={classNames(props.titleLg ? styles.titleLg : styles.title)}
+        >
+          <div className={styles.titleWrapper}>
+            <span>{props.title2}</span>
+            {props.title2Tooltip && (
+              <Tooltip
+                content={props.title2Tooltip}
+                position={isMobile ? "left" : "top"}
+              >
+                i
+              </Tooltip>
+            )}
+          </div>
+        </div>
+      )}
       {props.text2 ? (
         props.text2 !== "loading" ? (
           <p className={styles.valueText}>{props.text2}</p>
@@ -253,6 +283,13 @@ const Widget = (props: WidgetProps) => {
         </div>
       ) : undefined}
       {!props.noMargin && <div className={styles.bottomMargin} />}
+      {props.tooltip && (
+        <div className={styles.tooltipWrapper}>
+          <Tooltip content={props.tooltip} position={"top"}>
+            i
+          </Tooltip>
+        </div>
+      )}
     </div>
   );
 };
