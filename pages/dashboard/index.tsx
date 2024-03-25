@@ -208,7 +208,9 @@ export default function Dashboard() {
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
-          buttonLink={communityVaultBtc}
+          buttonLink={
+            "https://cexplorer.io/address/addr1vyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2csgwlax/asset#data"
+          }
           externalLink
           noPrice
           noMargin
@@ -288,7 +290,7 @@ export default function Dashboard() {
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(
-                  (stakingInfo?.expectedRewards.btc * 36).toString(),
+                  (+stakingInfo?.expectedRewards.btc * 36).toString(),
                   5
                 ) + " cBTC"
               : undefined
@@ -299,7 +301,7 @@ export default function Dashboard() {
             address &&
             walletAddress !== "Connecting..."
               ? numberFormat(
-                  (stakingInfo?.expectedRewards.erg * 36).toString(),
+                  (+stakingInfo?.expectedRewards.erg * 36).toString(),
                   5
                 ) + " ERG"
               : undefined
@@ -377,8 +379,10 @@ export default function Dashboard() {
             stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
-              ? numberFormat(stakingInfo?.expectedRewards.btc.toString(), 5) +
-                " cBTC"
+              ? numberFormat(
+                  (+stakingInfo?.expectedRewards.btc).toString(),
+                  5
+                ) + " cBTC"
               : undefined
           }
           text2={
@@ -386,8 +390,10 @@ export default function Dashboard() {
             stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
-              ? numberFormat(stakingInfo?.expectedRewards.erg.toString(), 5) +
-                " ERG"
+              ? numberFormat(
+                  (+stakingInfo?.expectedRewards.erg).toString(),
+                  5
+                ) + " ERG"
               : undefined
           }
           title={`Your Rewards Next Epoch`}

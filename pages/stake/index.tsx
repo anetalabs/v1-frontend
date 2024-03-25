@@ -78,9 +78,9 @@ export default function Stake() {
                   </p>
                   <div className={styles.amount}>
                     <p>
-                      {walletMeta
+                      {walletMeta && stakingInfo
                         ? numberFormat(
-                            (stakingInfo?.expectedRewards.btc).toString() ??
+                            (+stakingInfo?.expectedRewards.btc).toString() ??
                               "0.00000",
                             5,
                             5
@@ -89,9 +89,9 @@ export default function Stake() {
                       cBTC
                     </p>
                     <p>
-                      {walletMeta
+                      {walletMeta && stakingInfo
                         ? numberFormat(
-                            (stakingInfo?.expectedRewards.erg).toString() ??
+                            (+stakingInfo?.expectedRewards.erg).toString() ??
                               "0",
                             5
                           )
