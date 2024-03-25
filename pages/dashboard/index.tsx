@@ -208,7 +208,9 @@ export default function Dashboard() {
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
-          buttonLink={communityVaultBtc}
+          buttonLink={
+            "https://cexplorer.io/address/addr1vyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2csgwlax/asset#data"
+          }
           externalLink
           noPrice
           noMargin
