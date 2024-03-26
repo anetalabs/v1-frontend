@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback} from "react";
+import { useEffect, useCallback, useContext } from "react";
+import { GlobalContext } from "../components/GlobalContext";
 
 const useAdaPrice = () => {
-  const [usdAda, setUsdAda] = useState<string | undefined>();
-  const [dailyChangeAda, setDailyChangeAda] = useState<string | undefined>();
+  const { usdAda, setUsdAda, dailyChangeAda, setDailyChangeAda } =
+    useContext(GlobalContext);
 
   const fetchAdaPrice = useCallback(async () => {
     try {
@@ -14,11 +15,11 @@ const useAdaPrice = () => {
     } catch (error) {
       console.error("Error fetching Ada Price:", error);
     }
-  }, []);
+  }, [setUsdAda, setDailyChangeAda]);
 
   useEffect(() => {
-    fetchAdaPrice();
-  }, [fetchAdaPrice]);
+    if (!usdAda || !dailyChangeAda) fetchAdaPrice();
+  }, [fetchAdaPrice, usdAda, dailyChangeAda]);
 
   return { usdAda, dailyChangeAda };
 };

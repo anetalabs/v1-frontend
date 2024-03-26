@@ -36,6 +36,10 @@ interface GlobalContextState {
   setUsdBtc: (_: string) => void;
   dailyChangeBtc: string;
   setDailyChangeBtc: (_: string) => void;
+  usdAda: string;
+  setUsdAda: (_: string) => void;
+  dailyChangeAda: string;
+  setDailyChangeAda: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -97,6 +101,10 @@ export const GlobalContext = createContext<GlobalContextState>({
   setUsdBtc: () => {},
   dailyChangeBtc: "",
   setDailyChangeBtc: () => {},
+  usdAda: "",
+  setUsdAda: () => {},
+  dailyChangeAda: "",
+  setDailyChangeAda: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -150,6 +158,8 @@ export default function GlobalContextProvider({
   const [bitcoinVault, setBitcoinVault] = useState<any>();
   const [usdBtc, setUsdBtc] = useState<string>("");
   const [dailyChangeBtc, setDailyChangeBtc] = useState<string>("");
+  const [usdAda, setUsdAda] = useState<string>("");
+  const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -180,6 +190,10 @@ export default function GlobalContextProvider({
     setUsdBtc,
     dailyChangeBtc,
     setDailyChangeBtc,
+    usdAda,
+    setUsdAda,
+    dailyChangeAda,
+    setDailyChangeAda,
   };
 
   return (
