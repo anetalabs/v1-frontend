@@ -47,9 +47,9 @@ export default function ChartComponent(props: ChartProps) {
         <div className={styles.chartLegend}>
           {!props.hideLegends && data && (
             <>
-              <p className={styles.legendTitle}>{data[initialDate].date}</p>
-              <p className={styles.legendTitle}>{data[middelDate].date}</p>
-              <p className={styles.legendTitle}>{data[finishDate].date}</p>
+              <p className={styles.legendTitle}>{data[initialDate]?.date}</p>
+              <p className={styles.legendTitle}>{data[middelDate]?.date}</p>
+              <p className={styles.legendTitle}>{data[finishDate]?.date}</p>
             </>
           )}
         </div>
