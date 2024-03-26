@@ -45,7 +45,7 @@ export default function ChartComponent(props: ChartProps) {
           </AreaChart>
         </ResponsiveContainer>
         <div className={styles.chartLegend}>
-          {!props.hideLegends && data.length && (
+          {!props.hideLegends && data.length > 0 && (
             <>
               <p className={styles.legendTitle}>{data[initialDate]?.date}</p>
               <p className={styles.legendTitle}>{data[middelDate]?.date}</p>

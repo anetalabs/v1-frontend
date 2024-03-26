@@ -21,7 +21,7 @@ const useAnetaData = () => {
   }, [setAnetaData]);
 
   useEffect(() => {
-    if (!anetaData.length) fetchAnetaData();
+    if (anetaData.length !== 0) fetchAnetaData();
   }, [fetchAnetaData, anetaData]);
 
   return { anetaData };
