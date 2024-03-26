@@ -32,6 +32,10 @@ interface GlobalContextState {
   setAssetsLoading: (_: boolean) => void;
   bitcoinVault: any;
   setBitcoinVault: (_: any) => void;
+  usdBtc: string;
+  setUsdBtc: (_: string) => void;
+  dailyChangeBtc: string;
+  setDailyChangeBtc: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -89,6 +93,10 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAssetsLoading: () => {},
   bitcoinVault: undefined,
   setBitcoinVault: () => {},
+  usdBtc: "",
+  setUsdBtc: () => {},
+  dailyChangeBtc: "",
+  setDailyChangeBtc: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -140,6 +148,8 @@ export default function GlobalContextProvider({
   });
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
   const [bitcoinVault, setBitcoinVault] = useState<any>();
+  const [usdBtc, setUsdBtc] = useState<string>("");
+  const [dailyChangeBtc, setDailyChangeBtc] = useState<string>("");
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -166,6 +176,10 @@ export default function GlobalContextProvider({
     setAssetsLoading,
     bitcoinVault,
     setBitcoinVault,
+    usdBtc,
+    setUsdBtc,
+    dailyChangeBtc,
+    setDailyChangeBtc,
   };
 
   return (

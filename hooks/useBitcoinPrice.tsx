@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback} from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { GlobalContext } from "../components/GlobalContext";
 
 const useBitcoinPrice = () => {
-  const [usdBtc, setUsdBtc] = useState<string | undefined>();
-  const [dailyChangeBtc, setDailyChangeBtc] = useState<string | undefined>();
+  const { usdBtc, setUsdBtc, dailyChangeBtc, setDailyChangeBtc } =
+    useContext(GlobalContext);
 
   const fetchBitcoinPrice = useCallback(async () => {
     try {
@@ -14,11 +15,11 @@ const useBitcoinPrice = () => {
     } catch (error) {
       console.error("Error fetching Bitcoin Price:", error);
     }
-  }, []);
+  }, [setUsdBtc, setDailyChangeBtc]);
 
   useEffect(() => {
-    fetchBitcoinPrice();
-  }, [fetchBitcoinPrice]);
+    if (!usdBtc || !dailyChangeBtc) fetchBitcoinPrice();
+  }, [fetchBitcoinPrice, usdBtc, dailyChangeBtc]);
 
   return { usdBtc, dailyChangeBtc };
 };
