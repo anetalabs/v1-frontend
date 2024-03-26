@@ -47,8 +47,15 @@ const useStake = () => {
   useEffect(() => {
     if (!walletMeta || !address || walletAddress === "Connecting...")
       setStakingInfo(undefined);
-    else fetchStakingInfo(address);
-  }, [walletMeta, address, walletAddress, fetchStakingInfo, setStakingInfo]);
+    else if (!stakingInfo) fetchStakingInfo(address);
+  }, [
+    walletMeta,
+    address,
+    walletAddress,
+    fetchStakingInfo,
+    setStakingInfo,
+    stakingInfo,
+  ]);
 
   return { stakingInfo, fetchStakingInfo, fetchStake, setStakingInfo };
 };

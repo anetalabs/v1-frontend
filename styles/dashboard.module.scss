@@ -38,11 +38,10 @@
           gap: 5px;
           .value {
             font-size: 20px;
-            width: 80px;
+            min-width: 80px;
             font-weight: var.$font-weight-semibold;
             display: flex;
             align-items: center;
-            justify-content: center;
             position: relative;
             .loader,
             .loader:before,
@@ -51,6 +50,7 @@
             }
             .loader {
               color: rgba(0, 0, 0, 0.5);
+              left: 20px;
               font-size: 16px;
               animation-delay: -0.16s;
               position: absolute;
