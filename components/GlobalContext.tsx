@@ -5,6 +5,7 @@ import { ModalState } from "../hooks/useModal";
 import { Config } from "../utils";
 import { CardanoNetwork } from "../utils/api";
 import { CONSTANTS } from "../utils/constants";
+import { BlockfrostAssets } from "../types/blockfrost";
 
 interface GlobalContextState {
   walletMeta: Cip30Wallet | null;
@@ -25,6 +26,10 @@ interface GlobalContextState {
   setWalletAddress: (_: string) => void;
   communityRevenueInfo: any;
   setCommunityRevenueInfo: (_: any) => void;
+  assetsData: BlockfrostAssets;
+  setAssetsData: (_: BlockfrostAssets) => void;
+  assetsLoading: boolean;
+  setAssetsLoading: (_: boolean) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -60,6 +65,26 @@ export const GlobalContext = createContext<GlobalContextState>({
   setWalletAddress: () => {},
   communityRevenueInfo: undefined,
   setCommunityRevenueInfo: () => {},
+  assetsData: {
+    asset: "",
+    asset_name: "",
+    fingerprint: "",
+    initial_mint_tx_hash: "",
+    metadata: {
+      name: "",
+      description: "",
+      logo: "",
+      decimals: 0,
+      ticker: "",
+      url: "",
+    },
+    mint_or_burn_count: 0,
+    quantity: "",
+    policy_id: "",
+  },
+  setAssetsData: () => {},
+  assetsLoading: true,
+  setAssetsLoading: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -92,6 +117,24 @@ export default function GlobalContextProvider({
   );
   const [address, setAddress] = useState<string>("");
   const [communityRevenueInfo, setCommunityRevenueInfo] = useState<any>();
+  const [assetsData, setAssetsData] = useState<BlockfrostAssets>({
+    asset: "",
+    asset_name: "",
+    fingerprint: "",
+    initial_mint_tx_hash: "",
+    metadata: {
+      name: "",
+      description: "",
+      logo: "",
+      decimals: 0,
+      ticker: "",
+      url: "",
+    },
+    mint_or_burn_count: 0,
+    quantity: "",
+    policy_id: "",
+  });
+  const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -111,7 +154,11 @@ export default function GlobalContextProvider({
     walletAddress,
     setWalletAddress,
     communityRevenueInfo,
-    setCommunityRevenueInfo: setCommunityRevenueInfo,
+    setCommunityRevenueInfo,
+    assetsData,
+    setAssetsData,
+    assetsLoading,
+    setAssetsLoading,
   };
 
   return (
