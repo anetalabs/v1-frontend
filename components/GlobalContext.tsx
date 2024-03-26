@@ -30,6 +30,8 @@ interface GlobalContextState {
   setAssetsData: (_: BlockfrostAssets) => void;
   assetsLoading: boolean;
   setAssetsLoading: (_: boolean) => void;
+  bitcoinVault: any;
+  setBitcoinVault: (_: any) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -85,6 +87,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAssetsData: () => {},
   assetsLoading: true,
   setAssetsLoading: () => {},
+  bitcoinVault: undefined,
+  setBitcoinVault: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -135,6 +139,7 @@ export default function GlobalContextProvider({
     policy_id: "",
   });
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
+  const [bitcoinVault, setBitcoinVault] = useState<any>();
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -159,6 +164,8 @@ export default function GlobalContextProvider({
     setAssetsData,
     assetsLoading,
     setAssetsLoading,
+    bitcoinVault,
+    setBitcoinVault,
   };
 
   return (

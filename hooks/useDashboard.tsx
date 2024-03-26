@@ -51,7 +51,8 @@ export default function useDashboard() {
               vault?.chain_stats.funded_txo_sum +
                 vault?.chain_stats.spent_txo_sum
             ) / 100000000
-          ).toFixed(4)
+          ).toString(),
+          5
         )
       );
     }
