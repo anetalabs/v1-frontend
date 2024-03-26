@@ -6,6 +6,7 @@ import { Config } from "../utils";
 import { CardanoNetwork } from "../utils/api";
 import { CONSTANTS } from "../utils/constants";
 import { BlockfrostAssets } from "../types/blockfrost";
+import { AnetaData } from "../hooks/useAnetaData";
 
 interface GlobalContextState {
   walletMeta: Cip30Wallet | null;
@@ -40,6 +41,8 @@ interface GlobalContextState {
   setUsdAda: (_: string) => void;
   dailyChangeAda: string;
   setDailyChangeAda: (_: string) => void;
+  anetaData: AnetaData[];
+  setAnetaData: (_: AnetaData[]) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -105,6 +108,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setUsdAda: () => {},
   dailyChangeAda: "",
   setDailyChangeAda: () => {},
+  anetaData: [],
+  setAnetaData: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -160,6 +165,7 @@ export default function GlobalContextProvider({
   const [dailyChangeBtc, setDailyChangeBtc] = useState<string>("");
   const [usdAda, setUsdAda] = useState<string>("");
   const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
+  const [anetaData, setAnetaData] = useState<AnetaData[]>([]);
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -194,6 +200,8 @@ export default function GlobalContextProvider({
     setUsdAda,
     dailyChangeAda,
     setDailyChangeAda,
+    anetaData,
+    setAnetaData,
   };
 
   return (
