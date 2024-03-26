@@ -23,6 +23,8 @@ interface GlobalContextState {
   setAddress: (_: string) => void;
   walletAddress: string;
   setWalletAddress: (_: string) => void;
+  communityRevenueInfo: any;
+  setCommunityRevenueInfo: (_: any) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -56,6 +58,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAddress: () => {},
   walletAddress: "",
   setWalletAddress: () => {},
+  communityRevenueInfo: undefined,
+  setCommunityRevenueInfo: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -87,6 +91,7 @@ export default function GlobalContextProvider({
     CONSTANTS.STRINGS.wallet_connecting
   );
   const [address, setAddress] = useState<string>("");
+  const [communityRevenueInfo, setCommunityRevenueInfo] = useState<any>();
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -105,6 +110,8 @@ export default function GlobalContextProvider({
     setAddress,
     walletAddress,
     setWalletAddress,
+    communityRevenueInfo,
+    setCommunityRevenueInfo: setCommunityRevenueInfo,
   };
 
   return (
