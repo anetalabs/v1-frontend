@@ -235,7 +235,7 @@ export default function Dashboard() {
           text={
             walletMeta
               ? stakingInfo && address && walletAddress !== "Connecting..."
-                ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 5) ??
+                ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 8) ??
                     "0") + " cNETA"
                 : "loading"
               : "0 cNETA"
@@ -247,7 +247,7 @@ export default function Dashboard() {
               ? undefined
               : stakingInfo && address && walletAddress !== "Connecting..."
               ? stakingInfo.staking
-                ? (numberFormat(stakingInfo?.liveStake.toString(), 5) ?? "0") +
+                ? (numberFormat(stakingInfo?.liveStake.toString(), 8) ?? "0") +
                   " cNETA"
                 : "0 cNETA"
               : "loading"
@@ -291,7 +291,7 @@ export default function Dashboard() {
             walletAddress !== "Connecting..."
               ? numberFormat(
                   (+stakingInfo?.expectedRewards.btc * 36).toString(),
-                  5
+                  8
                 ) + " cBTC"
               : undefined
           }
@@ -302,7 +302,7 @@ export default function Dashboard() {
             walletAddress !== "Connecting..."
               ? numberFormat(
                   (+stakingInfo?.expectedRewards.erg * 36).toString(),
-                  5
+                  8
                 ) + " ERG"
               : undefined
           }
@@ -354,7 +354,7 @@ export default function Dashboard() {
             stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..."
-              ? numberFormat(stakingInfo.liveStake.toString(), 5) + " cNETA"
+              ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
               : undefined
           }
           buttonTitle={
@@ -381,7 +381,7 @@ export default function Dashboard() {
             walletAddress !== "Connecting..."
               ? numberFormat(
                   (+stakingInfo?.expectedRewards.btc).toString(),
-                  5
+                  8
                 ) + " cBTC"
               : undefined
           }
@@ -392,7 +392,7 @@ export default function Dashboard() {
             walletAddress !== "Connecting..."
               ? numberFormat(
                   (+stakingInfo?.expectedRewards.erg).toString(),
-                  5
+                  8
                 ) + " ERG"
               : undefined
           }
