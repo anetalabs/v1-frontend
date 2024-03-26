@@ -19,8 +19,8 @@ const useCommunityRevenue = () => {
   }, [setCommunityRevenueInfo]);
 
   useEffect(() => {
-    fetchCommunityRevenueInfo();
-  }, [fetchCommunityRevenueInfo]);
+    if (!communityRevenueInfo) fetchCommunityRevenueInfo();
+  }, [fetchCommunityRevenueInfo, communityRevenueInfo]);
 
   return communityRevenueInfo;
 };

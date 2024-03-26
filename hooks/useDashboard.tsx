@@ -58,21 +58,6 @@ export default function useDashboard() {
     }
   }, [vault]);
 
-  // useEffect(() => {
-  //   if (communityVault) {
-  //     setCommunityRevenue(
-  //       numberFormat(
-  //         (
-  //           Number(
-  //             communityVault?.chain_stats.funded_txo_sum +
-  //               communityVault?.chain_stats.spent_txo_sum
-  //           ) / 100000000
-  //         ).toFixed(4)
-  //       )
-  //     );
-  //   }
-  // }, [communityVault]);
-
   useEffect(() => {
     if (communityRevenueInfo) {
       setCommunityRevenue(
