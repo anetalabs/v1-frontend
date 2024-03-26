@@ -43,6 +43,8 @@ interface GlobalContextState {
   setDailyChangeAda: (_: string) => void;
   anetaData: AnetaData[];
   setAnetaData: (_: AnetaData[]) => void;
+  cBtcAda: string;
+  setCBtcAda: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -110,6 +112,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setDailyChangeAda: () => {},
   anetaData: [],
   setAnetaData: () => {},
+  cBtcAda: "",
+  setCBtcAda: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -166,6 +170,7 @@ export default function GlobalContextProvider({
   const [usdAda, setUsdAda] = useState<string>("");
   const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
   const [anetaData, setAnetaData] = useState<AnetaData[]>([]);
+  const [cBtcAda, setCBtcAda] = useState<string>("");
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -202,6 +207,8 @@ export default function GlobalContextProvider({
     setDailyChangeAda,
     anetaData,
     setAnetaData,
+    cBtcAda,
+    setCBtcAda,
   };
 
   return (
