@@ -30,7 +30,7 @@ export default function Dashboard() {
     communityRevenue,
   } = useDashboard();
 
-  const { stakingInfo, fetchStake } = useStake();
+  const { stakingInfo } = useStake();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -40,7 +40,6 @@ export default function Dashboard() {
   const { walletMeta, address, walletAddress } = useCardanoWallet();
   const { getUtxos } = useLucid();
   const [isWalletShowing, setIsWalletShowing] = useState(false);
-  const [stakeLoading, setStakeLoading] = useState(false);
 
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
@@ -56,11 +55,6 @@ export default function Dashboard() {
     vaultBtc = `https://mempool.space/testnet/address/${config.btcWrapAddress}`;
     communityVaultBtc = `https://mempool.space/testnet/address/${config.btcWrapCommunityAddress}`;
   }
-
-  const handleWalletShowing = () => {
-    if (isWalletShowing) setIsWalletShowing(false);
-    else setIsWalletShowing(true);
-  };
 
   const getBalance = async () => {
     const utxos = await getUtxos();
@@ -89,23 +83,12 @@ export default function Dashboard() {
     }, 0);
   };
 
-  const handleStake = useCallback(async () => {
-    setStakeLoading(true);
-    fetchStake(address);
-  }, [fetchStake, address]);
-
   useEffect(() => {
     if (address !== "") {
       getBalance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
-
-  useEffect(() => {
-    if (stakingInfo?.staking) {
-      setStakeLoading(false);
-    }
-  }, [stakingInfo]);
 
   return (
     <>
@@ -240,6 +223,18 @@ export default function Dashboard() {
                 : "loading"
               : "0 cNETA"
           }
+          miniText={
+            walletMeta
+              ? stakingInfo && address && walletAddress !== "Connecting..."
+                ? "$" +
+                    numberFormat(
+                      (stakingInfo?.totalLiveStake * 0.003449).toString(),
+                      2,
+                      2
+                    ) ?? "0"
+                : "loading"
+              : "$0"
+          }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
           text2={
@@ -251,6 +246,18 @@ export default function Dashboard() {
                   " cNETA"
                 : "0 cNETA"
               : "loading"
+          }
+          miniText2={
+            walletMeta
+              ? stakingInfo && address && walletAddress !== "Connecting..."
+                ? "$" +
+                    numberFormat(
+                      (stakingInfo?.liveStake * 0.003449).toString(),
+                      2,
+                      2
+                    ) ?? "0"
+                : "loading"
+              : "$0"
           }
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
