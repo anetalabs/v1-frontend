@@ -26,6 +26,7 @@
   border-radius: 18px;
   padding: 20px;
   display: flex;
+  gap: 3px;
   flex-direction: column;
   justify-content: space-between;
   .titleLg {
@@ -169,6 +170,10 @@
   .valueTextLg {
     font-size: 24px;
     text-align: center;
+  }
+  .miniText {
+    font-size: 12px;
+    font-weight: var.$font-weight-medium;
   }
   .balanceValue {
     display: flex;

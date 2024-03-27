@@ -43,6 +43,8 @@ interface WidgetProps {
   tooltip?: string;
   titleTooltip?: string;
   title2Tooltip?: string;
+  miniText?: string;
+  miniText2?: string;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -211,9 +213,12 @@ const Widget = (props: WidgetProps) => {
 
       {props.text ? (
         props.text !== "loading" ? (
-          <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
-            {props.text}
-          </p>
+          <div className={styles.textContainer}>
+            <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+              {props.text}
+            </p>
+            <p className={styles.miniText}>{props.miniText}</p>
+          </div>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>
@@ -239,7 +244,12 @@ const Widget = (props: WidgetProps) => {
       )}
       {props.text2 ? (
         props.text2 !== "loading" ? (
-          <p className={styles.valueText}>{props.text2}</p>
+          <div className={styles.textContainer}>
+            <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+              {props.text2}
+            </p>
+            <p className={styles.miniText}>{props.miniText2}</p>
+          </div>
         ) : (
           <div className={styles.loaderPrice}>
             <div className={styles.loader}></div>
