@@ -3,15 +3,15 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import cardano from "../../public/images/crypto/Cardano.svg";
 import cardanoBlack from "../../public/images/crypto/CardanoBlack.svg";
-import { numberFormat } from "../../utils/format";
 import { AppContext } from "../../pages/_app";
+import CountUp from "./CountUp";
 
 interface OptionCardProps {
   title: string;
   description: string;
   walletName: string;
   walletAddress: string;
-  votes: string;
+  votes: number;
 }
 
 const OptionCard = (props: OptionCardProps) => {
@@ -77,8 +77,10 @@ const OptionCard = (props: OptionCardProps) => {
           )}
         </button>
       </div>
-      <div className={styles.votes}>
-        <span>Current Votes: {numberFormat(props.votes)}</span>
+      <div className={styles.votesContainer}>
+        <span className={styles.votes}>
+          Current Votes: <CountUp end={props.votes} />
+        </span>
       </div>
     </div>
   );
