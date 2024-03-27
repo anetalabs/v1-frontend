@@ -12,7 +12,6 @@ import useCommunityRevenue from "./useCommunityRevenue";
 export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
   const vault = useBitcoinVault();
-  const communityVault = useCommunityVault();
   const communityRevenueInfo = useCommunityRevenue();
   const { usdAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
@@ -51,34 +50,21 @@ export default function useDashboard() {
               vault?.chain_stats.funded_txo_sum +
                 vault?.chain_stats.spent_txo_sum
             ) / 100000000
-          ).toFixed(4)
+          ).toString(),
+          5
         )
       );
     }
   }, [vault]);
 
-  // useEffect(() => {
-  //   if (communityVault) {
-  //     setCommunityRevenue(
-  //       numberFormat(
-  //         (
-  //           Number(
-  //             communityVault?.chain_stats.funded_txo_sum +
-  //               communityVault?.chain_stats.spent_txo_sum
-  //           ) / 100000000
-  //         ).toFixed(4)
-  //       )
-  //     );
-  //   }
-  // }, [communityVault]);
-
   useEffect(() => {
     if (communityRevenueInfo) {
       setCommunityRevenue(
         numberFormat(
-          (Number(communityRevenueInfo?.info.cbtcBalance) / 100000000).toFixed(
-            4
-          )
+          (
+            Number(communityRevenueInfo?.info.cbtcBalance) / 100000000
+          ).toString(),
+          8
         )
       );
     }
@@ -108,7 +94,7 @@ export default function useDashboard() {
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("anetaData");
-    if (storedData) {
+    if (storedData && storedData !== "[]") {
       setTvlData(JSON.parse(storedData));
     } else {
       if (anetaData) {

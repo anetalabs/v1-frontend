@@ -18,7 +18,7 @@ export const numberToFixed = (value: string) => {
     return "";
   }
 
-  return (parsedValue / 100000000).toFixed(4).replace(/\.?0+$/, "");
+  return (parsedValue / 100000000).toFixed(5).replace(/\.?0+$/, "");
 }
 
 export const usdFormat = (value: string) => {

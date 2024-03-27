@@ -5,6 +5,8 @@ import { ModalState } from "../hooks/useModal";
 import { Config } from "../utils";
 import { CardanoNetwork } from "../utils/api";
 import { CONSTANTS } from "../utils/constants";
+import { BlockfrostAssets } from "../types/blockfrost";
+import { AnetaData } from "../hooks/useAnetaData";
 
 interface GlobalContextState {
   walletMeta: Cip30Wallet | null;
@@ -23,6 +25,28 @@ interface GlobalContextState {
   setAddress: (_: string) => void;
   walletAddress: string;
   setWalletAddress: (_: string) => void;
+  communityRevenueInfo: any;
+  setCommunityRevenueInfo: (_: any) => void;
+  assetsData: BlockfrostAssets;
+  setAssetsData: (_: BlockfrostAssets) => void;
+  assetsLoading: boolean;
+  setAssetsLoading: (_: boolean) => void;
+  bitcoinVault: any;
+  setBitcoinVault: (_: any) => void;
+  usdBtc: string;
+  setUsdBtc: (_: string) => void;
+  dailyChangeBtc: string;
+  setDailyChangeBtc: (_: string) => void;
+  usdAda: string;
+  setUsdAda: (_: string) => void;
+  dailyChangeAda: string;
+  setDailyChangeAda: (_: string) => void;
+  anetaData: AnetaData[] | undefined;
+  setAnetaData: (_: AnetaData[] | undefined) => void;
+  cBtcAda: string;
+  setCBtcAda: (_: string) => void;
+  votingInfo: any;
+  setVotingInfo: (_: any) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -56,6 +80,44 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAddress: () => {},
   walletAddress: "",
   setWalletAddress: () => {},
+  communityRevenueInfo: undefined,
+  setCommunityRevenueInfo: () => {},
+  assetsData: {
+    asset: "",
+    asset_name: "",
+    fingerprint: "",
+    initial_mint_tx_hash: "",
+    metadata: {
+      name: "",
+      description: "",
+      logo: "",
+      decimals: 0,
+      ticker: "",
+      url: "",
+    },
+    mint_or_burn_count: 0,
+    quantity: "",
+    policy_id: "",
+  },
+  setAssetsData: () => {},
+  assetsLoading: true,
+  setAssetsLoading: () => {},
+  bitcoinVault: undefined,
+  setBitcoinVault: () => {},
+  usdBtc: "",
+  setUsdBtc: () => {},
+  dailyChangeBtc: "",
+  setDailyChangeBtc: () => {},
+  usdAda: "",
+  setUsdAda: () => {},
+  dailyChangeAda: "",
+  setDailyChangeAda: () => {},
+  anetaData: undefined,
+  setAnetaData: () => {},
+  cBtcAda: "",
+  setCBtcAda: () => {},
+  votingInfo: undefined,
+  setVotingInfo: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -87,6 +149,33 @@ export default function GlobalContextProvider({
     CONSTANTS.STRINGS.wallet_connecting
   );
   const [address, setAddress] = useState<string>("");
+  const [communityRevenueInfo, setCommunityRevenueInfo] = useState<any>();
+  const [assetsData, setAssetsData] = useState<BlockfrostAssets>({
+    asset: "",
+    asset_name: "",
+    fingerprint: "",
+    initial_mint_tx_hash: "",
+    metadata: {
+      name: "",
+      description: "",
+      logo: "",
+      decimals: 0,
+      ticker: "",
+      url: "",
+    },
+    mint_or_burn_count: 0,
+    quantity: "",
+    policy_id: "",
+  });
+  const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
+  const [bitcoinVault, setBitcoinVault] = useState<any>();
+  const [usdBtc, setUsdBtc] = useState<string>("");
+  const [dailyChangeBtc, setDailyChangeBtc] = useState<string>("");
+  const [usdAda, setUsdAda] = useState<string>("");
+  const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
+  const [anetaData, setAnetaData] = useState<AnetaData[] | undefined>();
+  const [cBtcAda, setCBtcAda] = useState<string>("");
+  const [votingInfo, setVotingInfo] = useState<any>();
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -105,6 +194,28 @@ export default function GlobalContextProvider({
     setAddress,
     walletAddress,
     setWalletAddress,
+    communityRevenueInfo,
+    setCommunityRevenueInfo,
+    assetsData,
+    setAssetsData,
+    assetsLoading,
+    setAssetsLoading,
+    bitcoinVault,
+    setBitcoinVault,
+    usdBtc,
+    setUsdBtc,
+    dailyChangeBtc,
+    setDailyChangeBtc,
+    usdAda,
+    setUsdAda,
+    dailyChangeAda,
+    setDailyChangeAda,
+    anetaData,
+    setAnetaData,
+    cBtcAda,
+    setCBtcAda,
+    votingInfo,
+    setVotingInfo,
   };
 
   return (

@@ -1,23 +1,24 @@
-import { useState, useEffect, useCallback} from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { GlobalContext } from "../components/GlobalContext";
 
 const useBitcoinVault = () => {
-  const [address, setAddress] = useState<any>();
+  const { bitcoinVault, setBitcoinVault } = useContext(GlobalContext);
 
-  const fetchBitcoinAddress = useCallback(async () => {
+  const fetchBitcoinVault = useCallback(async () => {
     try {
       const res = await fetch("/api/bitcoinvault");
       const data = await res.json();
-      setAddress(data);
+      setBitcoinVault(data);
     } catch (error) {
       console.error("Error fetching Bitcoin fees:", error);
     }
-  }, []);
+  }, [setBitcoinVault]);
 
   useEffect(() => {
-    fetchBitcoinAddress();
-  }, [fetchBitcoinAddress]);
+    if (!bitcoinVault) fetchBitcoinVault();
+  }, [fetchBitcoinVault, bitcoinVault]);
 
-  return address;
+  return bitcoinVault;
 };
 
 export default useBitcoinVault;

@@ -32,6 +32,12 @@ export const navigationLeftbar: NavigationType[] = [
     current: false,
   },
   {
+    name: "Governance",
+    href: "/governance",
+    icon: "/images/icons/governace.svg#icon",
+    current: false,
+  },
+  {
     name: "Docs",
     href: "https://docs.anetabtc.io",
     icon: "/images/icons/file-earmark-text.svg#icon",

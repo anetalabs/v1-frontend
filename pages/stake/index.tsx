@@ -47,7 +47,7 @@ export default function Stake() {
                 <p>
                   You are currently holding{" "}
                   <b>
-                    {numberFormat(stakingInfo?.stake.toString() ?? "0", 5)}{" "}
+                    {numberFormat(stakingInfo?.stake.toString() ?? "0", 8)}{" "}
                     cNETA.
                   </b>
                   <br />
@@ -61,7 +61,7 @@ export default function Stake() {
                 <p>
                   You are now staking{" "}
                   <b>
-                    {numberFormat(stakingInfo?.liveStake.toString() ?? "0", 5)}{" "}
+                    {numberFormat(stakingInfo?.liveStake.toString() ?? "0", 8)}{" "}
                     cNETA.
                   </b>
                   <br />
@@ -82,7 +82,7 @@ export default function Stake() {
                         ? numberFormat(
                             (+stakingInfo?.expectedRewards.btc).toString() ??
                               "0.00000",
-                            5,
+                            8,
                             5
                           )
                         : "0.00000"}{" "}
@@ -93,7 +93,7 @@ export default function Stake() {
                         ? numberFormat(
                             (+stakingInfo?.expectedRewards.erg).toString() ??
                               "0",
-                            5
+                            8
                           )
                         : "0"}{" "}
                       rsERG

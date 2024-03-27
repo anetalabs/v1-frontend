@@ -1,23 +1,26 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback, useContext } from "react";
+import { GlobalContext } from "../components/GlobalContext";
 
 const useCommunityRevenue = () => {
-  const [info, setInfo] = useState<any>();
+  // const [info, setInfo] = useState<any>();
+  const { communityRevenueInfo, setCommunityRevenueInfo } =
+    useContext(GlobalContext);
 
   const fetchCommunityRevenueInfo = useCallback(async () => {
     try {
-      const res = await fetch("https://aneta-backend.vercel.app/api/info");
+      const res = await fetch("https://aneta-backend.vercel.app/api/info/cbtc");
       const data = await res.json();
-      setInfo(data);
+      setCommunityRevenueInfo(data);
     } catch (error) {
       console.error("Error fetching Community Revenue info:", error);
     }
-  }, []);
+  }, [setCommunityRevenueInfo]);
 
   useEffect(() => {
-    fetchCommunityRevenueInfo();
-  }, [fetchCommunityRevenueInfo]);
+    if (!communityRevenueInfo) fetchCommunityRevenueInfo();
+  }, [fetchCommunityRevenueInfo, communityRevenueInfo]);
 
-  return info;
+  return communityRevenueInfo;
 };
 
 export default useCommunityRevenue;
