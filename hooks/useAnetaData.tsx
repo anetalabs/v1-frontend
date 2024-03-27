@@ -13,7 +13,6 @@ const useAnetaData = () => {
     try {
       const res = await fetch("/api/anetadata");
       const data: AnetaData[] = await res.json();
-
       setAnetaData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -21,7 +20,7 @@ const useAnetaData = () => {
   }, [setAnetaData]);
 
   useEffect(() => {
-    if (anetaData.length !== 0) fetchAnetaData();
+    if (!anetaData) fetchAnetaData();
   }, [fetchAnetaData, anetaData]);
 
   return { anetaData };
