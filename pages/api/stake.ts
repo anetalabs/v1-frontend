@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     const result = await fetch(
-      "https://aneta-staking-backend.vercel.app/api/staking/stake",
+      "https://aneta-backend.vercel.app/api/staking/stake",
       {
         method: "POST",
         headers: {
