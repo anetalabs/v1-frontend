@@ -13,7 +13,6 @@ const useAnetaData = () => {
     try {
       const res = await fetch("/api/anetadata");
       const data: AnetaData[] = await res.json();
-
       setAnetaData(data);
     } catch (error) {
       console.error("Error fetching data:", error);

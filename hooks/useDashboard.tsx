@@ -94,7 +94,7 @@ export default function useDashboard() {
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("anetaData");
-    if (storedData) {
+    if (storedData && storedData !== "[]") {
       setTvlData(JSON.parse(storedData));
     } else {
       if (anetaData) {
