@@ -4,8 +4,11 @@ import Head from "next/head";
 import tosidropLogo from "../../public/images/crypto/tosidrop-logo.png";
 import Link from "next/link";
 import OptionCard from "../../components/governance/OptionCard";
+import useVoting from "../../hooks/useVoting";
 
 export default function Governance() {
+  const votingInfo = useVoting();
+  console.log({ votingInfo });
   return (
     <>
       <Head>
@@ -22,14 +25,14 @@ export default function Governance() {
           description="Allocate 0.5 BTC for development."
           walletName="Option 1 Cardano Wallet"
           walletAddress="addr1qy8cmq0qw8dj7zeyfezp9vwfgjyv3tu8e7a82qe4fvr8dxwpsmwhh9rxntndhz93m944fsh0s9y725fr0as26y0wkceq9pyx90"
-          votes="0"
+          votes={votingInfo?.voteYesBalance ?? 0}
         />
         <OptionCard
           title="Option 2"
           description="Do not allocate 0.5 BTC for development."
           walletName="Option 2 Cardano Wallet"
           walletAddress="addr1q843md2ar09mervl060ypmhzx43ftnrqzymz4pk4rr5clcrr2jt3ptrul97g7fzk3w7dkv7rkw5mej7jr65x4v3xqqns5yepxp"
-          votes="0"
+          votes={votingInfo?.voteNoBalance ?? 0}
         />
         <Link
           href="https://app.tosidrop.io/cardano/claim"

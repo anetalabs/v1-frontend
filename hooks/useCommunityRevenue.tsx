@@ -8,9 +8,7 @@ const useCommunityRevenue = () => {
 
   const fetchCommunityRevenueInfo = useCallback(async () => {
     try {
-      const res = await fetch(
-        "https://aneta-staking-backend.vercel.app/api/info/cbtc"
-      );
+      const res = await fetch("https://aneta-backend.vercel.app/api/info/cbtc");
       const data = await res.json();
       setCommunityRevenueInfo(data);
     } catch (error) {
