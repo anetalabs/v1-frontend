@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
 import useAssetsApi from "../../hooks/useAssetsApi";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { formatAmount, numberFormat, numberToFixed } from "../../utils/format";
+import { numberFormat, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
@@ -14,6 +14,7 @@ import ChartWidget from "../../components/dashboard/ChartWidget";
 import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
+import useConvertPrice from "../../hooks/useConvertPrice";
 
 export default function Dashboard() {
   const {
@@ -31,6 +32,8 @@ export default function Dashboard() {
   } = useDashboard();
 
   const { stakingInfo } = useStake();
+
+  const { usdCNeta: usdCNetaPrice } = useConvertPrice();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -218,7 +221,10 @@ export default function Dashboard() {
           // text="Coming Soon"
           text={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 8) ??
                     "0") + " cNETA"
                 : "loading"
@@ -226,10 +232,15 @@ export default function Dashboard() {
           }
           miniText={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? "$" +
                     numberFormat(
-                      (stakingInfo?.totalLiveStake * 0.003449).toString(),
+                      (
+                        stakingInfo?.totalLiveStake * Number(usdCNetaPrice)
+                      ).toString(),
                       2,
                       2
                     ) ?? "0.00"
@@ -241,7 +252,10 @@ export default function Dashboard() {
           text2={
             !walletMeta
               ? undefined
-              : stakingInfo && address && walletAddress !== "Connecting..."
+              : stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
               ? stakingInfo.staking
                 ? (numberFormat(stakingInfo?.liveStake.toString(), 8) ?? "0") +
                   " cNETA"
@@ -250,10 +264,15 @@ export default function Dashboard() {
           }
           miniText2={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? "$" +
                     numberFormat(
-                      (stakingInfo?.liveStake * 0.003449).toString(),
+                      (
+                        stakingInfo?.liveStake * Number(usdCNetaPrice)
+                      ).toString(),
                       2,
                       2
                     ) ?? "0.00"
@@ -361,8 +380,23 @@ export default function Dashboard() {
             walletMeta &&
             stakingInfo?.staking &&
             address &&
-            walletAddress !== "Connecting..."
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
               ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
+              : undefined
+          }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
+              ? "$" +
+                numberFormat(
+                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           buttonTitle={
@@ -379,6 +413,7 @@ export default function Dashboard() {
           noHeaderPrice
           titleLg
           textLg
+          miniTextLg
         />
         <Widget
           // text="Coming Soon"
