@@ -16,6 +16,7 @@ import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useConvertPrice from "../../hooks/useConvertPrice";
 import useAdaPrice from "../../hooks/useAdaPrice";
+import useCBtcPrice from "../../hooks/usecBtcPrice";
 
 export default function Dashboard() {
   const {
@@ -37,6 +38,7 @@ export default function Dashboard() {
   const { usdCNeta: usdCNetaPrice, usdErg: usdErgPrice } = useConvertPrice();
 
   const { usdAda: usdAdaPrice } = useAdaPrice();
+  const { cBtcAda: cBtcAdaPrice } = useCBtcPrice();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -336,6 +338,7 @@ export default function Dashboard() {
                   (
                     +stakingInfo?.expectedRewards.btc *
                     Number(usdAdaPrice) *
+                    Number(cBtcAdaPrice) *
                     36
                   ).toString(),
                   2,
@@ -480,7 +483,9 @@ export default function Dashboard() {
               ? "$" +
                 numberFormat(
                   (
-                    +stakingInfo?.expectedRewards.btc * Number(usdAdaPrice)
+                    +stakingInfo?.expectedRewards.btc *
+                    Number(usdAdaPrice) *
+                    Number(cBtcAdaPrice)
                   ).toString(),
                   2,
                   2
