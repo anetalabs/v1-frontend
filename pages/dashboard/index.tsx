@@ -218,6 +218,14 @@ export default function Dashboard() {
           title="Community Fund"
         />
         <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        />
+        <Widget
           noPrice
           noMargin
           title="Total cNETA Staked"
@@ -304,14 +312,7 @@ export default function Dashboard() {
           //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
           // }
         />
-        <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
-          noPrice
-          noHeaderPrice
-          titleLg
-        />
+
         <Widget
           // text="Coming Soon"
           text={
