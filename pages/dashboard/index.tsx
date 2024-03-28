@@ -15,6 +15,7 @@ import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useConvertPrice from "../../hooks/useConvertPrice";
+import useAdaPrice from "../../hooks/useAdaPrice";
 
 export default function Dashboard() {
   const {
@@ -33,7 +34,9 @@ export default function Dashboard() {
 
   const { stakingInfo } = useStake();
 
-  const { usdCNeta: usdCNetaPrice } = useConvertPrice();
+  const { usdCNeta: usdCNetaPrice, usdErg: usdErgPrice } = useConvertPrice();
+
+  const { usdAda: usdAdaPrice } = useAdaPrice();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -215,6 +218,14 @@ export default function Dashboard() {
           title="Community Fund"
         />
         <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        />
+        <Widget
           noPrice
           noMargin
           title="Total cNETA Staked"
@@ -301,14 +312,7 @@ export default function Dashboard() {
           //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
           // }
         />
-        <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
-          noPrice
-          noHeaderPrice
-          titleLg
-        />
+
         <Widget
           // text="Coming Soon"
           text={
@@ -322,6 +326,23 @@ export default function Dashboard() {
                 ) + " cBTC"
               : undefined
           }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.btc *
+                    Number(usdAdaPrice) *
+                    36
+                  ).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
           text2={
             walletMeta &&
             stakingInfo?.staking &&
@@ -331,6 +352,23 @@ export default function Dashboard() {
                   (+stakingInfo?.expectedRewards.erg * 36).toString(),
                   8
                 ) + " ERG"
+              : undefined
+          }
+          miniText2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.erg *
+                    Number(usdErgPrice) *
+                    36
+                  ).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           title={`Your Total ${isMobile ? "Est." : "Estimated"} Rewards`}
@@ -345,6 +383,12 @@ export default function Dashboard() {
           buttonLink="/stake"
           noPrice
           noHeaderPrice
+          noMargin={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+          }
           titleCenter={
             !walletMeta ||
             !stakingInfo?.staking ||
@@ -428,6 +472,21 @@ export default function Dashboard() {
                 ) + " cBTC"
               : undefined
           }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.btc * Number(usdAdaPrice)
+                  ).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
           text2={
             walletMeta &&
             stakingInfo?.staking &&
@@ -437,6 +496,21 @@ export default function Dashboard() {
                   (+stakingInfo?.expectedRewards.erg).toString(),
                   8
                 ) + " ERG"
+              : undefined
+          }
+          miniText2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.erg * Number(usdErgPrice)
+                  ).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           title={`Your Rewards Next Epoch`}
@@ -451,6 +525,12 @@ export default function Dashboard() {
           buttonLink="/stake"
           noPrice
           noHeaderPrice
+          noMargin={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+          }
           titleCenter={
             !walletMeta ||
             !stakingInfo?.staking ||
