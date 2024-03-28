@@ -87,6 +87,7 @@ export default function Dashboard() {
     if (address !== "") {
       getBalance();
     }
+    console.log(address);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
@@ -231,9 +232,9 @@ export default function Dashboard() {
                       (stakingInfo?.totalLiveStake * 0.003449).toString(),
                       2,
                       2
-                    ) ?? "0"
+                    ) ?? "0.00"
                 : "loading"
-              : "$0"
+              : "$0.00"
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
@@ -255,9 +256,9 @@ export default function Dashboard() {
                       (stakingInfo?.liveStake * 0.003449).toString(),
                       2,
                       2
-                    ) ?? "0"
+                    ) ?? "0.00"
                 : "loading"
-              : "$0"
+              : "$0.00"
           }
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
