@@ -224,7 +224,7 @@ const Navbar = () => {
       </div>
 
       <section className={styles.nav}>
-        <SelectNetwork />
+        {/* <SelectNetwork /> */}
 
         {walletMeta ? (
           <LoggedInWallet

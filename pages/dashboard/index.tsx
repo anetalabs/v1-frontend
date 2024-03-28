@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
 import useAssetsApi from "../../hooks/useAssetsApi";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { formatAmount, numberFormat, numberToFixed } from "../../utils/format";
+import { numberFormat, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
@@ -14,6 +14,8 @@ import ChartWidget from "../../components/dashboard/ChartWidget";
 import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
+import useConvertPrice from "../../hooks/useConvertPrice";
+import useAdaPrice from "../../hooks/useAdaPrice";
 
 export default function Dashboard() {
   const {
@@ -31,6 +33,10 @@ export default function Dashboard() {
   } = useDashboard();
 
   const { stakingInfo } = useStake();
+
+  const { usdCNeta: usdCNetaPrice, usdErg: usdErgPrice } = useConvertPrice();
+
+  const { usdAda: usdAdaPrice } = useAdaPrice();
 
   const { width } = useWindowSize();
   const isMobile = width <= 450;
@@ -87,6 +93,7 @@ export default function Dashboard() {
     if (address !== "") {
       getBalance();
     }
+    console.log(address);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
@@ -211,13 +218,24 @@ export default function Dashboard() {
           title="Community Fund"
         />
         <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        />
+        <Widget
           noPrice
           noMargin
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 8) ??
                     "0") + " cNETA"
                 : "loading"
@@ -225,22 +243,30 @@ export default function Dashboard() {
           }
           miniText={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? "$" +
                     numberFormat(
-                      (stakingInfo?.totalLiveStake * 0.003449).toString(),
+                      (
+                        stakingInfo?.totalLiveStake * Number(usdCNetaPrice)
+                      ).toString(),
                       2,
                       2
-                    ) ?? "0"
+                    ) ?? "0.00"
                 : "loading"
-              : "$0"
+              : "$0.00"
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
           text2={
             !walletMeta
               ? undefined
-              : stakingInfo && address && walletAddress !== "Connecting..."
+              : stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
               ? stakingInfo.staking
                 ? (numberFormat(stakingInfo?.liveStake.toString(), 8) ?? "0") +
                   " cNETA"
@@ -249,15 +275,20 @@ export default function Dashboard() {
           }
           miniText2={
             walletMeta
-              ? stakingInfo && address && walletAddress !== "Connecting..."
+              ? stakingInfo &&
+                address &&
+                walletAddress !== "Connecting..." &&
+                usdCNetaPrice
                 ? "$" +
                     numberFormat(
-                      (stakingInfo?.liveStake * 0.003449).toString(),
+                      (
+                        stakingInfo?.liveStake * Number(usdCNetaPrice)
+                      ).toString(),
                       2,
                       2
-                    ) ?? "0"
+                    ) ?? "0.00"
                 : "loading"
-              : "$0"
+              : "$0.00"
           }
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
@@ -281,14 +312,7 @@ export default function Dashboard() {
           //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
           // }
         />
-        <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
-          noPrice
-          noHeaderPrice
-          titleLg
-        />
+
         <Widget
           // text="Coming Soon"
           text={
@@ -302,6 +326,23 @@ export default function Dashboard() {
                 ) + " cBTC"
               : undefined
           }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.btc *
+                    Number(usdAdaPrice) *
+                    36
+                  ).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
           text2={
             walletMeta &&
             stakingInfo?.staking &&
@@ -311,6 +352,23 @@ export default function Dashboard() {
                   (+stakingInfo?.expectedRewards.erg * 36).toString(),
                   8
                 ) + " ERG"
+              : undefined
+          }
+          miniText2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.erg *
+                    Number(usdErgPrice) *
+                    36
+                  ).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           title={`Your Total ${isMobile ? "Est." : "Estimated"} Rewards`}
@@ -325,6 +383,12 @@ export default function Dashboard() {
           buttonLink="/stake"
           noPrice
           noHeaderPrice
+          noMargin={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+          }
           titleCenter={
             !walletMeta ||
             !stakingInfo?.staking ||
@@ -360,8 +424,23 @@ export default function Dashboard() {
             walletMeta &&
             stakingInfo?.staking &&
             address &&
-            walletAddress !== "Connecting..."
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
               ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
+              : undefined
+          }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
+              ? "$" +
+                numberFormat(
+                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           buttonTitle={
@@ -378,6 +457,7 @@ export default function Dashboard() {
           noHeaderPrice
           titleLg
           textLg
+          miniTextLg
         />
         <Widget
           // text="Coming Soon"
@@ -392,6 +472,21 @@ export default function Dashboard() {
                 ) + " cBTC"
               : undefined
           }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.btc * Number(usdAdaPrice)
+                  ).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
           text2={
             walletMeta &&
             stakingInfo?.staking &&
@@ -401,6 +496,21 @@ export default function Dashboard() {
                   (+stakingInfo?.expectedRewards.erg).toString(),
                   8
                 ) + " ERG"
+              : undefined
+          }
+          miniText2={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "$" +
+                numberFormat(
+                  (
+                    +stakingInfo?.expectedRewards.erg * Number(usdErgPrice)
+                  ).toString(),
+                  2,
+                  2
+                )
               : undefined
           }
           title={`Your Rewards Next Epoch`}
@@ -415,6 +525,12 @@ export default function Dashboard() {
           buttonLink="/stake"
           noPrice
           noHeaderPrice
+          noMargin={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+          }
           titleCenter={
             !walletMeta ||
             !stakingInfo?.staking ||
