@@ -39,7 +39,7 @@ const useConvertPrice = () => {
     if (!usdErg) fetchErgPrice();
   }, [fetchErgPrice, usdErg]);
 
-  return { usdCNeta };
+  return { usdCNeta, usdErg };
 };
 
 export default useConvertPrice;
