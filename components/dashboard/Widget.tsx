@@ -45,6 +45,7 @@ interface WidgetProps {
   title2Tooltip?: string;
   miniText?: string;
   miniText2?: string;
+  miniTextLg?: boolean;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -217,7 +218,11 @@ const Widget = (props: WidgetProps) => {
             <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
               {props.text}
             </p>
-            <p className={styles.miniText}>{props.miniText}</p>
+            <p
+              className={props.miniTextLg ? styles.miniTextLg : styles.miniText}
+            >
+              {props.miniText}
+            </p>
           </div>
         ) : (
           <div className={styles.loaderPrice}>

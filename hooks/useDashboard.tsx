@@ -6,7 +6,6 @@ import usecBtcPrice from "./usecBtcPrice";
 import useAnetaData, { AnetaData } from "./useAnetaData";
 import useCommunityFund from "./useCommunityFund";
 import useBitcoinVault from "./useBitcoinVault";
-import useCommunityVault from "./useCommunityVault";
 import useCommunityRevenue from "./useCommunityRevenue";
 
 export default function useDashboard() {
