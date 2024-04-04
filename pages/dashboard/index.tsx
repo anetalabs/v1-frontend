@@ -201,7 +201,7 @@ export default function Dashboard() {
           title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={
-            "https://cexplorer.io/address/addr1vyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2csgwlax/asset#data"
+            "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
           }
           externalLink
           noPrice
@@ -314,7 +314,54 @@ export default function Dashboard() {
           //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
           // }
         />
-
+        <Widget
+          title={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "Live Stake"
+              : "Stake cNETA"
+          }
+          text={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
+              ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
+              : undefined
+          }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNetaPrice
+              ? "$" +
+                numberFormat(
+                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
+          }
+          buttonLink="/stake"
+          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          noPrice
+          noHeaderPrice
+          titleLg
+          textLg
+          miniTextLg
+        />
         <Widget
           // text="Coming Soon"
           text={
@@ -414,54 +461,7 @@ export default function Dashboard() {
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
           titleLeft={!!walletMeta}
         /> */}
-        <Widget
-          title={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? "Live Stake"
-              : "Stake cNETA"
-          }
-          text={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..." &&
-            usdCNetaPrice
-              ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
-              : undefined
-          }
-          miniText={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..." &&
-            usdCNetaPrice
-              ? "$" +
-                numberFormat(
-                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
-                  2,
-                  2
-                )
-              : undefined
-          }
-          buttonTitle={
-            !walletMeta ||
-            !stakingInfo?.staking ||
-            !address ||
-            walletAddress === "Connecting..."
-              ? "Stake"
-              : undefined
-          }
-          buttonLink="/stake"
-          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
-          noPrice
-          noHeaderPrice
-          titleLg
-          textLg
-          miniTextLg
-        />
+
         <Widget
           // text="Coming Soon"
           text={

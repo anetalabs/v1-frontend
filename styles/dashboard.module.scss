@@ -1,10 +1,9 @@
 @use "./variables.scss" as var;
 
 .dashboardContainer {
-  width: 1040px;
+  max-width: 1100px;
   position: absolute;
-  left: calc(((100% + 200px) - 1040px) / 2);
-  // top: calc((100vh - 650px) / 2);
+  left: calc(((100% + 200px) - 1100px) / 2);
   top: 16vh;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -256,12 +255,12 @@
     }
   }
 
-  @media (max-width: 1470px) {
+  @media (max-width: 1600px) {
     left: 400px;
   }
+
   @media (max-width: 1300px) {
-    left: calc(((100%) - 225px) / 2);
-    width: 570px;
+    left: calc(((100%) - 30vw) / 2);
     height: auto;
     top: 90px;
     .sectionChart {
@@ -271,9 +270,7 @@
     }
   }
   @media (max-width: 1000px) {
-    left: calc(((100%) - 570px) / 2);
-    width: 90%;
-    max-width: 570px;
+    left: calc(((100%) - 100vw) / 2);
     .sectionChart {
       .chartTvl {
         width: 100%;
@@ -282,6 +279,10 @@
   }
   @media (max-width: 633px) {
     left: 5%;
+  }
+  @media (min-width: 450px) {
+    padding: 0 1.25rem;
+
   }
   @media (max-width: 450px) {
     position: static;
