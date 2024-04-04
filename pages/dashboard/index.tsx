@@ -201,7 +201,7 @@ export default function Dashboard() {
           title={`${isMobile ? "Community" : "Community"} Revenue`}
           buttonTitle="Track"
           buttonLink={
-            "https://cexplorer.io/address/addr1vyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2csgwlax/asset#data"
+            "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
           }
           externalLink
           noPrice
