@@ -295,6 +295,7 @@ export default function Dashboard() {
           }
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
+          textRow={!walletMeta}
           // titleCenter={
           //   !!walletMeta &&
           //   !(
