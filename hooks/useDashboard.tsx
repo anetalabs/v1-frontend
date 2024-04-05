@@ -45,10 +45,10 @@ export default function useDashboard() {
       setProtocolVolume(
         numberFormat(
           (
-            Number(
-              vault?.chain_stats.funded_txo_sum +
+            (vault
+              ? vault?.chain_stats.funded_txo_sum +
                 vault?.chain_stats.spent_txo_sum
-            ) / 100000000
+              : 0) / 100000000
           ).toString(),
           5
         )
@@ -61,7 +61,7 @@ export default function useDashboard() {
       setCommunityRevenue(
         numberFormat(
           (
-            Number(communityRevenueInfo?.info.cbtcBalance) / 100000000
+            Number(communityRevenueInfo?.info.cbtcBalance ?? "0") / 100000000
           ).toString(),
           8
         )
