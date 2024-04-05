@@ -194,6 +194,7 @@
   }
   .assetContainer {
     display: flex;
+    align-items: flex-end;
     .assetTable {
       width: 100%;
       .assetTableHeader,
