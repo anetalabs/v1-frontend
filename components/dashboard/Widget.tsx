@@ -5,6 +5,7 @@ import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import useWindowSize from "../../hooks/useResponsive";
 import { classNames } from "../../utils/Classnames";
 import Tooltip from "../Tooltip";
+import { numberFormat } from "../../utils/format";
 
 interface WidgetProps {
   dailyChangePrice?: string;
@@ -312,7 +313,12 @@ const Widget = (props: WidgetProps) => {
         </div>
       ) : undefined}
       {props.assets ? (
-        <div className={styles.assetContainer}>
+        <div
+          className={styles.assetContainer}
+          style={{
+            visibility: props.text === "loading" ? "hidden" : "visible",
+          }}
+        >
           <div className={styles.assetTable}>
             <div className={styles.assetTableHeader}>
               <p>Token</p>
@@ -322,10 +328,10 @@ const Widget = (props: WidgetProps) => {
             {props.assets.table.map((asset: any) => (
               <div key={asset.token} className={styles.assetTableRow}>
                 <p>
-                  {asset.amount} {asset.token}
+                  {numberFormat(asset.amount, 4, 0, true)} {asset.token}
                 </p>
-                <p>{asset.adaValue} ADA</p>
-                <p>${asset.usdValue}</p>
+                <p>{numberFormat(asset.adaValue, 0, 0)} ADA</p>
+                <p>${numberFormat(asset.usdValue, 2, 2)}</p>
               </div>
             ))}
           </div>

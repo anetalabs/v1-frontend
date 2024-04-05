@@ -19,6 +19,11 @@ import useAdaPrice from "../../hooks/useAdaPrice";
 import useCBtcPrice from "../../hooks/usecBtcPrice";
 
 export default function Dashboard() {
+  const cNetaAmount = 120600000;
+  const adaAmount = 200402;
+  const cBtcAmount = 1.5023;
+  const ergAmount = 56391;
+
   const {
     usdBtcPrice,
     usdcBtcPrice,
@@ -32,14 +37,13 @@ export default function Dashboard() {
     protocolVolume,
     communityRevenue,
     adaFund,
+    usdAda,
+    cBtcAda,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
 
-  const { usdCNeta: usdCNetaPrice, usdErg: usdErgPrice } = useConvertPrice();
-
-  const { usdAda: usdAdaPrice } = useAdaPrice();
-  const { cBtcAda: cBtcAdaPrice } = useCBtcPrice();
+  const { usdCNeta, usdErg } = useConvertPrice();
 
   const { width } = useWindowSize();
   const isMobile = width <= 550;
@@ -238,7 +242,7 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 8) ??
                     "0") + " cNETA"
                 : "loading"
@@ -249,11 +253,11 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? "$" +
                     numberFormat(
                       (
-                        stakingInfo?.totalLiveStake * Number(usdCNetaPrice)
+                        stakingInfo?.totalLiveStake * Number(usdCNeta)
                       ).toString(),
                       2,
                       2
@@ -269,7 +273,7 @@ export default function Dashboard() {
               : stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
               ? stakingInfo.staking
                 ? (numberFormat(stakingInfo?.liveStake.toString(), 8) ?? "0") +
                   " cNETA"
@@ -281,12 +285,10 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? "$" +
                     numberFormat(
-                      (
-                        stakingInfo?.liveStake * Number(usdCNetaPrice)
-                      ).toString(),
+                      (stakingInfo?.liveStake * Number(usdCNeta)).toString(),
                       2,
                       2
                     ) ?? "0.00"
@@ -329,7 +331,7 @@ export default function Dashboard() {
             stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..." &&
-            usdCNetaPrice
+            usdCNeta
               ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
               : undefined
           }
@@ -338,10 +340,10 @@ export default function Dashboard() {
             stakingInfo?.staking &&
             address &&
             walletAddress !== "Connecting..." &&
-            usdCNetaPrice
+            usdCNeta
               ? "$" +
                 numberFormat(
-                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
+                  (stakingInfo.liveStake * Number(usdCNeta)).toString(),
                   2,
                   2
                 )
@@ -385,8 +387,8 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.btc *
-                    Number(usdAdaPrice) *
-                    Number(cBtcAdaPrice) *
+                    Number(usdAda) *
+                    Number(cBtcAda) *
                     36
                   ).toString(),
                   2,
@@ -414,7 +416,7 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.erg *
-                    Number(usdErgPrice) *
+                    Number(usdErg) *
                     36
                   ).toString(),
                   2,
@@ -485,8 +487,8 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.btc *
-                    Number(usdAdaPrice) *
-                    Number(cBtcAdaPrice)
+                    Number(usdAda) *
+                    Number(cBtcAda)
                   ).toString(),
                   2,
                   2
@@ -512,7 +514,7 @@ export default function Dashboard() {
               ? "$" +
                 numberFormat(
                   (
-                    +stakingInfo?.expectedRewards.erg * Number(usdErgPrice)
+                    +stakingInfo?.expectedRewards.erg * Number(usdErg)
                   ).toString(),
                   2,
                   2
@@ -545,8 +547,31 @@ export default function Dashboard() {
           }
         />
         <Widget
-          text={usdFundPrice ?? "loading"}
-          miniText={numberFormat(adaFund?.toString() ?? "0") + " ADA"}
+          text={
+            usdCNeta && usdAda && usdErg && cBtcAda
+              ? "$" +
+                numberFormat(
+                  cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg),
+                  2,
+                  2
+                )
+              : "loading"
+          }
+          miniText={
+            (usdCNeta && usdAda && usdErg && cBtcAda
+              ? numberFormat(
+                  (cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg)) /
+                    Number(usdAda),
+                  0
+                )
+              : "0") + " ADA"
+          }
           title={`Community Fund`}
           noPrice
           noMargin
@@ -557,27 +582,27 @@ export default function Dashboard() {
             table: [
               {
                 token: "cNETA",
-                amount: "120.6M",
-                adaValue: "190,034",
-                usdValue: "190,034",
+                amount: cNetaAmount,
+                adaValue: (cNetaAmount * Number(usdCNeta)) / Number(usdAda),
+                usdValue: cNetaAmount * Number(usdCNeta),
               },
               {
                 token: "ADA",
-                amount: "191,034",
-                adaValue: "190,034",
-                usdValue: "190,034",
+                amount: adaAmount,
+                adaValue: adaAmount,
+                usdValue: adaAmount * Number(usdAda),
               },
               {
                 token: "cBTC",
-                amount: "1.21",
-                adaValue: "190,034",
-                usdValue: "190,034",
+                amount: cBtcAmount,
+                adaValue: cBtcAmount * Number(cBtcAda),
+                usdValue: cBtcAmount * Number(usdAda) * Number(cBtcAda),
               },
               {
                 token: "ERG",
-                amount: "56,391",
-                adaValue: "190,034",
-                usdValue: "190,034",
+                amount: ergAmount,
+                adaValue: (ergAmount * Number(usdErg)) / Number(usdAda),
+                usdValue: ergAmount * Number(usdErg),
               },
             ],
             wallets: [
