@@ -15,8 +15,6 @@ import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useConvertPrice from "../../hooks/useConvertPrice";
-import useAdaPrice from "../../hooks/useAdaPrice";
-import useCBtcPrice from "../../hooks/usecBtcPrice";
 
 export default function Dashboard() {
   const cNetaAmount = 120600000;
