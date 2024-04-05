@@ -576,6 +576,8 @@ export default function Dashboard() {
           colSpanValue={6}
           colSpanSm
           textRow
+          textXl
+          miniTextXl
           assets={{
             table: [
               {

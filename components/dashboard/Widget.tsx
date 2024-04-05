@@ -31,6 +31,7 @@ interface WidgetProps {
   timerInterval?: number;
   text?: string;
   textLg?: boolean;
+  textXl?: boolean;
   text2?: string;
   title2?: string;
   noMargin?: boolean;
@@ -49,6 +50,7 @@ interface WidgetProps {
   miniText?: string;
   miniText2?: string;
   miniTextLg?: boolean;
+  miniTextXl?: boolean;
   textRow?: boolean;
   assets?: any;
 }
@@ -227,11 +229,25 @@ const Widget = (props: WidgetProps) => {
               gap: props.textRow ? "0.5rem" : undefined,
             }}
           >
-            <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+            <p
+              className={
+                props.textXl
+                  ? styles.valueTextXl
+                  : props.textLg
+                  ? styles.valueTextLg
+                  : styles.valueText
+              }
+            >
               {props.text}
             </p>
             <p
-              className={props.miniTextLg ? styles.miniTextLg : styles.miniText}
+              className={
+                props.miniTextXl
+                  ? styles.miniTextXl
+                  : props.miniTextLg
+                  ? styles.miniTextLg
+                  : styles.miniText
+              }
               style={{
                 marginTop: props.textRow ? "0.25rem" : undefined,
               }}
