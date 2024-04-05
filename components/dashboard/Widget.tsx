@@ -38,6 +38,8 @@ interface WidgetProps {
   onWalletBtnClick?: () => void;
   colSpan?: boolean;
   colSpanSm?: boolean;
+  colSpanValue?: number;
+  colSpanSmValue?: number;
   order?: number;
   paddingTop?: string;
   tooltip?: string;
@@ -46,6 +48,8 @@ interface WidgetProps {
   miniText?: string;
   miniText2?: string;
   miniTextLg?: boolean;
+  textRow?: boolean;
+  assets?: any;
 }
 
 const Widget = (props: WidgetProps) => {
@@ -94,22 +98,21 @@ const Widget = (props: WidgetProps) => {
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
     <div
-      className={
-        (isMobile
-          ? props.colSpanSm
-            ? styles.colSpan2
-            : styles.colSpan1
-          : props.colSpan
-          ? styles.colSpan5
-          : styles.colSpan3) +
-        " " +
-        styles.widget +
-        " " +
-        (props.colSpanSm ? styles.colSpanSm : "")
-      }
+      className={styles.widget}
       style={{
         order: isMobile && props.order ? props.order : undefined,
         paddingTop: props.paddingTop ?? undefined,
+        gridColumn: isMobile
+          ? props.colSpanSmValue
+            ? `span ${props.colSpanSmValue} / span ${props.colSpanSmValue}`
+            : props.colSpanSm
+            ? "span 2 / span 2"
+            : "span 1 / span 1"
+          : props.colSpanValue
+          ? `span ${props.colSpanValue} / span ${props.colSpanValue}`
+          : props.colSpan
+          ? "span 5 / span 5"
+          : "span 3 / span 3",
       }}
     >
       {props.title && (
@@ -214,12 +217,23 @@ const Widget = (props: WidgetProps) => {
 
       {props.text ? (
         props.text !== "loading" ? (
-          <div className={styles.textContainer}>
+          <div
+            className={styles.textContainer}
+            style={{
+              display: "flex",
+              flexDirection: props.textRow ? "row" : "column",
+              alignItems: props.textRow ? "center" : undefined,
+              gap: props.textRow ? "0.5rem" : undefined,
+            }}
+          >
             <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
               {props.text}
             </p>
             <p
               className={props.miniTextLg ? styles.miniTextLg : styles.miniText}
+              style={{
+                marginTop: props.textRow ? "0.25rem" : undefined,
+              }}
             >
               {props.miniText}
             </p>
@@ -293,6 +307,40 @@ const Widget = (props: WidgetProps) => {
           ) : (
             <div className={styles.loaderPrice}>
               <div className={styles.loader}></div>
+            </div>
+          )}
+        </div>
+      ) : undefined}
+      {props.assets ? (
+        <div className={styles.assetContainer}>
+          <div className={styles.assetTable}>
+            <div className={styles.assetTableHeader}>
+              <p>Token</p>
+              <p>ADA Value</p>
+              <p>USD Value</p>
+            </div>
+            {props.assets.table.map((asset: any) => (
+              <div key={asset.token} className={styles.assetTableRow}>
+                <p>
+                  {asset.amount} {asset.token}
+                </p>
+                <p>{asset.adaValue} ADA</p>
+                <p>${asset.usdValue}</p>
+              </div>
+            ))}
+          </div>
+          {props.assets.wallets && (
+            <div className={styles.btnGroup}>
+              {props.assets.wallets.map((wallet: string, i: number) => (
+                <Link
+                  key={i}
+                  className={styles.btnBtc}
+                  href={wallet}
+                  target="_blank"
+                >
+                  <span className={styles.btnText}>Wallet {i + 1}</span>
+                </Link>
+              ))}
             </div>
           )}
         </div>

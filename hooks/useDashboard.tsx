@@ -116,5 +116,6 @@ export default function useDashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
+    adaFund,
   };
 }
