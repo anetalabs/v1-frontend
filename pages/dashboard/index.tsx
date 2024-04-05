@@ -546,7 +546,7 @@ export default function Dashboard() {
         />
         <Widget
           text={usdFundPrice ?? "loading"}
-          miniText={numberFormat(adaFund) + " ADA"}
+          miniText={numberFormat(adaFund?.toString() ?? "0") + " ADA"}
           title={`Community Fund`}
           noPrice
           noMargin
