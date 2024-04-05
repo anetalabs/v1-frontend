@@ -117,5 +117,7 @@ export default function useDashboard() {
     protocolVolume,
     communityRevenue,
     adaFund,
+    usdAda,
+    cBtcAda,
   };
 }
