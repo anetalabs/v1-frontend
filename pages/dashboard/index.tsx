@@ -31,6 +31,7 @@ export default function Dashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
+    adaFund,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
@@ -41,7 +42,7 @@ export default function Dashboard() {
   const { cBtcAda: cBtcAdaPrice } = useCBtcPrice();
 
   const { width } = useWindowSize();
-  const isMobile = width <= 450;
+  const isMobile = width <= 550;
 
   const { data, loading } = useAssetsApi();
 
@@ -542,6 +543,49 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+        />
+        <Widget
+          text={usdFundPrice ?? "loading"}
+          miniText={numberFormat(adaFund?.toString() ?? "0") + " ADA"}
+          title={`Community Fund`}
+          noPrice
+          noMargin
+          colSpanValue={6}
+          colSpanSm
+          textRow
+          assets={{
+            table: [
+              {
+                token: "cNETA",
+                amount: "120.6M",
+                adaValue: "190,034",
+                usdValue: "190,034",
+              },
+              {
+                token: "ADA",
+                amount: "191,034",
+                adaValue: "190,034",
+                usdValue: "190,034",
+              },
+              {
+                token: "cBTC",
+                amount: "1.21",
+                adaValue: "190,034",
+                usdValue: "190,034",
+              },
+              {
+                token: "ERG",
+                amount: "56,391",
+                adaValue: "190,034",
+                usdValue: "190,034",
+              },
+            ],
+            wallets: [
+              "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5",
+              "https://cexplorer.io/address/addr1q9etscm7q6zaz7433m40q2qctyp868npxvl8amkv54ff87se47jdymvpwc7kpvjap0nf5cupj06p5ljstdzh9an6y90s68qfha",
+              "https://explorer.ergoplatform.com/en/addresses/9i8StiuYEckoVNpaeU12m5DSP8shUtgh3drRtZ8EUpcYRnBLthr",
+            ],
+          }}
         />
         <ConnectWallet
           isOpen={isWalletShowing}
