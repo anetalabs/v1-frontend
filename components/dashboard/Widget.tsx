@@ -39,8 +39,10 @@ interface WidgetProps {
   walletBalance?: string | null;
   onWalletBtnClick?: () => void;
   colSpan?: boolean;
+  colSpanMd?: boolean;
   colSpanSm?: boolean;
   colSpanValue?: number;
+  colSpanMdValue?: number;
   colSpanSmValue?: number;
   order?: number;
   paddingTop?: string;
@@ -58,6 +60,8 @@ interface WidgetProps {
 const Widget = (props: WidgetProps) => {
   const { width } = useWindowSize();
   const isMobile = width <= 550;
+  const isTablet =
+    (width >= 551 && width <= 1000) || (width >= 1101 && width <= 1250);
   const calculateTimeLeft = () => {
     const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
     const currentTime = props.currentDate
@@ -105,17 +109,9 @@ const Widget = (props: WidgetProps) => {
       style={{
         order: isMobile && props.order ? props.order : undefined,
         paddingTop: props.paddingTop ?? undefined,
-        gridColumn: isMobile
-          ? props.colSpanSmValue
-            ? `span ${props.colSpanSmValue} / span ${props.colSpanSmValue}`
-            : props.colSpanSm
-            ? "span 2 / span 2"
-            : "span 1 / span 1"
-          : props.colSpanValue
-          ? `span ${props.colSpanValue} / span ${props.colSpanValue}`
-          : props.colSpan
-          ? "span 5 / span 5"
-          : "span 3 / span 3",
+        gridColumn: props.colSpanValue
+          ? `span ${props.colSpanValue}`
+          : undefined,
       }}
     >
       {props.title && (

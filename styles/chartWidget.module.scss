@@ -109,9 +109,21 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 750px) {
   .chartWidget {
-    grid-column: span 2 / span 2;
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 600px) {
+  .chartWidget {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 550px) {
+  .chartWidget {
+    grid-column: span 2;
   }
 }
 

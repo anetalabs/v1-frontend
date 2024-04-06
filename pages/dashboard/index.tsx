@@ -15,6 +15,7 @@ import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useConvertPrice from "../../hooks/useConvertPrice";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function Dashboard() {
   const cNetaAmount = 120600000;
@@ -43,9 +44,23 @@ export default function Dashboard() {
 
   const { usdCNeta, usdErg } = useConvertPrice();
 
-  const { width } = useWindowSize();
-  const isMobile = width <= 550;
-
+  const { innerWidth, outerWidth } = useWindowSize();
+  const mediaMobile = useMediaQuery("( max-width: 550px )");
+  const mediaLaptop = useMediaQuery(
+    "( min-width: 551px ) and ( max-width: 1250px )"
+  );
+  const mediaTablet = useMediaQuery(
+    "( min-width: 551px ) and ( max-width: 750px )"
+  );
+  const isMobile = outerWidth <= 550 || mediaMobile || innerWidth <= 550;
+  const isLaptop =
+    (outerWidth >= 551 && outerWidth <= 1250) ||
+    mediaLaptop ||
+    (innerWidth >= 551 && innerWidth <= 1250);
+  const isTablet =
+    (outerWidth >= 551 && outerWidth <= 750) ||
+    mediaTablet ||
+    (innerWidth >= 551 && innerWidth <= 750);
   const { data, loading } = useAssetsApi();
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
@@ -194,8 +209,7 @@ export default function Dashboard() {
               : undefined
           }
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
-          colSpan
-          colSpanSm
+          colSpanValue={isMobile ? 2 : isTablet ? 6 : 5}
           noMargin={isMobile && !!walletMeta && !!address}
         />
 
@@ -447,6 +461,7 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isLaptop ? 6 : 3}
         />
         {/* <Widget
           noPrice
@@ -544,6 +559,7 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isLaptop ? 6 : 3}
         />
         <Widget
           text={
@@ -574,8 +590,7 @@ export default function Dashboard() {
           title={`Community Fund`}
           noPrice
           noMargin
-          colSpanValue={6}
-          colSpanSm
+          colSpanValue={isMobile ? 2 : isLaptop ? 12 : 6}
           textRow
           textXl
           miniTextXl

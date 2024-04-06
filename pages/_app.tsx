@@ -18,7 +18,7 @@ export const AppContext = createContext<{
 
 export default function App({ Component, pageProps }: AppProps) {
   const { width } = useWindowSize();
-  const isLarge = width > 1000;
+  const isLarge = width > 1100;
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
