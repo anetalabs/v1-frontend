@@ -46,21 +46,13 @@ export default function Dashboard() {
 
   const { innerWidth, outerWidth } = useWindowSize();
   const mediaMobile = useMediaQuery("( max-width: 550px )");
-  const mediaLaptop = useMediaQuery(
-    "( min-width: 551px ) and ( max-width: 1250px )"
-  );
-  const mediaTablet = useMediaQuery(
-    "( min-width: 551px ) and ( max-width: 750px )"
-  );
+  const mediaLaptop = useMediaQuery("( max-width: 1250px )");
+  const mediaTablet = useMediaQuery("( max-width: 750px )");
+  const mediaTabletSm = useMediaQuery("( max-width: 600px )");
   const isMobile = outerWidth <= 550 || mediaMobile || innerWidth <= 550;
-  const isLaptop =
-    (outerWidth >= 551 && outerWidth <= 1250) ||
-    mediaLaptop ||
-    (innerWidth >= 551 && innerWidth <= 1250);
-  const isTablet =
-    (outerWidth >= 551 && outerWidth <= 750) ||
-    mediaTablet ||
-    (innerWidth >= 551 && innerWidth <= 750);
+  const isLaptop = outerWidth <= 1250 || mediaLaptop || innerWidth <= 1250;
+  const isTablet = outerWidth <= 750 || mediaTablet || innerWidth <= 750;
+  const isTabletSm = outerWidth <= 600 || mediaTabletSm || innerWidth <= 600;
   const { data, loading } = useAssetsApi();
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
@@ -209,7 +201,7 @@ export default function Dashboard() {
               : undefined
           }
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
-          colSpanValue={isMobile ? 2 : isTablet ? 6 : 5}
+          colSpanValue={isMobile ? 2 : isTabletSm ? 12 : isTablet ? 6 : 5}
           noMargin={isMobile && !!walletMeta && !!address}
         />
 
