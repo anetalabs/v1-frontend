@@ -4,7 +4,6 @@
   max-width: 1100px;
   position: absolute;
   left: calc(((100% + 200px) - 1100px) / 2);
-  // top: 16vh;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
@@ -80,7 +79,7 @@
         gap: 12px;
         .btnBtc,
         .btncBtc {
-          width: 145px;
+          padding: 0 1rem;
           height: 30px;
           display: flex;
           align-items: center;
@@ -122,7 +121,6 @@
 
   .sectionChart {
     display: grid;
-    // grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-columns: repeat(5, minmax(0, 1fr));
     grid-column: span 8 / span 8;
     width: 100%;
@@ -202,7 +200,7 @@
           gap: 12px;
           .btnBtc,
           .btncBtc {
-            width: 145px;
+            padding: 0 1rem;
             height: 30px;
             display: flex;
             align-items: center;
@@ -259,8 +257,8 @@
     left: 400px;
   }
 
-  @media (max-width: 1300px) {
-    left: calc(((100%) - 30vw) / 2);
+  @media (max-width: 1400px) {
+    left: 290px;
     height: auto;
     top: 90px;
     .sectionChart {
@@ -269,21 +267,23 @@
       justify-content: flex-start;
     }
   }
-  @media (max-width: 1000px) {
-    left: calc(((100%) - 100vw) / 2);
+  @media (max-width: 1100px) {
+    position: static;
+    left: 0;
     .sectionChart {
       .chartTvl {
         width: 100%;
       }
     }
   }
-  @media (max-width: 633px) {
-    left: 5%;
+  @media (max-width: 750px) {
+    .chartTvl {
+      grid-column: span 12;
+    }
   }
-  @media (min-width: 550px) {
+  @media (min-width: 551px) {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-
   }
   @media (max-width: 550px) {
     position: static;
@@ -293,9 +293,8 @@
     gap: 16px;
     width: 100%;
     .chartTvl {
-      // height: 420px;
-      grid-column: span 2 / span 2;
-      grid-row: span 1 / span 1;
+      grid-column: span 2;
+      grid-row: span 1;
       .headerChart {
         gap: 16px;
       }
@@ -305,7 +304,6 @@
       gap: 16px;
       grid-column: span 2 / span 2;
       .chartTvl {
-        // height: 420px;
         grid-column: span 1 / span 1;
         grid-row: span 1 / span 1;
         .headerChart {

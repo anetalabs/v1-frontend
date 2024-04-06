@@ -5,6 +5,7 @@ import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import useWindowSize from "../../hooks/useResponsive";
 import { classNames } from "../../utils/Classnames";
 import Tooltip from "../Tooltip";
+import { numberFormat } from "../../utils/format";
 
 interface WidgetProps {
   dailyChangePrice?: string;
@@ -30,6 +31,7 @@ interface WidgetProps {
   timerInterval?: number;
   text?: string;
   textLg?: boolean;
+  textXl?: boolean;
   text2?: string;
   title2?: string;
   noMargin?: boolean;
@@ -37,8 +39,10 @@ interface WidgetProps {
   walletBalance?: string | null;
   onWalletBtnClick?: () => void;
   colSpan?: boolean;
+  colSpanMd?: boolean;
   colSpanSm?: boolean;
   colSpanValue?: number;
+  colSpanMdValue?: number;
   colSpanSmValue?: number;
   order?: number;
   paddingTop?: string;
@@ -48,6 +52,7 @@ interface WidgetProps {
   miniText?: string;
   miniText2?: string;
   miniTextLg?: boolean;
+  miniTextXl?: boolean;
   textRow?: boolean;
   assets?: any;
 }
@@ -55,6 +60,8 @@ interface WidgetProps {
 const Widget = (props: WidgetProps) => {
   const { width } = useWindowSize();
   const isMobile = width <= 550;
+  const isTablet =
+    (width >= 551 && width <= 1000) || (width >= 1101 && width <= 1250);
   const calculateTimeLeft = () => {
     const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
     const currentTime = props.currentDate
@@ -102,17 +109,9 @@ const Widget = (props: WidgetProps) => {
       style={{
         order: isMobile && props.order ? props.order : undefined,
         paddingTop: props.paddingTop ?? undefined,
-        gridColumn: isMobile
-          ? props.colSpanSmValue
-            ? `span ${props.colSpanSmValue} / span ${props.colSpanSmValue}`
-            : props.colSpanSm
-            ? "span 2 / span 2"
-            : "span 1 / span 1"
-          : props.colSpanValue
-          ? `span ${props.colSpanValue} / span ${props.colSpanValue}`
-          : props.colSpan
-          ? "span 5 / span 5"
-          : "span 3 / span 3",
+        gridColumn: props.colSpanValue
+          ? `span ${props.colSpanValue}`
+          : undefined,
       }}
     >
       {props.title && (
@@ -226,11 +225,25 @@ const Widget = (props: WidgetProps) => {
               gap: props.textRow ? "0.5rem" : undefined,
             }}
           >
-            <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+            <p
+              className={
+                props.textXl
+                  ? styles.valueTextXl
+                  : props.textLg
+                  ? styles.valueTextLg
+                  : styles.valueText
+              }
+            >
               {props.text}
             </p>
             <p
-              className={props.miniTextLg ? styles.miniTextLg : styles.miniText}
+              className={
+                props.miniTextXl
+                  ? styles.miniTextXl
+                  : props.miniTextLg
+                  ? styles.miniTextLg
+                  : styles.miniText
+              }
               style={{
                 marginTop: props.textRow ? "0.25rem" : undefined,
               }}
@@ -312,7 +325,12 @@ const Widget = (props: WidgetProps) => {
         </div>
       ) : undefined}
       {props.assets ? (
-        <div className={styles.assetContainer}>
+        <div
+          className={styles.assetContainer}
+          style={{
+            visibility: props.text === "loading" ? "hidden" : "visible",
+          }}
+        >
           <div className={styles.assetTable}>
             <div className={styles.assetTableHeader}>
               <p>Token</p>
@@ -322,10 +340,10 @@ const Widget = (props: WidgetProps) => {
             {props.assets.table.map((asset: any) => (
               <div key={asset.token} className={styles.assetTableRow}>
                 <p>
-                  {asset.amount} {asset.token}
+                  {numberFormat(asset.amount, 4, 0, true)} {asset.token}
                 </p>
-                <p>{asset.adaValue} ADA</p>
-                <p>${asset.usdValue}</p>
+                <p>{numberFormat(asset.adaValue, 0, 0)} ADA</p>
+                <p>${numberFormat(asset.usdValue, 2, 2)}</p>
               </div>
             ))}
           </div>
