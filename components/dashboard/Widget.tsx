@@ -6,11 +6,12 @@ import useWindowSize from "../../hooks/useResponsive";
 import { classNames } from "../../utils/Classnames";
 import Tooltip from "../Tooltip";
 import { numberFormat } from "../../utils/format";
+import Image from "next/image";
 
 interface WidgetProps {
   dailyChangePrice?: string;
-  adaPrice?: string;
-  usdPrice?: string;
+  price?: string;
+  miniPrice?: string;
   token?: string;
   icon?: string;
   title?: string;
@@ -170,11 +171,22 @@ const Widget = (props: WidgetProps) => {
       {!props.noHeaderPrice && props.token && (
         <div className={styles.headerPrice}>
           <div className={styles.token}>
-            {props.icon && (
-              <svg width="22" height="22" id="icon">
-                <use href={props.icon}></use>
-              </svg>
-            )}
+            {props.icon &&
+              (props.icon.includes(".svg") ? (
+                <svg width="22" height="22" id="icon">
+                  <use href={props.icon}></use>
+                </svg>
+              ) : (
+                <Image
+                  alt={props.token}
+                  src={props.icon}
+                  width={22}
+                  height={22}
+                  style={{
+                    borderRadius: "100%",
+                  }}
+                />
+              ))}
             {<p className={styles.tokenTitle}>{props.token} Price</p>}
           </div>
           {props.dailyChangePrice && (
@@ -189,10 +201,10 @@ const Widget = (props: WidgetProps) => {
           )}
         </div>
       )}
-      {props.adaPrice && props.usdPrice ? (
+      {props.price ? (
         <div className={styles.priceGroup}>
-          <div className={styles.adaPrice}>{props.adaPrice}</div>
-          <p className={styles.usdPrice}>{props.usdPrice}</p>
+          <div className={styles.adaPrice}>{props.price}</div>
+          <p className={styles.usdPrice}>{props.miniPrice}</p>
         </div>
       ) : !props.noPrice ? (
         <div className={styles.loaderPrice}>
