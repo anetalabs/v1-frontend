@@ -48,7 +48,9 @@ interface WidgetProps {
   paddingTop?: string;
   tooltip?: string;
   titleTooltip?: string;
+  titleTooltipPosition?: "top" | "bottom" | "left" | "right";
   title2Tooltip?: string;
+  title2TooltipPosition?: "top" | "bottom" | "left" | "right";
   miniText?: string;
   miniText2?: string;
   miniTextLg?: boolean;
@@ -127,7 +129,7 @@ const Widget = (props: WidgetProps) => {
             {props.titleTooltip && (
               <Tooltip
                 content={props.titleTooltip}
-                position={isMobile ? "left" : "top"}
+                position={props.titleTooltipPosition ?? "top"}
               >
                 i
               </Tooltip>
@@ -266,7 +268,7 @@ const Widget = (props: WidgetProps) => {
             {props.title2Tooltip && (
               <Tooltip
                 content={props.title2Tooltip}
-                position={isMobile ? "left" : "top"}
+                position={props.title2TooltipPosition ?? "top"}
               >
                 i
               </Tooltip>

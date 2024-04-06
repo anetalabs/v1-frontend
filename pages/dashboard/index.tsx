@@ -271,6 +271,7 @@ export default function Dashboard() {
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          title2TooltipPosition={isMobile ? "right" : "top"}
           text2={
             !walletMeta
               ? undefined
