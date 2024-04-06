@@ -38,6 +38,7 @@ export default function Dashboard() {
     adaFund,
     usdAda,
     cBtcAda,
+    dailyChangeAdaPrice,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
@@ -206,36 +207,35 @@ export default function Dashboard() {
         />
 
         <Widget
-          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
-          title={`${isMobile ? "Community" : "Community"} Revenue`}
-          buttonTitle="Track"
-          buttonLink={
-            "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
-          }
-          externalLink
-          noPrice
-          noMargin
+          dailyChangePrice={dailyChangeBtcPrice}
+          price={adacBtcPrice}
+          miniPrice={usdcBtcPrice}
+          token="cBTC"
+          icon={"/images/crypto/cbtc-logo.svg#Layer_1"}
         />
         <Widget
           dailyChangePrice={dailyChangeBtcPrice}
-          adaPrice={adaBtcPrice}
-          usdPrice={usdBtcPrice}
+          price={adaBtcPrice}
+          miniPrice={usdBtcPrice}
           token="BTC"
           icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
         />
-        {/* <Widget
-          adaPrice={adaFundPrice}
-          usdPrice={usdFundPrice}
-          title="Community Fund"
+        <Widget
+          dailyChangePrice={dailyChangeAdaPrice}
+          price={usdAda ? `$${numberFormat(usdAda, 2, 2)}` : undefined}
+          token="ADA"
+          icon={"/images/crypto/cardano-logo.png"}
         />
         <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
-          noPrice
-          noHeaderPrice
-          titleLg
-        /> */}
+          dailyChangePrice={dailyChangeAdaPrice}
+          price={
+            usdCNeta && usdAda
+              ? `₳${numberFormat(Number(usdCNeta) / Number(usdAda), 5)}`
+              : undefined
+          }
+          token="cNETA"
+          icon={"/images/crypto/cneta-logo-lg.png"}
+        />
         <Widget
           noPrice
           noMargin
@@ -271,6 +271,7 @@ export default function Dashboard() {
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          title2TooltipPosition={isMobile ? "right" : "top"}
           text2={
             !walletMeta
               ? undefined
@@ -302,26 +303,34 @@ export default function Dashboard() {
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
           textRow={!walletMeta}
-          // titleCenter={
-          //   !!walletMeta &&
-          //   !(
-          //     stakingInfo?.staking &&
-          //     address &&
-          //     walletAddress !== "Connecting..."
-          //   )
-          // }
-          // textLg={
-          //   !(
-          //     walletMeta &&
-          //     stakingInfo?.staking &&
-          //     address &&
-          //     walletAddress !== "Connecting..."
-          //   )
-          // }
-          // paddingTop={
-          //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
-          // }
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 4 : 4}
         />
+        <Widget
+          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
+          title={`${isMobile ? "Community" : "Community"} Revenue`}
+          buttonTitle="Track"
+          buttonLink={
+            "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
+          }
+          externalLink
+          noPrice
+          noMargin
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+        />
+        {/* <Widget
+          adaPrice={adaFundPrice}
+          usdPrice={usdFundPrice}
+          title="Community Fund"
+        />
+        <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        /> */}
+
         <Widget
           title={
             walletMeta &&
@@ -369,6 +378,74 @@ export default function Dashboard() {
           titleLg
           textLg
           miniTextLg
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+        />
+        <Widget
+          text={
+            usdCNeta && usdAda && usdErg && cBtcAda
+              ? "$" +
+                numberFormat(
+                  cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg),
+                  2,
+                  2
+                )
+              : "loading"
+          }
+          miniText={
+            (usdCNeta && usdAda && usdErg && cBtcAda
+              ? numberFormat(
+                  (cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg)) /
+                    Number(usdAda),
+                  0
+                )
+              : "0") + " ADA"
+          }
+          title={`Community Fund`}
+          noPrice
+          noMargin
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 6}
+          textRow
+          textXl
+          miniTextXl
+          assets={{
+            table: [
+              {
+                token: "cNETA",
+                amount: cNetaAmount,
+                adaValue: (cNetaAmount * Number(usdCNeta)) / Number(usdAda),
+                usdValue: cNetaAmount * Number(usdCNeta),
+              },
+              {
+                token: "ADA",
+                amount: adaAmount,
+                adaValue: adaAmount,
+                usdValue: adaAmount * Number(usdAda),
+              },
+              {
+                token: "cBTC",
+                amount: cBtcAmount,
+                adaValue: cBtcAmount * Number(cBtcAda),
+                usdValue: cBtcAmount * Number(usdAda) * Number(cBtcAda),
+              },
+              {
+                token: "ERG",
+                amount: ergAmount,
+                adaValue: (ergAmount * Number(usdErg)) / Number(usdAda),
+                usdValue: ergAmount * Number(usdErg),
+              },
+            ],
+            wallets: [
+              "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5",
+              "https://cexplorer.io/address/addr1q9etscm7q6zaz7433m40q2qctyp868npxvl8amkv54ff87se47jdymvpwc7kpvjap0nf5cupj06p5ljstdzh9an6y90s68qfha",
+              "https://explorer.ergoplatform.com/en/addresses/9i8StiuYEckoVNpaeU12m5DSP8shUtgh3drRtZ8EUpcYRnBLthr",
+            ],
+          }}
         />
         <Widget
           // text="Coming Soon"
@@ -453,6 +530,7 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
         />
         {/* <Widget
           noPrice
@@ -550,74 +628,9 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
         />
-        <Widget
-          text={
-            usdCNeta && usdAda && usdErg && cBtcAda
-              ? "$" +
-                numberFormat(
-                  cNetaAmount * Number(usdCNeta) +
-                    adaAmount * Number(usdAda) +
-                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
-                    ergAmount * Number(usdErg),
-                  2,
-                  2
-                )
-              : "loading"
-          }
-          miniText={
-            (usdCNeta && usdAda && usdErg && cBtcAda
-              ? numberFormat(
-                  (cNetaAmount * Number(usdCNeta) +
-                    adaAmount * Number(usdAda) +
-                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
-                    ergAmount * Number(usdErg)) /
-                    Number(usdAda),
-                  0
-                )
-              : "0") + " ADA"
-          }
-          title={`Community Fund`}
-          noPrice
-          noMargin
-          colSpanValue={isMobile ? 2 : isLaptop ? 12 : 6}
-          textRow
-          textXl
-          miniTextXl
-          assets={{
-            table: [
-              {
-                token: "cNETA",
-                amount: cNetaAmount,
-                adaValue: (cNetaAmount * Number(usdCNeta)) / Number(usdAda),
-                usdValue: cNetaAmount * Number(usdCNeta),
-              },
-              {
-                token: "ADA",
-                amount: adaAmount,
-                adaValue: adaAmount,
-                usdValue: adaAmount * Number(usdAda),
-              },
-              {
-                token: "cBTC",
-                amount: cBtcAmount,
-                adaValue: cBtcAmount * Number(cBtcAda),
-                usdValue: cBtcAmount * Number(usdAda) * Number(cBtcAda),
-              },
-              {
-                token: "ERG",
-                amount: ergAmount,
-                adaValue: (ergAmount * Number(usdErg)) / Number(usdAda),
-                usdValue: ergAmount * Number(usdErg),
-              },
-            ],
-            wallets: [
-              "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5",
-              "https://cexplorer.io/address/addr1q9etscm7q6zaz7433m40q2qctyp868npxvl8amkv54ff87se47jdymvpwc7kpvjap0nf5cupj06p5ljstdzh9an6y90s68qfha",
-              "https://explorer.ergoplatform.com/en/addresses/9i8StiuYEckoVNpaeU12m5DSP8shUtgh3drRtZ8EUpcYRnBLthr",
-            ],
-          }}
-        />
+
         <ConnectWallet
           isOpen={isWalletShowing}
           setIsOpen={setIsWalletShowing}

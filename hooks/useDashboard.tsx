@@ -12,7 +12,7 @@ export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
   const vault = useBitcoinVault();
   const communityRevenueInfo = useCommunityRevenue();
-  const { usdAda } = useAdaPrice();
+  const { usdAda, dailyChangeAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
   const { adaFund } = useCommunityFund();
@@ -22,6 +22,9 @@ export default function useDashboard() {
   const [adaBtcPrice, setAdaBtcPrice] = useState<string | undefined>();
   const [adacBtcPrice, setAdacBtcPrice] = useState<string | undefined>();
   const [dailyChangeBtcPrice, setDailyChangeBtcPrice] = useState<
+    string | undefined
+  >();
+  const [dailyChangeAdaPrice, setDailyChangeAdaPrice] = useState<
     string | undefined
   >();
   const [tvlData, setTvlData] = useState<AnetaData[] | undefined>();
@@ -85,6 +88,12 @@ export default function useDashboard() {
   }, [usdAda, cBtcAda]);
 
   useEffect(() => {
+    if (usdAda) {
+      setDailyChangeAdaPrice((Number(dailyChangeAda) * 100).toFixed(2));
+    }
+  }, [usdAda, dailyChangeAda]);
+
+  useEffect(() => {
     if (usdAda && adaFund) {
       setAdaFundPrice(adaFormat(adaFund));
       setUsdFundPrice(usdFormat((Number(adaFund) * Number(usdAda)).toFixed(2)));
@@ -119,5 +128,6 @@ export default function useDashboard() {
     adaFund,
     usdAda,
     cBtcAda,
+    dailyChangeAdaPrice,
   };
 }
