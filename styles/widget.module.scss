@@ -207,7 +207,7 @@
     align-items: flex-end;
     .assetTable {
       display: grid;
-      gap: 2px;
+      gap: 4px;
       width: 100%;
       .assetTableHeader,
       .assetTableRow {
@@ -223,7 +223,7 @@
     }
     .btnGroup {
       width: 100px;
-      gap: 6px;
+      gap: 12px;
     }
   }
   .btn {
@@ -277,25 +277,6 @@
   }
 
   @media (max-width: 550px) {
-    .headerPrice {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .assetContainer {
-      flex-direction: column;
-      gap: 6px;
-      .btnGroup {
-        flex-direction: row;
-        width: 100%;
-        .btnBtc,
-        .btncBtc {
-          width: 100%;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 550px) {
     grid-column: span 1;
     min-height: 140px;
     .headerPrice {
@@ -335,9 +316,13 @@
       padding-bottom: 0.25rem;
     }
 
+    .headerPrice {
+      flex-direction: column;
+      align-items: flex-start;
+    }
     .assetContainer {
       flex-direction: column;
-      gap: 6px;
+      gap: 12px;
       .btnGroup {
         flex-direction: row;
         width: 100%;
