@@ -223,7 +223,7 @@ export default function Dashboard() {
           token="BTC"
           icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
         />
-        <Widget
+        {/* <Widget
           adaPrice={adaFundPrice}
           usdPrice={usdFundPrice}
           title="Community Fund"
@@ -235,7 +235,7 @@ export default function Dashboard() {
           noPrice
           noHeaderPrice
           titleLg
-        />
+        /> */}
         <Widget
           noPrice
           noMargin
@@ -453,7 +453,6 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
-          colSpanValue={isMobile ? 1 : isLaptop ? 6 : 3}
         />
         {/* <Widget
           noPrice
@@ -551,7 +550,6 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
-          colSpanValue={isMobile ? 1 : isLaptop ? 6 : 3}
         />
         <Widget
           text={
