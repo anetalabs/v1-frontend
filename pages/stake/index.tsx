@@ -1,17 +1,22 @@
 import styles from "../../styles/stake.module.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import ConnectWallet from "../../components/partials/navbar/ConnectWallet";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
 import useStake from "../../hooks/useStake";
 import Link from "next/link";
 import { numberFormat } from "../../utils/format";
+import useLucid from "../../hooks/useLucid";
+import { GlobalContext } from "../../components/GlobalContext";
 
 export default function Stake() {
+  const { getUtxos } = useLucid();
   const { walletMeta, address } = useCardanoWallet();
+  const { config, lucid } = useContext(GlobalContext);
   const [isWalletShowing, setIsWalletShowing] = useState(false);
   const { stakingInfo, fetchStake } = useStake();
   const [stakeLoading, setStakeLoading] = useState(false);
+  const [cNetaBalance, setCNetaBalance] = useState(0);
 
   const handleStake = useCallback(async () => {
     setStakeLoading(true);
@@ -23,11 +28,32 @@ export default function Stake() {
     else setIsWalletShowing(true);
   };
 
+  const fetchCNetaBalance = useCallback(async () => {
+    const utxos = await getUtxos();
+
+    const sumBalanceCNETA = utxos.reduce((total, utxo) => {
+      const amountForUnit = Number(utxo.assets[config.cnetaAssetId]) ?? 0;
+
+      if (amountForUnit) {
+        const quantity = Number(amountForUnit);
+        total += quantity;
+      }
+      return total;
+    }, 0);
+
+    setCNetaBalance(sumBalanceCNETA);
+  }, [config.cnetaAssetId, getUtxos]);
+
   useEffect(() => {
     if (stakingInfo?.staking) {
       setStakeLoading(false);
     }
   }, [stakingInfo]);
+
+  useEffect(() => {
+    fetchCNetaBalance();
+    console.log("fetchCNetaBalance");
+  }, [fetchCNetaBalance]);
 
   return (
     <>
@@ -47,8 +73,7 @@ export default function Stake() {
                 <p>
                   You are currently holding{" "}
                   <b>
-                    {numberFormat(stakingInfo?.stake.toString() ?? "0", 8)}{" "}
-                    cNETA.
+                    {numberFormat(cNetaBalance.toString() ?? "0", 8)} cNETA.
                   </b>
                   <br />
                   Stake it to your earn share of 0.75 cBTC and 18,000 rsERG.

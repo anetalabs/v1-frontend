@@ -1,25 +1,28 @@
 @use "./variables.scss" as var;
 
-.leftNav{
+.leftNav {
   width: 265px;
   background-color: var.$background-color-light;
   position: absolute;
   left: 85px;
-  top: calc((100vh - 330px)/2);
+  top: calc((100vh - 330px) / 2);
   border-radius: 15px;
-  @media (max-height: 425px){
+  @media (max-height: 425px) {
     top: 100px;
   }
-  @media (min-width: 2000px){
-    left: calc(((100vw - 2000px)/2) + 85px);
+  @media (min-width: 2000px) {
+    left: calc(((100vw - 2000px) / 2) + 85px);
   }
-  @media (max-width: 1000px){
-    transform: scale(.9);
+  @media (max-width: 1400px) {
+    left: 20px;
+  }
+  @media (max-width: 1100px) {
+    transform: scale(0.9);
     z-index: 50;
     top: 60px;
     left: 0;
   }
-  .network{
+  .network {
     background-color: var.$background-color-dark;
     position: absolute;
     width: 65px;
@@ -30,16 +33,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    p{
-      color: #F7931A;
+    p {
+      color: #f7931a;
       font-size: 10px;
     }
   }
-  .navigationContainer{
+  .navigationContainer {
     display: flex;
     padding: 20px 10px;
     flex-direction: column;
-    .item{
+    .item {
       display: flex;
       align-items: center;
       height: 45px;
@@ -48,55 +51,54 @@
       padding: 0 20px;
       gap: 25px;
       margin: 2.5px 0;
-      .icon{
+      .icon {
         fill: #323232;
       }
-      .name{
+      .name {
         font-weight: var.$font-weight-semibold;
         color: #323232;
-        img{
+        img {
           margin-left: 5px;
         }
       }
-      &:hover{
+      &:hover {
         background-color: var.$light-color-disable;
       }
-      &.active{
+      &.active {
         background-color: var.$primary-color-light;
-        .icon{
+        .icon {
           fill: var.$primary-color-font;
         }
-        .name{
+        .name {
           color: var.$primary-color-font;
-
         }
       }
     }
-    .line{
+    .line {
       border: 1px solid #32323288;
       width: 210px;
       margin: 10px auto;
     }
-    .social{
+    .social {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 16px;
       margin-top: 20px;
-      .link{
+      .link {
         display: flex;
         align-items: center;
         justify-content: center;
         transition: 0.25s;
-        .icon{
-          use{
+        .icon {
+          use {
             fill: #323232;
-          } 
+          }
         }
-        &:hover{
-          scale:1.05;
-          .icon{
-            use{
+        &:hover {
+          scale: 1.05;
+          .icon {
+            use {
               fill: var.$primary-color-dark;
             }
           }
@@ -104,54 +106,51 @@
       }
     }
   }
-
 }
 
-:global(body.dark){
-
-  .leftNav{
+:global(body.dark) {
+  .leftNav {
     background-color: var.$background-color-dark;
-    .network{
+    .network {
       background-color: var.$background-color-light;
-      p{
-        color: #84312D;
-
+      p {
+        color: #84312d;
       }
     }
-    .navigationContainer{
-      .item{
-        .icon{
-          fill: #B1B1B1;
+    .navigationContainer {
+      .item {
+        .icon {
+          fill: #b1b1b1;
         }
-        p{
-          color: #B1B1B1;
+        p {
+          color: #b1b1b1;
         }
-        &:hover{
+        &:hover {
           background-color: var.$dark-color-disable;
         }
-        &.active{
+        &.active {
           background-color: var.$primary-color-dark;
-          .icon{
+          .icon {
             fill: var.$secundary-color-font;
           }
-          p{
+          p {
             color: var.$secundary-color-font;
           }
         }
       }
-      .line{
-        border: 1px solid #B1B1B188;
+      .line {
+        border: 1px solid #b1b1b188;
       }
-      .social{
-        .link{
-          .icon{
-            use{
-              fill: #B1B1B1;
-            } 
+      .social {
+        .link {
+          .icon {
+            use {
+              fill: #b1b1b1;
+            }
           }
-          &:hover{
-            .icon{
-              use{
+          &:hover {
+            .icon {
+              use {
                 fill: var.$primary-color-dark;
               }
             }
@@ -159,9 +158,5 @@
         }
       }
     }
-
-
   }
-
-
 }

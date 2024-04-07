@@ -15,10 +15,14 @@ import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useConvertPrice from "../../hooks/useConvertPrice";
-import useAdaPrice from "../../hooks/useAdaPrice";
-import useCBtcPrice from "../../hooks/usecBtcPrice";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function Dashboard() {
+  const cNetaAmount = 120600000;
+  const adaAmount = 200402;
+  const cBtcAmount = 1.5023;
+  const ergAmount = 56391;
+
   const {
     usdBtcPrice,
     usdcBtcPrice,
@@ -31,18 +35,25 @@ export default function Dashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
+    adaFund,
+    usdAda,
+    cBtcAda,
+    dailyChangeAdaPrice,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
 
-  const { usdCNeta: usdCNetaPrice, usdErg: usdErgPrice } = useConvertPrice();
+  const { usdCNeta, usdErg } = useConvertPrice();
 
-  const { usdAda: usdAdaPrice } = useAdaPrice();
-  const { cBtcAda: cBtcAdaPrice } = useCBtcPrice();
-
-  const { width } = useWindowSize();
-  const isMobile = width <= 450;
-
+  const { innerWidth, outerWidth } = useWindowSize();
+  const mediaMobile = useMediaQuery("( max-width: 550px )");
+  const mediaLaptop = useMediaQuery("( max-width: 1250px )");
+  const mediaTablet = useMediaQuery("( max-width: 750px )");
+  const mediaTabletSm = useMediaQuery("( max-width: 600px )");
+  const isMobile = outerWidth <= 550 || mediaMobile || innerWidth <= 550;
+  const isLaptop = outerWidth <= 1250 || mediaLaptop || innerWidth <= 1250;
+  const isTablet = outerWidth <= 750 || mediaTablet || innerWidth <= 750;
+  const isTabletSm = outerWidth <= 600 || mediaTabletSm || innerWidth <= 600;
   const { data, loading } = useAssetsApi();
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
@@ -191,41 +202,39 @@ export default function Dashboard() {
               : undefined
           }
           headerButtonClick="https://app.tosidrop.io/cardano/claim"
-          colSpan
-          colSpanSm
+          colSpanValue={isMobile ? 2 : isTabletSm ? 12 : isTablet ? 6 : 5}
           noMargin={isMobile && !!walletMeta && !!address}
         />
 
         <Widget
-          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
-          title={`${isMobile ? "Community" : "Community"} Revenue`}
-          buttonTitle="Track"
-          buttonLink={
-            "https://cexplorer.io/address/addr1vyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2csgwlax/asset#data"
-          }
-          externalLink
-          noPrice
-          noMargin
+          dailyChangePrice={dailyChangeBtcPrice}
+          price={adacBtcPrice}
+          miniPrice={usdcBtcPrice}
+          token="cBTC"
+          icon={"/images/crypto/cbtc-logo.svg#Layer_1"}
         />
         <Widget
           dailyChangePrice={dailyChangeBtcPrice}
-          adaPrice={adaBtcPrice}
-          usdPrice={usdBtcPrice}
+          price={adaBtcPrice}
+          miniPrice={usdBtcPrice}
           token="BTC"
           icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
         />
         <Widget
-          adaPrice={adaFundPrice}
-          usdPrice={usdFundPrice}
-          title="Community Fund"
+          dailyChangePrice={dailyChangeAdaPrice}
+          price={usdAda ? `$${numberFormat(usdAda, 2, 2)}` : undefined}
+          token="ADA"
+          icon={"/images/crypto/cardano-logo.png"}
         />
         <Widget
-          title="Mint cBTC"
-          buttonTitle="Mint"
-          buttonLink="/"
-          noPrice
-          noHeaderPrice
-          titleLg
+          dailyChangePrice={dailyChangeAdaPrice}
+          price={
+            usdCNeta && usdAda
+              ? `₳${numberFormat(Number(usdCNeta) / Number(usdAda), 5)}`
+              : undefined
+          }
+          token="cNETA"
+          icon={"/images/crypto/cneta-logo-lg.png"}
         />
         <Widget
           noPrice
@@ -237,7 +246,7 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? (numberFormat(stakingInfo?.totalLiveStake.toString(), 8) ??
                     "0") + " cNETA"
                 : "loading"
@@ -248,11 +257,11 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? "$" +
                     numberFormat(
                       (
-                        stakingInfo?.totalLiveStake * Number(usdCNetaPrice)
+                        stakingInfo?.totalLiveStake * Number(usdCNeta)
                       ).toString(),
                       2,
                       2
@@ -262,13 +271,14 @@ export default function Dashboard() {
           }
           title2={walletMeta ? "Your cNETA Staked" : undefined}
           title2Tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          title2TooltipPosition={isMobile ? "right" : "top"}
           text2={
             !walletMeta
               ? undefined
               : stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
               ? stakingInfo.staking
                 ? (numberFormat(stakingInfo?.liveStake.toString(), 8) ?? "0") +
                   " cNETA"
@@ -280,12 +290,10 @@ export default function Dashboard() {
               ? stakingInfo &&
                 address &&
                 walletAddress !== "Connecting..." &&
-                usdCNetaPrice
+                usdCNeta
                 ? "$" +
                     numberFormat(
-                      (
-                        stakingInfo?.liveStake * Number(usdCNetaPrice)
-                      ).toString(),
+                      (stakingInfo?.liveStake * Number(usdCNeta)).toString(),
                       2,
                       2
                     ) ?? "0.00"
@@ -294,27 +302,151 @@ export default function Dashboard() {
           }
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
-          // titleCenter={
-          //   !!walletMeta &&
-          //   !(
-          //     stakingInfo?.staking &&
-          //     address &&
-          //     walletAddress !== "Connecting..."
-          //   )
-          // }
-          // textLg={
-          //   !(
-          //     walletMeta &&
-          //     stakingInfo?.staking &&
-          //     address &&
-          //     walletAddress !== "Connecting..."
-          //   )
-          // }
-          // paddingTop={
-          //   walletMeta && !stakingInfo?.staking ? "1.75rem" : undefined
-          // }
+          textRow={!walletMeta}
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 4 : 4}
         />
+        <Widget
+          text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
+          title={`${isMobile ? "Community" : "Community"} Revenue`}
+          buttonTitle="Track"
+          buttonLink={
+            "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
+          }
+          externalLink
+          noPrice
+          noMargin
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+        />
+        {/* <Widget
+          adaPrice={adaFundPrice}
+          usdPrice={usdFundPrice}
+          title="Community Fund"
+        />
+        <Widget
+          title="Mint cBTC"
+          buttonTitle="Mint"
+          buttonLink="/"
+          noPrice
+          noHeaderPrice
+          titleLg
+        /> */}
 
+        <Widget
+          title={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..."
+              ? "Live Stake"
+              : "Stake cNETA"
+          }
+          text={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNeta
+              ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
+              : undefined
+          }
+          miniText={
+            walletMeta &&
+            stakingInfo?.staking &&
+            address &&
+            walletAddress !== "Connecting..." &&
+            usdCNeta
+              ? "$" +
+                numberFormat(
+                  (stakingInfo.liveStake * Number(usdCNeta)).toString(),
+                  2,
+                  2
+                )
+              : undefined
+          }
+          buttonTitle={
+            !walletMeta ||
+            !stakingInfo?.staking ||
+            !address ||
+            walletAddress === "Connecting..."
+              ? "Stake"
+              : undefined
+          }
+          buttonLink="/stake"
+          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
+          noPrice
+          noHeaderPrice
+          titleLg
+          textLg
+          miniTextLg
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+        />
+        <Widget
+          text={
+            usdCNeta && usdAda && usdErg && cBtcAda
+              ? "$" +
+                numberFormat(
+                  cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg),
+                  2,
+                  2
+                )
+              : "loading"
+          }
+          miniText={
+            (usdCNeta && usdAda && usdErg && cBtcAda
+              ? numberFormat(
+                  (cNetaAmount * Number(usdCNeta) +
+                    adaAmount * Number(usdAda) +
+                    cBtcAmount * Number(usdAda) * Number(cBtcAda) +
+                    ergAmount * Number(usdErg)) /
+                    Number(usdAda),
+                  0
+                )
+              : "0") + " ADA"
+          }
+          title={`Community Fund`}
+          noPrice
+          noMargin
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 6}
+          textRow
+          textXl
+          miniTextXl
+          assets={{
+            table: [
+              {
+                token: "cNETA",
+                amount: cNetaAmount,
+                adaValue: (cNetaAmount * Number(usdCNeta)) / Number(usdAda),
+                usdValue: cNetaAmount * Number(usdCNeta),
+              },
+              {
+                token: "ADA",
+                amount: adaAmount,
+                adaValue: adaAmount,
+                usdValue: adaAmount * Number(usdAda),
+              },
+              {
+                token: "cBTC",
+                amount: cBtcAmount,
+                adaValue: cBtcAmount * Number(cBtcAda),
+                usdValue: cBtcAmount * Number(usdAda) * Number(cBtcAda),
+              },
+              {
+                token: "ERG",
+                amount: ergAmount,
+                adaValue: (ergAmount * Number(usdErg)) / Number(usdAda),
+                usdValue: ergAmount * Number(usdErg),
+              },
+            ],
+            wallets: [
+              "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5",
+              "https://cexplorer.io/address/addr1q9etscm7q6zaz7433m40q2qctyp868npxvl8amkv54ff87se47jdymvpwc7kpvjap0nf5cupj06p5ljstdzh9an6y90s68qfha",
+              "https://explorer.ergoplatform.com/en/addresses/9i8StiuYEckoVNpaeU12m5DSP8shUtgh3drRtZ8EUpcYRnBLthr",
+            ],
+          }}
+        />
         <Widget
           // text="Coming Soon"
           text={
@@ -337,8 +469,8 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.btc *
-                    Number(usdAdaPrice) *
-                    Number(cBtcAdaPrice) *
+                    Number(usdAda) *
+                    Number(cBtcAda) *
                     36
                   ).toString(),
                   2,
@@ -366,7 +498,7 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.erg *
-                    Number(usdErgPrice) *
+                    Number(usdErg) *
                     36
                   ).toString(),
                   2,
@@ -398,6 +530,7 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
         />
         {/* <Widget
           noPrice
@@ -414,54 +547,7 @@ export default function Dashboard() {
           icon="/images/crypto/cbtc-logo.svg#Layer_1"
           titleLeft={!!walletMeta}
         /> */}
-        <Widget
-          title={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..."
-              ? "Live Stake"
-              : "Stake cNETA"
-          }
-          text={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..." &&
-            usdCNetaPrice
-              ? numberFormat(stakingInfo.liveStake.toString(), 8) + " cNETA"
-              : undefined
-          }
-          miniText={
-            walletMeta &&
-            stakingInfo?.staking &&
-            address &&
-            walletAddress !== "Connecting..." &&
-            usdCNetaPrice
-              ? "$" +
-                numberFormat(
-                  (stakingInfo.liveStake * Number(usdCNetaPrice)).toString(),
-                  2,
-                  2
-                )
-              : undefined
-          }
-          buttonTitle={
-            !walletMeta ||
-            !stakingInfo?.staking ||
-            !address ||
-            walletAddress === "Connecting..."
-              ? "Stake"
-              : undefined
-          }
-          buttonLink="/stake"
-          // tooltip="Staked cNETA becomes active after 1 full epoch staked. If you stake during the 1st epoch, it becomes live in the 2nd epoch and rewards become available at the start of the 3rd epoch."
-          noPrice
-          noHeaderPrice
-          titleLg
-          textLg
-          miniTextLg
-        />
+
         <Widget
           // text="Coming Soon"
           text={
@@ -484,8 +570,8 @@ export default function Dashboard() {
                 numberFormat(
                   (
                     +stakingInfo?.expectedRewards.btc *
-                    Number(usdAdaPrice) *
-                    Number(cBtcAdaPrice)
+                    Number(usdAda) *
+                    Number(cBtcAda)
                   ).toString(),
                   2,
                   2
@@ -511,7 +597,7 @@ export default function Dashboard() {
               ? "$" +
                 numberFormat(
                   (
-                    +stakingInfo?.expectedRewards.erg * Number(usdErgPrice)
+                    +stakingInfo?.expectedRewards.erg * Number(usdErg)
                   ).toString(),
                   2,
                   2
@@ -542,7 +628,9 @@ export default function Dashboard() {
             !address ||
             walletAddress === "Connecting..."
           }
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
         />
+
         <ConnectWallet
           isOpen={isWalletShowing}
           setIsOpen={setIsWalletShowing}
