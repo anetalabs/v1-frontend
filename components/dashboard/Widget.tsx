@@ -5,11 +5,13 @@ import { Cip30Wallet } from "@cardano-sdk/dapp-connector";
 import useWindowSize from "../../hooks/useResponsive";
 import { classNames } from "../../utils/Classnames";
 import Tooltip from "../Tooltip";
+import { numberFormat } from "../../utils/format";
+import Image from "next/image";
 
 interface WidgetProps {
   dailyChangePrice?: string;
-  adaPrice?: string;
-  usdPrice?: string;
+  price?: string;
+  miniPrice?: string;
   token?: string;
   icon?: string;
   title?: string;
@@ -30,6 +32,7 @@ interface WidgetProps {
   timerInterval?: number;
   text?: string;
   textLg?: boolean;
+  textXl?: boolean;
   text2?: string;
   title2?: string;
   noMargin?: boolean;
@@ -37,20 +40,31 @@ interface WidgetProps {
   walletBalance?: string | null;
   onWalletBtnClick?: () => void;
   colSpan?: boolean;
+  colSpanMd?: boolean;
   colSpanSm?: boolean;
+  colSpanValue?: number;
+  colSpanMdValue?: number;
+  colSpanSmValue?: number;
   order?: number;
   paddingTop?: string;
   tooltip?: string;
   titleTooltip?: string;
+  titleTooltipPosition?: "top" | "bottom" | "left" | "right";
   title2Tooltip?: string;
+  title2TooltipPosition?: "top" | "bottom" | "left" | "right";
   miniText?: string;
   miniText2?: string;
   miniTextLg?: boolean;
+  miniTextXl?: boolean;
+  textRow?: boolean;
+  assets?: any;
 }
 
 const Widget = (props: WidgetProps) => {
   const { width } = useWindowSize();
   const isMobile = width <= 550;
+  const isTablet =
+    (width >= 551 && width <= 1000) || (width >= 1101 && width <= 1250);
   const calculateTimeLeft = () => {
     const intervalDays = (props.timerInterval ?? 5) * 24 * 60 * 60 * 1000;
     const currentTime = props.currentDate
@@ -94,22 +108,13 @@ const Widget = (props: WidgetProps) => {
   const { days, hours, minutes, seconds } = timeRemaining;
   return (
     <div
-      className={
-        (isMobile
-          ? props.colSpanSm
-            ? styles.colSpan2
-            : styles.colSpan1
-          : props.colSpan
-          ? styles.colSpan5
-          : styles.colSpan3) +
-        " " +
-        styles.widget +
-        " " +
-        (props.colSpanSm ? styles.colSpanSm : "")
-      }
+      className={styles.widget}
       style={{
         order: isMobile && props.order ? props.order : undefined,
         paddingTop: props.paddingTop ?? undefined,
+        gridColumn: props.colSpanValue
+          ? `span ${props.colSpanValue}`
+          : undefined,
       }}
     >
       {props.title && (
@@ -125,7 +130,7 @@ const Widget = (props: WidgetProps) => {
             {props.titleTooltip && (
               <Tooltip
                 content={props.titleTooltip}
-                position={isMobile ? "left" : "top"}
+                position={props.titleTooltipPosition ?? "top"}
               >
                 i
               </Tooltip>
@@ -166,11 +171,22 @@ const Widget = (props: WidgetProps) => {
       {!props.noHeaderPrice && props.token && (
         <div className={styles.headerPrice}>
           <div className={styles.token}>
-            {props.icon && (
-              <svg width="22" height="22" id="icon">
-                <use href={props.icon}></use>
-              </svg>
-            )}
+            {props.icon &&
+              (props.icon.includes(".svg") ? (
+                <svg width="22" height="22" id="icon">
+                  <use href={props.icon}></use>
+                </svg>
+              ) : (
+                <Image
+                  alt={props.token}
+                  src={props.icon}
+                  width={22}
+                  height={22}
+                  style={{
+                    borderRadius: "100%",
+                  }}
+                />
+              ))}
             {<p className={styles.tokenTitle}>{props.token} Price</p>}
           </div>
           {props.dailyChangePrice && (
@@ -185,10 +201,10 @@ const Widget = (props: WidgetProps) => {
           )}
         </div>
       )}
-      {props.adaPrice && props.usdPrice ? (
+      {props.price ? (
         <div className={styles.priceGroup}>
-          <div className={styles.adaPrice}>{props.adaPrice}</div>
-          <p className={styles.usdPrice}>{props.usdPrice}</p>
+          <div className={styles.adaPrice}>{props.price}</div>
+          <p className={styles.usdPrice}>{props.miniPrice}</p>
         </div>
       ) : !props.noPrice ? (
         <div className={styles.loaderPrice}>
@@ -214,12 +230,37 @@ const Widget = (props: WidgetProps) => {
 
       {props.text ? (
         props.text !== "loading" ? (
-          <div className={styles.textContainer}>
-            <p className={props.textLg ? styles.valueTextLg : styles.valueText}>
+          <div
+            className={styles.textContainer}
+            style={{
+              display: "flex",
+              flexDirection: props.textRow ? "row" : "column",
+              alignItems: props.textRow ? "center" : undefined,
+              gap: props.textRow ? "0.5rem" : undefined,
+            }}
+          >
+            <p
+              className={
+                props.textXl
+                  ? styles.valueTextXl
+                  : props.textLg
+                  ? styles.valueTextLg
+                  : styles.valueText
+              }
+            >
               {props.text}
             </p>
             <p
-              className={props.miniTextLg ? styles.miniTextLg : styles.miniText}
+              className={
+                props.miniTextXl
+                  ? styles.miniTextXl
+                  : props.miniTextLg
+                  ? styles.miniTextLg
+                  : styles.miniText
+              }
+              style={{
+                marginTop: props.textRow ? "0.25rem" : undefined,
+              }}
             >
               {props.miniText}
             </p>
@@ -239,7 +280,7 @@ const Widget = (props: WidgetProps) => {
             {props.title2Tooltip && (
               <Tooltip
                 content={props.title2Tooltip}
-                position={isMobile ? "left" : "top"}
+                position={props.title2TooltipPosition ?? "top"}
               >
                 i
               </Tooltip>
@@ -293,6 +334,45 @@ const Widget = (props: WidgetProps) => {
           ) : (
             <div className={styles.loaderPrice}>
               <div className={styles.loader}></div>
+            </div>
+          )}
+        </div>
+      ) : undefined}
+      {props.assets ? (
+        <div
+          className={styles.assetContainer}
+          style={{
+            visibility: props.text === "loading" ? "hidden" : "visible",
+          }}
+        >
+          <div className={styles.assetTable}>
+            <div className={styles.assetTableHeader}>
+              <p>Token</p>
+              <p>ADA Value</p>
+              <p>USD Value</p>
+            </div>
+            {props.assets.table.map((asset: any) => (
+              <div key={asset.token} className={styles.assetTableRow}>
+                <p>
+                  {numberFormat(asset.amount, 4, 0, true)} {asset.token}
+                </p>
+                <p>{numberFormat(asset.adaValue, 0, 0)} ADA</p>
+                <p>${numberFormat(asset.usdValue, 2, 2)}</p>
+              </div>
+            ))}
+          </div>
+          {props.assets.wallets && (
+            <div className={styles.btnGroup}>
+              {props.assets.wallets.map((wallet: string, i: number) => (
+                <Link
+                  key={i}
+                  className={styles.btnBtc}
+                  href={wallet}
+                  target="_blank"
+                >
+                  <span className={styles.btnText}>Wallet {i + 1}</span>
+                </Link>
+              ))}
             </div>
           )}
         </div>

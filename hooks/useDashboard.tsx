@@ -12,7 +12,7 @@ export default function useDashboard() {
   const { usdBtc, dailyChangeBtc } = useBitcoinPrice();
   const vault = useBitcoinVault();
   const communityRevenueInfo = useCommunityRevenue();
-  const { usdAda } = useAdaPrice();
+  const { usdAda, dailyChangeAda } = useAdaPrice();
   const { cBtcAda } = usecBtcPrice();
   const { anetaData } = useAnetaData();
   const { adaFund } = useCommunityFund();
@@ -22,6 +22,9 @@ export default function useDashboard() {
   const [adaBtcPrice, setAdaBtcPrice] = useState<string | undefined>();
   const [adacBtcPrice, setAdacBtcPrice] = useState<string | undefined>();
   const [dailyChangeBtcPrice, setDailyChangeBtcPrice] = useState<
+    string | undefined
+  >();
+  const [dailyChangeAdaPrice, setDailyChangeAdaPrice] = useState<
     string | undefined
   >();
   const [tvlData, setTvlData] = useState<AnetaData[] | undefined>();
@@ -45,10 +48,10 @@ export default function useDashboard() {
       setProtocolVolume(
         numberFormat(
           (
-            Number(
-              vault?.chain_stats.funded_txo_sum +
+            (vault
+              ? vault?.chain_stats.funded_txo_sum +
                 vault?.chain_stats.spent_txo_sum
-            ) / 100000000
+              : 0) / 100000000
           ).toString(),
           5
         )
@@ -61,7 +64,7 @@ export default function useDashboard() {
       setCommunityRevenue(
         numberFormat(
           (
-            Number(communityRevenueInfo?.info.cbtcBalance) / 100000000
+            Number(communityRevenueInfo?.info.cbtcBalance ?? "0") / 100000000
           ).toString(),
           8
         )
@@ -83,6 +86,12 @@ export default function useDashboard() {
       setUsdcBtcPrice(usdFormat((Number(cBtcAda) * Number(usdAda)).toFixed(2)));
     }
   }, [usdAda, cBtcAda]);
+
+  useEffect(() => {
+    if (usdAda) {
+      setDailyChangeAdaPrice((Number(dailyChangeAda) * 100).toFixed(2));
+    }
+  }, [usdAda, dailyChangeAda]);
 
   useEffect(() => {
     if (usdAda && adaFund) {
@@ -116,5 +125,9 @@ export default function useDashboard() {
     usdFundPrice,
     protocolVolume,
     communityRevenue,
+    adaFund,
+    usdAda,
+    cBtcAda,
+    dailyChangeAdaPrice,
   };
 }
