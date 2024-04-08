@@ -106,7 +106,6 @@ export default function Dashboard() {
     if (address !== "") {
       getBalance();
     }
-    console.log(address);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
