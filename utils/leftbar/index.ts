@@ -31,12 +31,12 @@ export const navigationLeftbar: NavigationType[] = [
     icon: "/images/icons/lend.svg#icon",
     current: false,
   },
-  // {
-  //   name: "Governance",
-  //   href: "/governance",
-  //   icon: "/images/icons/governace.svg#icon",
-  //   current: false,
-  // },
+  {
+    name: "Governance",
+    href: "/governance",
+    icon: "/images/icons/governace.svg#icon",
+    current: false,
+  },
   {
     name: "Docs",
     href: "https://docs.anetabtc.io",

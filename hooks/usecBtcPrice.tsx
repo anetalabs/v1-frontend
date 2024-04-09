@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
-import { formatAmount } from "../utils/format";
+import { useEffect, useCallback, useContext } from "react";
 import { GlobalContext } from "../components/GlobalContext";
 
 const useCBtcPrice = () => {
@@ -7,11 +6,9 @@ const useCBtcPrice = () => {
 
   const fetchCBtcPrice = useCallback(async () => {
     try {
-      const res = await fetch("/api/cbtcpool");
+      const res = await fetch("/api/cbtcprice");
       const data = await res.json();
-
-      const price = (data.lockedX.amount / data.lockedY.amount) * 100;
-      setCBtcAda(formatAmount(price));
+      setCBtcAda(data.price.toString());
     } catch (error) {
       console.error("Error fetching cBTC Price:", error);
     }
