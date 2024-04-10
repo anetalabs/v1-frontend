@@ -196,7 +196,7 @@ const Widget = (props: WidgetProps) => {
               }`}
             >
               {props.dailyChangePrice?.startsWith("-") ? undefined : "+"}
-              {props.dailyChangePrice}%
+              {numberFormat(props.dailyChangePrice, 2)}%
             </p>
           )}
         </div>

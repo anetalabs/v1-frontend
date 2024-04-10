@@ -14,7 +14,6 @@ import ChartWidget from "../../components/dashboard/ChartWidget";
 import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
-import useConvertPrice from "../../hooks/useConvertPrice";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function Dashboard() {
@@ -24,26 +23,22 @@ export default function Dashboard() {
   const ergAmount = 56391;
 
   const {
-    usdBtcPrice,
-    usdcBtcPrice,
-    adaBtcPrice,
-    adacBtcPrice,
-    dailyChangeBtcPrice,
     formattedDate,
     tvlData,
-    adaFundPrice,
-    usdFundPrice,
     protocolVolume,
     communityRevenue,
-    adaFund,
     usdAda,
     cBtcAda,
-    dailyChangeAdaPrice,
+    dailyChangeCBtc,
+    usdBtc,
+    dailyChangeBtc,
+    usdCNeta,
+    usdErg,
+    dailyChangeCNeta,
+    dailyChangeAda,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
-
-  const { usdCNeta, usdErg } = useConvertPrice();
 
   const { innerWidth, outerWidth } = useWindowSize();
   const mediaMobile = useMediaQuery("( max-width: 550px )");
@@ -63,16 +58,13 @@ export default function Dashboard() {
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
   let vaultBtc = "";
-  let communityVaultBtc = "";
 
   if (config.network === "Mainnet") {
     linkcBtc = `https://cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/address/${config.btcWrapAddress}`;
-    communityVaultBtc = `https://mempool.space/address/${config.btcWrapCommunityAddress}`;
   } else {
     linkcBtc = `https://preprod.cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/testnet/address/${config.btcWrapAddress}`;
-    communityVaultBtc = `https://mempool.space/testnet/address/${config.btcWrapCommunityAddress}`;
   }
 
   const getBalance = async () => {
@@ -206,30 +198,34 @@ export default function Dashboard() {
         />
 
         <Widget
-          dailyChangePrice={dailyChangeBtcPrice}
-          price={adacBtcPrice}
-          miniPrice={usdcBtcPrice}
+          dailyChangePrice={dailyChangeCBtc}
+          price={cBtcAda ? `₳${numberFormat(cBtcAda, 0)}` : undefined}
+          miniPrice={`$${numberFormat(Number(cBtcAda) * Number(usdAda), 2, 2)}`}
           token="cBTC"
           icon={"/images/crypto/cbtc-logo.svg#Layer_1"}
         />
         <Widget
-          dailyChangePrice={dailyChangeBtcPrice}
-          price={adaBtcPrice}
-          miniPrice={usdBtcPrice}
+          dailyChangePrice={dailyChangeBtc}
+          price={
+            usdAda && usdBtc
+              ? `₳${numberFormat(Number(usdBtc) / Number(usdAda), 0)}`
+              : undefined
+          }
+          miniPrice={`$${numberFormat(usdBtc, 2, 2)}`}
           token="BTC"
           icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
         />
         <Widget
-          dailyChangePrice={dailyChangeAdaPrice}
+          dailyChangePrice={dailyChangeAda}
           price={usdAda ? `$${numberFormat(usdAda, 2, 2)}` : undefined}
           token="ADA"
           icon={"/images/crypto/cardano-logo.png"}
         />
         <Widget
-          dailyChangePrice={dailyChangeAdaPrice}
+          dailyChangePrice={dailyChangeCNeta}
           price={
             usdCNeta && usdAda
-              ? `₳${numberFormat(Number(usdCNeta) / Number(usdAda), 5)}`
+              ? `₳${numberFormat(Number(usdCNeta) / Number(usdAda), 5, 5)}`
               : undefined
           }
           token="cNETA"

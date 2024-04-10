@@ -10,7 +10,11 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const URL = `https://pro-api.coinmarketcap.com/v4/dex/pairs/quotes/latest?network_slug=cardano&contract_address=333f12dc7aed82cd3d4c057e28859fadfd677fc93e0662ab4be5942c9e194dc2`;
+  const { symbol, convert } = req.query;
+
+  const URL = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${
+    symbol ?? "cneta"
+  }&convert=${convert ?? "USD"}`;
 
   try {
     const result = await (
@@ -21,11 +25,14 @@ export default async function handler(
       })
     ).json();
 
-    const quote = result.data[0].quote[0];
+    const quote =
+      result.data[(symbol as string).toUpperCase() ?? "CNETA"][0].quote[
+        (convert as string) ?? "USD"
+      ];
 
     res.status(200).send({
-      price: 1 / quote.price_by_quote_asset,
-      dailyChange: quote.percent_change_price_24h * 100,
+      price: quote.price,
+      dailyChange: quote.percent_change_24h,
     });
   } catch (error) {
     console.error(error);

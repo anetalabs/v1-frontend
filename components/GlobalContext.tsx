@@ -45,12 +45,18 @@ interface GlobalContextState {
   setAnetaData: (_: AnetaData[] | undefined) => void;
   cBtcAda: string;
   setCBtcAda: (_: string) => void;
+  dailyChangeCBtc: string;
+  setDailyChangeCBtc: (_: string) => void;
   votingInfo: any;
   setVotingInfo: (_: any) => void;
   usdCNeta: string;
   setUsdCNeta: (_: string) => void;
+  dailyChangeCNeta: string;
+  setDailyChangeCNeta: (_: string) => void;
   usdErg: string;
   setUsdErg: (_: string) => void;
+  dailyChangeErg: string;
+  setDailyChangeErg: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -120,12 +126,18 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAnetaData: () => {},
   cBtcAda: "",
   setCBtcAda: () => {},
+  dailyChangeCBtc: "",
+  setDailyChangeCBtc: () => {},
   votingInfo: undefined,
   setVotingInfo: () => {},
   usdCNeta: "",
   setUsdCNeta: () => {},
+  dailyChangeCNeta: "",
+  setDailyChangeCNeta: () => {},
   usdErg: "",
   setUsdErg: () => {},
+  dailyChangeErg: "",
+  setDailyChangeErg: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -185,6 +197,9 @@ export default function GlobalContextProvider({
   const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
   const [anetaData, setAnetaData] = useState<AnetaData[] | undefined>();
   const [cBtcAda, setCBtcAda] = useState<string>("");
+  const [dailyChangeCBtc, setDailyChangeCBtc] = useState<string>("");
+  const [dailyChangeCNeta, setDailyChangeCNeta] = useState<string>("");
+  const [dailyChangeErg, setDailyChangeErg] = useState<string>("");
   const [votingInfo, setVotingInfo] = useState<any>();
 
   const globalContext: GlobalContextState = {
@@ -230,6 +245,12 @@ export default function GlobalContextProvider({
     setCBtcAda,
     votingInfo,
     setVotingInfo,
+    dailyChangeCBtc,
+    setDailyChangeCBtc,
+    dailyChangeCNeta,
+    setDailyChangeCNeta,
+    dailyChangeErg,
+    setDailyChangeErg,
   };
 
   return (
