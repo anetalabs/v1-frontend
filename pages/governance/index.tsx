@@ -16,7 +16,7 @@ export default function Governance() {
       <main className={styles.governance}>
         <p className={styles.text}>
           Send your cVOTE7 tokens to the wallet you would like to vote for. At
-          the end of the 48-hour voting period, the option with the most votes
+          the end of the 72-hour voting period, the option with the most votes
           will be the outcome of the governance event.
         </p>
         <OptionCard
