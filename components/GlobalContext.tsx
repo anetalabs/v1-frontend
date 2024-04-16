@@ -57,6 +57,8 @@ interface GlobalContextState {
   setUsdErg: (_: string) => void;
   dailyChangeErg: string;
   setDailyChangeErg: (_: string) => void;
+  cBtcBalance: string;
+  setCBtcBalance: (_: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -138,6 +140,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setUsdErg: () => {},
   dailyChangeErg: "",
   setDailyChangeErg: () => {},
+  cBtcBalance: "",
+  setCBtcBalance: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -201,6 +205,7 @@ export default function GlobalContextProvider({
   const [dailyChangeCNeta, setDailyChangeCNeta] = useState<string>("");
   const [dailyChangeErg, setDailyChangeErg] = useState<string>("");
   const [votingInfo, setVotingInfo] = useState<any>();
+  const [cBtcBalance, setCBtcBalance] = useState<string>("");
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -251,6 +256,8 @@ export default function GlobalContextProvider({
     setDailyChangeCNeta,
     dailyChangeErg,
     setDailyChangeErg,
+    cBtcBalance,
+    setCBtcBalance,
   };
 
   return (
