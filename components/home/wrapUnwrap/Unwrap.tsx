@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import useUnwrap, { UnwrapStage } from "../../../hooks/useUnwrap";
 import styles from "../../../styles/wrapUnwrap.module.scss";
 import UnwrapSuccessful from "./unwrap/UnwrapSuccessful";
@@ -7,6 +7,7 @@ import ConnectWallet from "../../partials/navbar/ConnectWallet";
 import { formatAmount, validInput } from "../../../utils/format";
 import useLucid from "../../../hooks/useLucid";
 import { GlobalContext } from "../../GlobalContext";
+import useFetchUtxo from "../../../hooks/useFetchUtxo";
 
 const Unwrap = () => {
   const {
@@ -28,14 +29,18 @@ const Unwrap = () => {
     usdReceive,
   } = useUnwrap();
 
-  const [balance, setBalance] = useState<null | string>(null);
-
-  const { config } = useContext(GlobalContext);
+  const {
+    config,
+    cBtcBalance: balance,
+    setCBtcBalance: setBalance,
+  } = useContext(GlobalContext);
 
   const networkMainnet: boolean = config.network === "Mainnet";
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
-  //const { utxos, error, loading }= useFetchUtxo(address)
+  // const { utxos, error, loading } = useFetchUtxo(
+  //   "addr1qyk938qjsqffz0sz2xwculm4cgy6prqf2gkvamgs66lgj6ukdq7h3plrj0wsdeygn94gyngz5nendwlfu0hscce9wdws5rvlns"
+  // );
   const { getUtxos } = useLucid();
 
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -60,13 +65,13 @@ const Unwrap = () => {
     }
   };
 
-  const getBalance = async () => {
+  const getBalance = useCallback(async () => {
     const utxos = await getUtxos();
 
     let sumBalance = 0;
 
     sumBalance = utxos.reduce((total, utxo) => {
-      const amountForUnit = Number(utxo.assets[policyId]) ?? 0;
+      const amountForUnit = Number(utxo.assets[config.cnetaAssetId]) ?? 0;
 
       if (amountForUnit) {
         const quantity = Number(amountForUnit);
@@ -75,14 +80,47 @@ const Unwrap = () => {
       return total;
     }, 0);
     setBalance(formatAmount(sumBalance / 100000000));
-  };
+  }, [config.cnetaAssetId, setBalance, getUtxos]);
+
+  // const getBalance = useCallback(async () => {
+  //   let sumBalance = 0;
+
+  //   sumBalance = utxos.reduce((total, utxo) => {
+  //     const amountForUnit =
+  //       Number(
+  //         utxo.amount.filter((asset) => asset.unit === config.cnetaAssetId)[0]
+  //           ?.quantity
+  //       ) ?? 0;
+
+  //     if (amountForUnit) {
+  //       const quantity = Number(amountForUnit);
+  //       total += quantity;
+  //     }
+  //     return total;
+  //   }, 0);
+  //   setBalance(formatAmount(sumBalance / 100000000));
+  // }, [utxos, config.cnetaAssetId, setBalance]);
 
   useEffect(() => {
-    if (address !== "") {
+    if (
+      walletMeta &&
+      address !== "" &&
+      walletAddress !== "Connecting..." &&
+      balance === ""
+      // &&
+      // utxos.length !== 0
+    ) {
       getBalance();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+    } else if (!walletMeta) setBalance("");
+  }, [
+    address,
+    walletAddress,
+    walletMeta,
+    getBalance,
+    setBalance,
+    balance,
+    // utxos,
+  ]);
 
   useEffect(() => {
     if (balance) {
@@ -133,6 +171,8 @@ const Unwrap = () => {
     setUnwrapBtcDestination("");
   };
 
+  console.log(balance, walletMeta, address, walletAddress);
+
   return (
     <section className={styles.menu}>
       <p className={styles.titleSection}>Redeem BTC</p>
@@ -158,7 +198,7 @@ const Unwrap = () => {
           <p className={`${styles.usdBtc}`}>{usdAmount}</p>
         )}
 
-        {walletMeta && balance && (
+        {walletMeta && balance !== "" && (
           <div className={styles.balanceContainer}>
             {checkBalance ? (
               <p></p>
@@ -169,9 +209,7 @@ const Unwrap = () => {
             )}
 
             <div className={styles.balance}>
-              <p className={styles.text}>
-                Balance: {`${balance ? balance : 0}`}
-              </p>
+              <p className={styles.text}>Balance: {`${balance ?? 0}`}</p>
               {balance !== amount && Number(balance) > 0 && (
                 <button className={styles.btn} onClick={handleBalance}>
                   Max
