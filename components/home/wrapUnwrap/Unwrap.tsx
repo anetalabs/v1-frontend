@@ -38,9 +38,7 @@ const Unwrap = () => {
   const networkMainnet: boolean = config.network === "Mainnet";
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
-  // const { utxos, error, loading } = useFetchUtxo(
-  //   "addr1qyk938qjsqffz0sz2xwculm4cgy6prqf2gkvamgs66lgj6ukdq7h3plrj0wsdeygn94gyngz5nendwlfu0hscce9wdws5rvlns"
-  // );
+  const { utxos, error, loading } = useFetchUtxo();
   const { getUtxos } = useLucid();
 
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -65,32 +63,13 @@ const Unwrap = () => {
     }
   };
 
-  const getBalance = useCallback(async () => {
-    const utxos = await getUtxos();
-
-    let sumBalance = 0;
-
-    sumBalance = utxos.reduce((total, utxo) => {
-      const amountForUnit = Number(utxo.assets[config.cnetaAssetId]) ?? 0;
-
-      if (amountForUnit) {
-        const quantity = Number(amountForUnit);
-        total += quantity;
-      }
-      return total;
-    }, 0);
-    setBalance(formatAmount(sumBalance / 100000000));
-  }, [config.cnetaAssetId, setBalance, getUtxos]);
-
   // const getBalance = useCallback(async () => {
+  //   const utxos = await getUtxos();
+
   //   let sumBalance = 0;
 
   //   sumBalance = utxos.reduce((total, utxo) => {
-  //     const amountForUnit =
-  //       Number(
-  //         utxo.amount.filter((asset) => asset.unit === config.cnetaAssetId)[0]
-  //           ?.quantity
-  //       ) ?? 0;
+  //     const amountForUnit = Number(utxo.assets[config.cnetaAssetId]) ?? 0;
 
   //     if (amountForUnit) {
   //       const quantity = Number(amountForUnit);
@@ -99,28 +78,33 @@ const Unwrap = () => {
   //     return total;
   //   }, 0);
   //   setBalance(formatAmount(sumBalance / 100000000));
-  // }, [utxos, config.cnetaAssetId, setBalance]);
+  // }, [config.cnetaAssetId, setBalance, getUtxos]);
+
+  const getBalance = useCallback(async () => {
+    let sumBalance = 0;
+
+    sumBalance = utxos.reduce((total, utxo) => {
+      const amountForUnit =
+        Number(
+          utxo.amount.filter((asset) => asset.unit === config.cnetaAssetId)[0]
+            ?.quantity
+        ) ?? 0;
+
+      if (amountForUnit) {
+        const quantity = Number(amountForUnit);
+        total += quantity;
+      }
+      return total;
+    }, 0);
+    setBalance(formatAmount(sumBalance / 100000000));
+  }, [utxos, config.cnetaAssetId, setBalance]);
 
   useEffect(() => {
-    if (
-      walletMeta &&
-      address !== "" &&
-      walletAddress !== "Connecting..." &&
-      balance === ""
-      // &&
-      // utxos.length !== 0
-    ) {
-      getBalance();
+    if (walletMeta && address !== "" && walletAddress !== "Connecting...") {
+      if (utxos.length !== 0) getBalance();
+      else setBalance("0");
     } else if (!walletMeta) setBalance("");
-  }, [
-    address,
-    walletAddress,
-    walletMeta,
-    getBalance,
-    setBalance,
-    balance,
-    // utxos,
-  ]);
+  }, [address, walletAddress, walletMeta, getBalance, setBalance, utxos]);
 
   useEffect(() => {
     if (balance) {
@@ -171,7 +155,7 @@ const Unwrap = () => {
     setUnwrapBtcDestination("");
   };
 
-  console.log(balance, walletMeta, address, walletAddress);
+  // console.log(balance, walletMeta, address, walletAddress);
 
   return (
     <section className={styles.menu}>
