@@ -7,7 +7,6 @@ import ConnectWallet from "../../partials/navbar/ConnectWallet";
 import { formatAmount, validInput } from "../../../utils/format";
 import useLucid from "../../../hooks/useLucid";
 import { GlobalContext } from "../../GlobalContext";
-import useFetchUtxo from "../../../hooks/useFetchUtxo";
 
 const Unwrap = () => {
   const {
@@ -38,7 +37,6 @@ const Unwrap = () => {
   const networkMainnet: boolean = config.network === "Mainnet";
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
-  const { utxos, error, loading } = useFetchUtxo();
   const { getUtxos } = useLucid();
 
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -63,32 +61,13 @@ const Unwrap = () => {
     }
   };
 
-  // const getBalance = useCallback(async () => {
-  //   const utxos = await getUtxos();
-
-  //   let sumBalance = 0;
-
-  //   sumBalance = utxos.reduce((total, utxo) => {
-  //     const amountForUnit = Number(utxo.assets[config.cnetaAssetId]) ?? 0;
-
-  //     if (amountForUnit) {
-  //       const quantity = Number(amountForUnit);
-  //       total += quantity;
-  //     }
-  //     return total;
-  //   }, 0);
-  //   setBalance(formatAmount(sumBalance / 100000000));
-  // }, [config.cnetaAssetId, setBalance, getUtxos]);
-
   const getBalance = useCallback(async () => {
+    const utxos = await getUtxos();
+
     let sumBalance = 0;
 
     sumBalance = utxos.reduce((total, utxo) => {
-      const amountForUnit =
-        Number(
-          utxo.amount.filter((asset) => asset.unit === config.cnetaAssetId)[0]
-            ?.quantity
-        ) ?? 0;
+      const amountForUnit = Number(utxo.assets[config.cbtcAssetId]) ?? 0;
 
       if (amountForUnit) {
         const quantity = Number(amountForUnit);
@@ -97,14 +76,13 @@ const Unwrap = () => {
       return total;
     }, 0);
     setBalance(formatAmount(sumBalance / 100000000));
-  }, [utxos, config.cnetaAssetId, setBalance]);
+  }, [config.cbtcAssetId, setBalance, getUtxos]);
 
   useEffect(() => {
     if (walletMeta && address !== "" && walletAddress !== "Connecting...") {
-      if (utxos.length !== 0) getBalance();
-      else setBalance("0");
+      getBalance();
     } else if (!walletMeta) setBalance("");
-  }, [address, walletAddress, walletMeta, getBalance, setBalance, utxos]);
+  }, [address, walletAddress, walletMeta, getBalance, setBalance]);
 
   useEffect(() => {
     if (balance) {
