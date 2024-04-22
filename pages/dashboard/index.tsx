@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
-import useAssetsApi from "../../hooks/useAssetsApi";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { numberFormat, numberToFixed } from "../../utils/format";
+import { numberFormat } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
@@ -15,6 +14,7 @@ import Widget from "../../components/dashboard/Widget";
 import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import Tooltip from "../../components/Tooltip";
 
 export default function Dashboard() {
   const cNetaAmount = 120600000;
@@ -36,6 +36,8 @@ export default function Dashboard() {
     usdErg,
     dailyChangeCNeta,
     dailyChangeAda,
+    multisigBalance,
+    centralizedBalance,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
@@ -49,7 +51,6 @@ export default function Dashboard() {
   const isLaptop = outerWidth <= 1250 || mediaLaptop || innerWidth <= 1250;
   const isTablet = outerWidth <= 750 || mediaTablet || innerWidth <= 750;
   const isTabletSm = outerWidth <= 600 || mediaTabletSm || innerWidth <= 600;
-  const { data, loading } = useAssetsApi();
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
   const { getUtxos } = useLucid();
@@ -58,13 +59,16 @@ export default function Dashboard() {
   const { config } = useContext(GlobalContext);
   let linkcBtc = "";
   let vaultBtc = "";
+  let vaultMultisigBtc = "";
 
   if (config.network === "Mainnet") {
     linkcBtc = `https://cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/address/${config.btcWrapAddress}`;
+    vaultMultisigBtc = `https://mempool.space/address/${config.btcMultisigAddress}`;
   } else {
     linkcBtc = `https://preprod.cardanoscan.io/token/${config.cbtcAssetId}`;
     vaultBtc = `https://mempool.space/testnet/address/${config.btcWrapAddress}`;
+    vaultMultisigBtc = `https://mempool.space/testnet/address/${config.btcMultisigAddress}`;
   }
 
   const getBalance = async () => {
@@ -115,29 +119,67 @@ export default function Dashboard() {
                 <svg width="32" height="32" id="icon">
                   <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
                 </svg>
-                {loading ? (
+                {!centralizedBalance || !multisigBalance ? (
                   <div className={styles.value}>
                     <div className={styles.loader}></div>
                   </div>
                 ) : (
-                  data && (
-                    <p className={styles.value}>
-                      {numberToFixed(data.quantity)}
-                    </p>
-                  )
+                  <p className={styles.value}>
+                    {centralizedBalance && multisigBalance
+                      ? numberFormat(
+                          Number(centralizedBalance) + Number(multisigBalance),
+                          5
+                        )
+                      : 0}
+                  </p>
                 )}
                 <h3 className={styles.tokenTitle}>cBTC</h3>
+                {
+                  <Tooltip
+                    content={
+                      <>
+                        <h6>BTC in mulitsig vault:</h6>
+                        <p>{multisigBalance ?? 0} BTC</p>
+                        <div
+                          style={{
+                            height: "10px",
+                          }}
+                        />
+                        <h6>BTC in centralized vault:</h6>
+                        <p>{centralizedBalance ?? 0} BTC</p>
+                      </>
+                    }
+                    position={isMobile ? "bottom" : "right"}
+                  >
+                    i
+                  </Tooltip>
+                }
               </div>
               <p>{formattedDate}</p>
             </div>
             <div className={styles.btnGroup}>
+              <Link
+                href={vaultMultisigBtc}
+                className={styles.btnBtc}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className={styles.btnText}>
+                  {isMobile ? "" : "View"} Multisig Vault
+                </span>
+                <svg width="12" height="12" id="icon" className={styles.icon}>
+                  <use href="/images/icons/arrow-right.svg#icon"></use>
+                </svg>
+              </Link>
               <Link
                 href={vaultBtc}
                 className={styles.btnBtc}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className={styles.btnText}>View BTC Vaults</span>
+                <span className={styles.btnText}>
+                  {isMobile ? "" : "View"} Centralized Vault
+                </span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
@@ -148,7 +190,9 @@ export default function Dashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className={styles.btnText}>View cBTC Token</span>
+                <span className={styles.btnText}>
+                  {isMobile ? "" : "View"} cBTC Token
+                </span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
