@@ -4,9 +4,11 @@ import useAnetaData, { AnetaData } from "./useAnetaData";
 import useBitcoinVault from "./useBitcoinVault";
 import useCommunityRevenue from "./useCommunityRevenue";
 import usePrice from "./usePrice";
+import useMultisigVault from "./useMultisigVault";
 
 export default function useDashboard() {
   const vault = useBitcoinVault();
+  const multisigVault = useMultisigVault();
   const communityRevenueInfo = useCommunityRevenue();
   const {
     usdAda,
@@ -22,6 +24,10 @@ export default function useDashboard() {
   const { anetaData } = useAnetaData();
   const [tvlData, setTvlData] = useState<AnetaData[] | undefined>();
   const [protocolVolume, setProtocolVolume] = useState<string | undefined>();
+  const [multisigBalance, setMultisigBalance] = useState<string | undefined>();
+  const [centralizedBalance, setCentralizedBalance] = useState<
+    string | undefined
+  >();
   const [communityRevenue, setCommunityRevenue] = useState<
     string | undefined
   >();
@@ -45,8 +51,31 @@ export default function useDashboard() {
           5
         )
       );
+      setCentralizedBalance(
+        numberFormat(
+          (vault
+            ? vault?.chain_stats.funded_txo_sum -
+              vault?.chain_stats.spent_txo_sum
+            : 0) / 100000000,
+          5
+        )
+      );
     }
   }, [vault]);
+
+  useEffect(() => {
+    if (multisigVault) {
+      setMultisigBalance(
+        numberFormat(
+          (multisigVault
+            ? multisigVault?.chain_stats.funded_txo_sum -
+              multisigVault?.chain_stats.spent_txo_sum
+            : 0) / 100000000,
+          5
+        )
+      );
+    }
+  }, [multisigVault]);
 
   useEffect(() => {
     if (communityRevenueInfo) {
@@ -86,5 +115,7 @@ export default function useDashboard() {
     usdErg,
     dailyChangeCNeta,
     dailyChangeAda,
+    multisigBalance,
+    centralizedBalance,
   };
 }

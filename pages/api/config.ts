@@ -5,6 +5,7 @@ import { Dto } from "../../utils/dto";
 
 const CARDANO_NETWORK = process.env.CARDANO_NETWORK;
 const BTC_WRAP_ADDRESS = process.env.BTC_WRAP_ADDRESS ?? "";
+const BTC_MULTISIG_ADDRESS = process.env.BTC_MULTISIG_ADDRESS ?? "";
 const BTC_WRAP_COMMUNITY_ADDRESS = process.env.BTC_WRAP_COMMUNITY_ADDRESS ?? "";
 const BTC_UNWRAP_ADDRESS = process.env.BTC_UNWRAP_ADDRESS ?? "";
 const WRAP_FEE_BTC = Number(process.env.WRAP_FEE_BTC ?? 0);
@@ -26,6 +27,7 @@ export default function handler(
   res.status(200).json({
     network,
     btcWrapAddress: BTC_WRAP_ADDRESS,
+    btcMultisigAddress: BTC_MULTISIG_ADDRESS,
     btcWrapCommunityAddress: BTC_WRAP_COMMUNITY_ADDRESS,
     btcUnwrapAddress: BTC_UNWRAP_ADDRESS,
     wrapFeeBtc: WRAP_FEE_BTC,
