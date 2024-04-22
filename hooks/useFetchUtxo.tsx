@@ -1,38 +1,38 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Utxo } from '../types/blockfrost';
+import useCardanoWallet from "./useCardanoWallet";
 
-const useFetchUtxo = (address: string) => {
+const useFetchUtxo = (inputAddress?: string) => {
+  const { walletMeta, address, walletAddress } = useCardanoWallet();
   const [utxos, setUtxos] = useState<Utxo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string|null>();
+  const [error, setError] = useState<string | null>();
   const fectchUtxo = useCallback(async () => {
-
-    if (address === '') {
+    if (!walletMeta || address === "" || walletAddress === "Connecting...") {
       return;
     }
 
-
     try {
-      const res = await fetch(`/api/balance?address=${encodeURIComponent(address)}`);
+      const res = await fetch(
+        `/api/balance?address=${encodeURIComponent(inputAddress ?? address)}`
+      );
       const data = await res.json();
-      if(data.status_code !== undefined){
+      if (data.status_code !== undefined) {
         throw new Error(data.status_code);
       }
       setUtxos(data);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setError('An error occurred while fetching UTXOs');
+      setError("An error occurred while fetching UTXOs");
       return;
-
-      
     }
-  }, [address]);
-  
+  }, [inputAddress, address, walletMeta, walletAddress]);
+
   useEffect(() => {
     fectchUtxo();
   }, [fectchUtxo]);
-  
-  return {utxos, error, loading};
-  };
+
+  return { utxos, error, loading };
+};
   
   export default useFetchUtxo;

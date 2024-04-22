@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import useUnwrap, { UnwrapStage } from "../../../hooks/useUnwrap";
 import styles from "../../../styles/wrapUnwrap.module.scss";
 import UnwrapSuccessful from "./unwrap/UnwrapSuccessful";
@@ -28,14 +28,15 @@ const Unwrap = () => {
     usdReceive,
   } = useUnwrap();
 
-  const [balance, setBalance] = useState<null | string>(null);
-
-  const { config } = useContext(GlobalContext);
+  const {
+    config,
+    cBtcBalance: balance,
+    setCBtcBalance: setBalance,
+  } = useContext(GlobalContext);
 
   const networkMainnet: boolean = config.network === "Mainnet";
 
   const { walletMeta, address, walletAddress } = useCardanoWallet();
-  //const { utxos, error, loading }= useFetchUtxo(address)
   const { getUtxos } = useLucid();
 
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -60,13 +61,13 @@ const Unwrap = () => {
     }
   };
 
-  const getBalance = async () => {
+  const getBalance = useCallback(async () => {
     const utxos = await getUtxos();
 
     let sumBalance = 0;
 
     sumBalance = utxos.reduce((total, utxo) => {
-      const amountForUnit = Number(utxo.assets[policyId]) ?? 0;
+      const amountForUnit = Number(utxo.assets[config.cbtcAssetId]) ?? 0;
 
       if (amountForUnit) {
         const quantity = Number(amountForUnit);
@@ -75,14 +76,13 @@ const Unwrap = () => {
       return total;
     }, 0);
     setBalance(formatAmount(sumBalance / 100000000));
-  };
+  }, [config.cbtcAssetId, setBalance, getUtxos]);
 
   useEffect(() => {
-    if (address !== "") {
+    if (walletMeta && address !== "" && walletAddress !== "Connecting...") {
       getBalance();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+    } else if (!walletMeta) setBalance("");
+  }, [address, walletAddress, walletMeta, getBalance, setBalance]);
 
   useEffect(() => {
     if (balance) {
@@ -133,6 +133,8 @@ const Unwrap = () => {
     setUnwrapBtcDestination("");
   };
 
+  // console.log(balance, walletMeta, address, walletAddress);
+
   return (
     <section className={styles.menu}>
       <p className={styles.titleSection}>Redeem BTC</p>
@@ -158,7 +160,7 @@ const Unwrap = () => {
           <p className={`${styles.usdBtc}`}>{usdAmount}</p>
         )}
 
-        {walletMeta && balance && (
+        {walletMeta && balance !== "" && (
           <div className={styles.balanceContainer}>
             {checkBalance ? (
               <p></p>
@@ -169,9 +171,7 @@ const Unwrap = () => {
             )}
 
             <div className={styles.balance}>
-              <p className={styles.text}>
-                Balance: {`${balance ? balance : 0}`}
-              </p>
+              <p className={styles.text}>Balance: {`${balance ?? 0}`}</p>
               {balance !== amount && Number(balance) > 0 && (
                 <button className={styles.btn} onClick={handleBalance}>
                   Max
