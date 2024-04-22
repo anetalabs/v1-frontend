@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import mempoolJS from "@mempool/mempool.js";
 
-const ADDRESS =
-  process.env.BTC_MULTISIG_ADDRESS ??
-  "bc1qjkd2655gu2zrzct9459zvgxxqyjcgd8uuh5m29qyqmu44fx6ppqqx6vryj";
+const ADDRESS = process.env.BTC_MULTISIG_ADDRESS ?? "";
 
 export default async function handler(
   req: NextApiRequest,
