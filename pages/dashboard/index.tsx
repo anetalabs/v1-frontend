@@ -37,7 +37,7 @@ export default function Dashboard() {
     dailyChangeCNeta,
     dailyChangeAda,
     multisigBalance,
-    centralizedBalance,
+    hotBalance,
   } = useDashboard();
 
   const { stakingInfo } = useStake();
@@ -119,15 +119,15 @@ export default function Dashboard() {
                 <svg width="32" height="32" id="icon">
                   <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
                 </svg>
-                {!centralizedBalance || !multisigBalance ? (
+                {!hotBalance || !multisigBalance ? (
                   <div className={styles.value}>
                     <div className={styles.loader}></div>
                   </div>
                 ) : (
                   <p className={styles.value}>
-                    {centralizedBalance && multisigBalance
+                    {hotBalance && multisigBalance
                       ? numberFormat(
-                          Number(centralizedBalance) + Number(multisigBalance),
+                          Number(hotBalance) + Number(multisigBalance),
                           5
                         )
                       : 0}
@@ -145,8 +145,8 @@ export default function Dashboard() {
                             height: "10px",
                           }}
                         />
-                        <h6>BTC in centralized vault:</h6>
-                        <p>{centralizedBalance ?? 0} BTC</p>
+                        <h6>BTC in hot vault:</h6>
+                        <p>{hotBalance ?? 0} BTC</p>
                       </>
                     }
                     position={isMobile ? "bottom" : "right"}
@@ -178,7 +178,7 @@ export default function Dashboard() {
                 rel="noopener noreferrer"
               >
                 <span className={styles.btnText}>
-                  {isMobile ? "" : "View"} Centralized Vault
+                  {isMobile ? "" : "View"} Hot Vault
                 </span>
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
