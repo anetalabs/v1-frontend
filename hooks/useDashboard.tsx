@@ -25,9 +25,7 @@ export default function useDashboard() {
   const [tvlData, setTvlData] = useState<AnetaData[] | undefined>();
   const [protocolVolume, setProtocolVolume] = useState<string | undefined>();
   const [multisigBalance, setMultisigBalance] = useState<string | undefined>();
-  const [centralizedBalance, setCentralizedBalance] = useState<
-    string | undefined
-  >();
+  const [hotBalance, setHotBalance] = useState<string | undefined>();
   const [communityRevenue, setCommunityRevenue] = useState<
     string | undefined
   >();
@@ -51,7 +49,7 @@ export default function useDashboard() {
           5
         )
       );
-      setCentralizedBalance(
+      setHotBalance(
         numberFormat(
           (vault
             ? vault?.chain_stats.funded_txo_sum -
@@ -116,6 +114,6 @@ export default function useDashboard() {
     dailyChangeCNeta,
     dailyChangeAda,
     multisigBalance,
-    centralizedBalance,
+    hotBalance,
   };
 }
