@@ -59,6 +59,8 @@ interface GlobalContextState {
   setDailyChangeErg: (_: string) => void;
   cBtcBalance: string;
   setCBtcBalance: (_: string) => void;
+  multisigVault: any;
+  setMultisigVault: (_: any) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -77,6 +79,7 @@ export const GlobalContext = createContext<GlobalContextState>({
   config: {
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcMultisigAddress: "",
     btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
@@ -142,6 +145,8 @@ export const GlobalContext = createContext<GlobalContextState>({
   setDailyChangeErg: () => {},
   cBtcBalance: "",
   setCBtcBalance: () => {},
+  multisigVault: undefined,
+  setMultisigVault: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -160,6 +165,7 @@ export default function GlobalContextProvider({
   const [config, setConfig] = useState<Config>({
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcMultisigAddress: "",
     btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
@@ -206,6 +212,7 @@ export default function GlobalContextProvider({
   const [dailyChangeErg, setDailyChangeErg] = useState<string>("");
   const [votingInfo, setVotingInfo] = useState<any>();
   const [cBtcBalance, setCBtcBalance] = useState<string>("");
+  const [multisigVault, setMultisigVault] = useState<any>();
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -258,6 +265,8 @@ export default function GlobalContextProvider({
     setDailyChangeErg,
     cBtcBalance,
     setCBtcBalance,
+    multisigVault,
+    setMultisigVault,
   };
 
   return (

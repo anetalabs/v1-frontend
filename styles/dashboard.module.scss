@@ -33,7 +33,7 @@
         .tokenChart {
           display: flex;
           align-items: center;
-          gap: 5px;
+          gap: 8px;
           .value {
             font-size: 20px;
             min-width: 80px;
@@ -79,6 +79,7 @@
         gap: 12px;
         .btnBtc,
         .btncBtc {
+          white-space: nowrap;
           padding: 0 1rem;
           height: 30px;
           display: flex;
@@ -297,6 +298,11 @@
       grid-row: span 1;
       .headerChart {
         gap: 16px;
+        .valuesGroup {
+          .tokenChart {
+            gap: 4px;
+          }
+        }
       }
     }
     .sectionChart {
