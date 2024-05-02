@@ -25,7 +25,7 @@ const Navbar = () => {
   const { width } = useWindowSize();
   const isSmall = width < 850;
   const isMobile = width < 720;
-  const isTablet = width < 1000;
+  const isTablet = width <= 1100;
 
   const { walletMeta, disconnectWallet } = useCardanoWallet();
 

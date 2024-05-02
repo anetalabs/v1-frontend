@@ -45,8 +45,22 @@ interface GlobalContextState {
   setAnetaData: (_: AnetaData[] | undefined) => void;
   cBtcAda: string;
   setCBtcAda: (_: string) => void;
+  dailyChangeCBtc: string;
+  setDailyChangeCBtc: (_: string) => void;
   votingInfo: any;
   setVotingInfo: (_: any) => void;
+  usdCNeta: string;
+  setUsdCNeta: (_: string) => void;
+  dailyChangeCNeta: string;
+  setDailyChangeCNeta: (_: string) => void;
+  usdErg: string;
+  setUsdErg: (_: string) => void;
+  dailyChangeErg: string;
+  setDailyChangeErg: (_: string) => void;
+  cBtcBalance: string;
+  setCBtcBalance: (_: string) => void;
+  multisigVault: any;
+  setMultisigVault: (_: any) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextState>({
@@ -65,6 +79,7 @@ export const GlobalContext = createContext<GlobalContextState>({
   config: {
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcMultisigAddress: "",
     btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
@@ -116,8 +131,22 @@ export const GlobalContext = createContext<GlobalContextState>({
   setAnetaData: () => {},
   cBtcAda: "",
   setCBtcAda: () => {},
+  dailyChangeCBtc: "",
+  setDailyChangeCBtc: () => {},
   votingInfo: undefined,
   setVotingInfo: () => {},
+  usdCNeta: "",
+  setUsdCNeta: () => {},
+  dailyChangeCNeta: "",
+  setDailyChangeCNeta: () => {},
+  usdErg: "",
+  setUsdErg: () => {},
+  dailyChangeErg: "",
+  setDailyChangeErg: () => {},
+  cBtcBalance: "",
+  setCBtcBalance: () => {},
+  multisigVault: undefined,
+  setMultisigVault: () => {},
 });
 
 export default function GlobalContextProvider({
@@ -136,6 +165,7 @@ export default function GlobalContextProvider({
   const [config, setConfig] = useState<Config>({
     network: CardanoNetwork.Preview,
     btcWrapAddress: "",
+    btcMultisigAddress: "",
     btcWrapCommunityAddress: "",
     btcUnwrapAddress: "",
     wrapFeeBtc: 0,
@@ -172,10 +202,17 @@ export default function GlobalContextProvider({
   const [usdBtc, setUsdBtc] = useState<string>("");
   const [dailyChangeBtc, setDailyChangeBtc] = useState<string>("");
   const [usdAda, setUsdAda] = useState<string>("");
+  const [usdCNeta, setUsdCNeta] = useState<string>("");
+  const [usdErg, setUsdErg] = useState<string>("");
   const [dailyChangeAda, setDailyChangeAda] = useState<string>("");
   const [anetaData, setAnetaData] = useState<AnetaData[] | undefined>();
   const [cBtcAda, setCBtcAda] = useState<string>("");
+  const [dailyChangeCBtc, setDailyChangeCBtc] = useState<string>("");
+  const [dailyChangeCNeta, setDailyChangeCNeta] = useState<string>("");
+  const [dailyChangeErg, setDailyChangeErg] = useState<string>("");
   const [votingInfo, setVotingInfo] = useState<any>();
+  const [cBtcBalance, setCBtcBalance] = useState<string>("");
+  const [multisigVault, setMultisigVault] = useState<any>();
 
   const globalContext: GlobalContextState = {
     walletMeta,
@@ -208,6 +245,10 @@ export default function GlobalContextProvider({
     setDailyChangeBtc,
     usdAda,
     setUsdAda,
+    usdCNeta,
+    setUsdCNeta,
+    usdErg,
+    setUsdErg,
     dailyChangeAda,
     setDailyChangeAda,
     anetaData,
@@ -216,6 +257,16 @@ export default function GlobalContextProvider({
     setCBtcAda,
     votingInfo,
     setVotingInfo,
+    dailyChangeCBtc,
+    setDailyChangeCBtc,
+    dailyChangeCNeta,
+    setDailyChangeCNeta,
+    dailyChangeErg,
+    setDailyChangeErg,
+    cBtcBalance,
+    setCBtcBalance,
+    multisigVault,
+    setMultisigVault,
   };
 
   return (

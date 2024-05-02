@@ -24,28 +24,40 @@
   font-size: 12px;
   padding: 20px;
   z-index: 10;
+
+  h6 {
+    font-weight: 800;
+  }
+
+  p {
+    font-weight: 600;
+  }
+
+  .spacer {
+    height: 10px;
+  }
 }
 
 .top {
-  bottom: 120%;
+  bottom: 160%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .bottom {
-  top: 120%;
+  top: 160%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .left {
-  right: 120%;
+  right: 160%;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .right {
-  left: 120%;
+  left: 160%;
   top: 50%;
   transform: translateY(-50%);
 }

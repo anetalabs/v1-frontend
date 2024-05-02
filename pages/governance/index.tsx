@@ -8,7 +8,6 @@ import useVoting from "../../hooks/useVoting";
 
 export default function Governance() {
   const votingInfo = useVoting();
-  console.log({ votingInfo });
   return (
     <>
       <Head>
@@ -16,20 +15,20 @@ export default function Governance() {
       </Head>
       <main className={styles.governance}>
         <p className={styles.text}>
-          Send your cVOTE6 tokens to the wallet you would like to vote for. At
-          the end of the 48-hour voting period, the option with the most votes
+          Send your cVOTE7 tokens to the wallet you would like to vote for. At
+          the end of the 72-hour voting period, the option with the most votes
           will be the outcome of the governance event.
         </p>
         <OptionCard
           title="Option 1"
-          description="Allocate 0.5 BTC for development."
+          description="Implement Multisig Vault upgrade by May 1st, 2024."
           walletName="Option 1 Cardano Wallet"
           walletAddress="addr1qy8cmq0qw8dj7zeyfezp9vwfgjyv3tu8e7a82qe4fvr8dxwpsmwhh9rxntndhz93m944fsh0s9y725fr0as26y0wkceq9pyx90"
           votes={votingInfo?.voteYesBalance ?? 0}
         />
         <OptionCard
           title="Option 2"
-          description="Do not allocate 0.5 BTC for development."
+          description="Don’t enact the Mutlisig Vault Upgrade at this time."
           walletName="Option 2 Cardano Wallet"
           walletAddress="addr1q843md2ar09mervl060ypmhzx43ftnrqzymz4pk4rr5clcrr2jt3ptrul97g7fzk3w7dkv7rkw5mej7jr65x4v3xqqns5yepxp"
           votes={votingInfo?.voteNoBalance ?? 0}
@@ -39,7 +38,7 @@ export default function Governance() {
           target="_blank"
           className={styles.button}
         >
-          Claim cVOTE6 tokens on{" "}
+          Claim cVOTE7 tokens on{" "}
           <Image
             src={tosidropLogo}
             alt="tosidrop logo"

@@ -82,7 +82,7 @@ export default function useLucid() {
   };
 
   const getUtxos = async (): Promise<UTxO[]> => {
-    return (await lucid?.wallet.getUtxos()) || [];
+    return (await lucid?.wallet?.getUtxos()) || [];
   };
 
   const getUserPaymentCredential = async (): Promise<string> => {

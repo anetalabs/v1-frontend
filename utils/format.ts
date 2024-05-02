@@ -36,12 +36,22 @@ export const adaFormat = (value: string) => {
 }
 
 export const numberFormat = (
-  value: string,
+  value: string | number,
   maxFractionDigits?: number,
-  minFractionDigits?: number
+  minFractionDigits?: number,
+  addScaleSuffix?: boolean
 ) => {
+  let num = typeof value === "string" ? Number(value) : value;
+  let suffix = "";
+  if (addScaleSuffix && num >= 1000000) {
+    const units = ["K", "M", "B", "T"];
+    const unit = Math.round(num.toFixed(0).length) / 3 - 1;
+    num = num / Math.pow(10, unit * 3);
+    suffix = units[unit - 1];
+  }
+
   return `${Intl.NumberFormat("en", {
     minimumFractionDigits: minFractionDigits ?? 0,
     maximumFractionDigits: maxFractionDigits ?? 4,
-  }).format(Number(value))}`;
+  }).format(num)}${suffix}`;
 };
