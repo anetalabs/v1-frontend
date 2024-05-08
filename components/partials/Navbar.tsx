@@ -8,14 +8,13 @@ import ConnectWallet from "./navbar/ConnectWallet";
 import LoggedInWallet from "./navbar/LoggedInWallet";
 import useWindowSize from "../../hooks/useResponsive";
 
-import SelectNetwork from "./navbar/SelectNetwork";
 import Setting from "./navbar/Setting";
 import { AppContext } from "../../pages/_app";
 import { GlobalContext } from "../GlobalContext";
-import { numberToFixed } from "../../utils/format";
-/* import useBitcoinVault from "../../hooks/useBitcoinVault"; */
-import useAssetsApi from "../../hooks/useAssetsApi";
+import { numberFormat } from "../../utils/format";
 import Leftbar from "./Leftbar";
+import useBitcoinVault from "../../hooks/useBitcoinVault";
+import useMultisigVault from "../../hooks/useMultisigVault";
 
 const Navbar = () => {
   const [isWalletShowing, setIsWalletShowing] = useState(false);
@@ -32,6 +31,39 @@ const Navbar = () => {
   const [openSetting, setOpenSetting] = useState(false);
   const [openLeftbar, setOpenLeftbar] = useState(false);
   const [display, setDisplay] = useState(false);
+
+  const vault = useBitcoinVault();
+  const multisigVault = useMultisigVault();
+  const [multisigBalance, setMultisigBalance] = useState<string | undefined>();
+  const [hotBalance, setHotBalance] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (vault) {
+      setHotBalance(
+        numberFormat(
+          (vault
+            ? vault?.chain_stats.funded_txo_sum -
+              vault?.chain_stats.spent_txo_sum
+            : 0) / 100000000,
+          5
+        )
+      );
+    }
+  }, [vault]);
+
+  useEffect(() => {
+    if (multisigVault) {
+      setMultisigBalance(
+        numberFormat(
+          (multisigVault
+            ? multisigVault?.chain_stats.funded_txo_sum -
+              multisigVault?.chain_stats.spent_txo_sum
+            : 0) / 100000000,
+          5
+        )
+      );
+    }
+  }, [multisigVault]);
 
   const handleClickSetting = () => {
     if (display) {
@@ -87,16 +119,6 @@ const Navbar = () => {
   } else {
     linkcBtc = `https://preprod.cardanoscan.io/token/${config.cbtcAssetId}`;
   }
-
-  const { data, loading } = useAssetsApi();
-
-  //const addressVault = useBitcoinVault();
-
-  /*   useEffect(() => {
-    if(addressVault){
-      console.log(addressVault);
-    }
-  }, [addressVault]); */
 
   return (
     <header className={styles.main}>
@@ -157,17 +179,21 @@ const Navbar = () => {
                       rel="noopener noreferrer"
                       className={styles.link}
                     >
-                      cBTC Minted:
-                      {loading ? (
+                      {"cBTC Minted: "}
+                      {!hotBalance || !multisigBalance ? (
                         <div className={styles.value}>
                           <div className={styles.loader}></div>
                         </div>
                       ) : (
-                        data && (
-                          <p className={styles.value}>
-                            {numberToFixed(data.quantity)}
-                          </p>
-                        )
+                        <p className={styles.value}>
+                          {" "}
+                          {hotBalance && multisigBalance
+                            ? numberFormat(
+                                Number(hotBalance) + Number(multisigBalance),
+                                5
+                              )
+                            : 0}
+                        </p>
                       )}
                     </Link>
                   </button>
@@ -182,17 +208,21 @@ const Navbar = () => {
                     rel="noopener noreferrer"
                     className={styles.link}
                   >
-                    cBTC Minted:
-                    {loading ? (
+                    {"cBTC Minted: "}
+                    {!hotBalance || !multisigBalance ? (
                       <div className={styles.value}>
                         <div className={styles.loader}></div>
                       </div>
                     ) : (
-                      data && (
-                        <p className={styles.value}>
-                          {numberToFixed(data.quantity)}
-                        </p>
-                      )
+                      <p className={styles.value}>
+                        {" "}
+                        {hotBalance && multisigBalance
+                          ? numberFormat(
+                              Number(hotBalance) + Number(multisigBalance),
+                              5
+                            )
+                          : 0}
+                      </p>
                     )}
                   </Link>
                 </button>
