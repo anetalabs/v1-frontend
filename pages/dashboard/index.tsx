@@ -117,7 +117,7 @@ export default function Dashboard() {
               <h2 className={styles.titleChart}>TVL</h2>
               <div className={styles.tokenChart}>
                 <svg width="32" height="32" id="icon">
-                  <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
+                  <use href="/images/crypto/bitcoin-logo.svg#Layer_1"></use>
                 </svg>
                 {!hotBalance || !multisigBalance ? (
                   <div className={styles.value}>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                       : 0}
                   </p>
                 )}
-                <h3 className={styles.tokenTitle}>cBTC</h3>
+                <h3 className={styles.tokenTitle}>BTC</h3>
                 {
                   <Tooltip
                     content={
@@ -200,7 +200,7 @@ export default function Dashboard() {
             </div>
           </div>
           {tvlData ? (
-            <ChartComponent data={tvlData} height={200} />
+            <ChartComponent data={tvlData} height={200} suffix={"BTC"} />
           ) : (
             <div className={styles.loaderChart}>
               <div className={styles.loader}></div>
