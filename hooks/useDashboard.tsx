@@ -87,16 +87,17 @@ export default function useDashboard() {
   }, [communityRevenueInfo]);
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("anetaData");
-    if (storedData && storedData !== "[]") {
-      setTvlData(JSON.parse(storedData));
-    } else {
-      if (anetaData) {
-        const dataString = JSON.stringify(anetaData);
-        sessionStorage.setItem("anetaData", dataString);
-        setTvlData(anetaData);
-      }
-    }
+    // const storedData = sessionStorage.getItem("anetaData");
+    // if (storedData && storedData !== "[]") {
+    //   setTvlData(JSON.parse(storedData));
+    // } else {
+    //   if (anetaData) {
+    //     const dataString = JSON.stringify(anetaData);
+    //     sessionStorage.setItem("anetaData", dataString);
+    //     setTvlData(anetaData);
+    //   }
+    // }
+    setTvlData(anetaData)
   }, [anetaData]);
 
   return {
