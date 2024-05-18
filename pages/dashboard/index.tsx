@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import ChartComponent from "../../components/dashboard/ChartComponent";
 import useDashboard from "../../hooks/useDashboard";
 import styles from "../../styles/dashboard.module.scss";
-import { numberFormat } from "../../utils/format";
+import { numberFormat, numberToFixed } from "../../utils/format";
 import { GlobalContext } from "../../components/GlobalContext";
 import Link from "next/link";
 import useCardanoWallet from "../../hooks/useCardanoWallet";
@@ -15,6 +15,7 @@ import useWindowSize from "../../hooks/useResponsive";
 import useStake from "../../hooks/useStake";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import Tooltip from "../../components/Tooltip";
+import useAssetsApi from "../../hooks/useAssetsApi";
 
 export default function Dashboard() {
   const cNetaAmount = 120600000;
@@ -41,6 +42,8 @@ export default function Dashboard() {
   } = useDashboard();
 
   const { stakingInfo } = useStake();
+
+  const { data, loading } = useAssetsApi();
 
   const { innerWidth, outerWidth } = useWindowSize();
   const mediaMobile = useMediaQuery("( max-width: 550px )");
@@ -114,27 +117,22 @@ export default function Dashboard() {
         <div className={styles.chartTvl}>
           <div className={styles.headerChart}>
             <div className={styles.valuesGroup}>
-              <h2 className={styles.titleChart}>TVL</h2>
+              <h2 className={styles.titleChart}>Circulation</h2>
               <div className={styles.tokenChart}>
                 <svg width="32" height="32" id="icon">
                   <use href="/images/crypto/cbtc-logo.svg#Layer_1"></use>
                 </svg>
-                {!hotBalance || !multisigBalance ? (
+                {loading ? (
                   <div className={styles.value}>
                     <div className={styles.loader}></div>
                   </div>
                 ) : (
                   <p className={styles.value}>
-                    {hotBalance && multisigBalance
-                      ? numberFormat(
-                          Number(hotBalance) + Number(multisigBalance),
-                          5
-                        )
-                      : 0}
+                    {data ? numberToFixed(data.quantity) : 0}
                   </p>
                 )}
                 <h3 className={styles.tokenTitle}>cBTC</h3>
-                {
+                {/* {
                   <Tooltip
                     content={
                       <>
@@ -153,12 +151,12 @@ export default function Dashboard() {
                   >
                     i
                   </Tooltip>
-                }
+                } */}
               </div>
               <p>{formattedDate}</p>
             </div>
             <div className={styles.btnGroup}>
-              <Link
+              {/* <Link
                 href={vaultMultisigBtc}
                 className={styles.btnBtc}
                 target="_blank"
@@ -183,7 +181,7 @@ export default function Dashboard() {
                 <svg width="12" height="12" id="icon" className={styles.icon}>
                   <use href="/images/icons/arrow-right.svg#icon"></use>
                 </svg>
-              </Link>
+              </Link> */}
               <Link
                 href={linkcBtc}
                 className={styles.btncBtc}
@@ -200,7 +198,7 @@ export default function Dashboard() {
             </div>
           </div>
           {tvlData ? (
-            <ChartComponent data={tvlData} height={200} />
+            <ChartComponent data={tvlData} height={200} suffix={"cBTC"} />
           ) : (
             <div className={styles.loaderChart}>
               <div className={styles.loader}></div>
@@ -240,6 +238,22 @@ export default function Dashboard() {
           colSpanValue={isMobile ? 2 : isTabletSm ? 12 : isTablet ? 6 : 5}
           noMargin={isMobile && !!walletMeta && !!address}
         />
+        {/* <Widget
+          title="Next Claiming Period"
+          noPrice
+          // currentDate="2024-03-12 21:45:00 UTC"
+          timerInterval={5}
+          timerStart="2024/01/15 21:45:00 UTC"
+          // text="Coming Soon"
+          headerButtonTitle={
+            walletMeta && address && walletAddress !== "Connecting..."
+              ? "Claim"
+              : undefined
+          }
+          headerButtonClick="https://app.tosidrop.io/cardano/claim"
+          colSpanValue={isMobile ? 2 : isTabletSm ? 12 : isTablet ? 6 : 5}
+          noMargin={isMobile && !!walletMeta && !!address}
+        /> */}
 
         <Widget
           dailyChangePrice={dailyChangeCBtc}
@@ -276,8 +290,47 @@ export default function Dashboard() {
           icon={"/images/crypto/cneta-logo-lg.png"}
         />
         <Widget
-          noPrice
+          price={
+            hotBalance && multisigBalance && usdBtc
+              ? numberFormat(Number(hotBalance) + Number(multisigBalance), 5)
+              : undefined
+          }
+          miniPrice={`$${numberFormat(
+            (Number(hotBalance) + Number(multisigBalance)) * Number(usdBtc),
+            2,
+            2
+          )}`}
+          token="BTC"
+          tokenTitle="BTC TVL"
+          tokenTitleTooltip={
+            <>
+              <h6>BTC in mulitsig vault:</h6>
+              <p>{multisigBalance ?? 0} BTC</p>
+              <div
+                style={{
+                  height: "10px",
+                }}
+              />
+              <h6>BTC in hot vault:</h6>
+              <p>{hotBalance ?? 0} BTC</p>
+            </>
+          }
+          tokenTitleTooltipPosition={isMobile ? "right" : "top"}
+          icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 3}
+          buttonTitle={"Multisig Vault"}
+          buttonLink={vaultMultisigBtc}
+          button2Title={"Hot Vault"}
+          button2Link={vaultBtc}
+          buttonExternal
+          button2External
+          buttonGroup
           noMargin
+          direction={isLaptop ? "row" : "column"}
+        />
+        <Widget
+          noPrice
+          noMargin={!!walletMeta}
           title="Total cNETA Staked"
           // text="Coming Soon"
           text={
@@ -342,7 +395,7 @@ export default function Dashboard() {
           buttonTitle={!walletMeta ? "Stake" : undefined}
           buttonLink="/stake"
           textRow={!walletMeta}
-          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 4 : 4}
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 4 : 3}
         />
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
@@ -351,10 +404,9 @@ export default function Dashboard() {
           buttonLink={
             "https://cexplorer.io/address/addr1qyxwxjg6637fw3zv5he7lxy0fmsssgk3f3dyxcg4zhumm2ur65qxyr79pkpgm225d3z3n53fwnqcfhdmv9xcemgns98qn52gr5/asset#data"
           }
-          externalLink
+          buttonExternal
           noPrice
-          noMargin
-          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 3}
         />
         {/* <Widget
           adaPrice={adaFundPrice}
@@ -417,7 +469,7 @@ export default function Dashboard() {
           titleLg
           textLg
           miniTextLg
-          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 4}
+          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 3}
         />
         <Widget
           text={
@@ -448,7 +500,7 @@ export default function Dashboard() {
           title={`Community Fund`}
           noPrice
           noMargin
-          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 6}
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 12 : 6}
           textRow
           textXl
           miniTextXl
