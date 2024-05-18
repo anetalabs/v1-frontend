@@ -30,9 +30,15 @@
   border-radius: 18px;
   padding: 20px;
   display: flex;
-  gap: 4px;
+  gap: 6px;
   flex-direction: column;
   justify-content: space-between;
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
   .titleLg {
     font-size: 24px;
     text-align: center;
@@ -97,6 +103,9 @@
       .tokenTitle {
         font-size: 18px;
         font-weight: var.$font-weight-semibold;
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
     }
     .changeDaily {
@@ -112,7 +121,7 @@
     .adaPrice {
       font-size: 28px;
       font-weight: var.$font-weight-medium;
-      margin-bottom: 4px;
+      margin-bottom: 1px;
     }
     .usdPrice {
       font-size: 14px;
@@ -169,13 +178,16 @@
   }
   .valueText {
     font-size: 22px;
+    white-space: nowrap;
   }
   .valueTextLg {
     font-size: 24px;
     text-align: center;
+    white-space: nowrap;
   }
   .valueTextXl {
     font-size: 28px;
+    white-space: nowrap;
   }
   .miniText {
     font-size: 12px;
@@ -226,13 +238,20 @@
       gap: 12px;
     }
   }
+  .btnGroupContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+  }
   .btn {
     cursor: pointer;
-    margin-top: auto;
     width: 100%;
-    font-size: 24px;
+    margin-top: auto;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
     font-weight: var.$font-weight-semibold;
     display: flex;
     align-items: center;
@@ -257,7 +276,18 @@
       background-color: transparent !important;
       pointer-events: none;
     }
+    &.group {
+      font-size: 18px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    &.solo {
+      font-size: 24px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
   }
+
   .tooltipWrapper {
     position: absolute;
     right: 16px;
@@ -310,10 +340,13 @@
     }
 
     .btn {
-      width: auto;
-      font-size: 22px;
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
+      width: 100%;
+      &.group {
+        font-size: 14px;
+      }
+      &.solo {
+        font-size: 20px;
+      }
     }
 
     .headerPrice {
