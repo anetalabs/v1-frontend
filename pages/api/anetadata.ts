@@ -14,7 +14,7 @@ export default async function handler(
   const data = await fetchResponse.json();
 
   res.status(200).send(
-    data.chainTvls.Cardano.tokens
+    data.tokens
       .filter((token: any) => token.tokens.BTC)
       .map((token: any) => ({
         date: Intl.DateTimeFormat("en-US", {
@@ -23,6 +23,6 @@ export default async function handler(
           day: "numeric",
         }).format(new Date(token.date * 1000)),
         amount: token.tokens.BTC,
-      })),
+      }))
   );
 }
