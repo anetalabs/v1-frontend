@@ -5,9 +5,12 @@ import tosidropLogo from "../../public/images/crypto/tosidrop-logo.png";
 import Link from "next/link";
 import OptionCard from "../../components/governance/OptionCard";
 import useVoting from "../../hooks/useVoting";
+import { GlobalContext } from "../../components/GlobalContext";
+import { useContext } from "react";
 
 export default function Governance() {
   const votingInfo = useVoting();
+	const { config } = useContext(GlobalContext);
   return (
 			<>
 				<Head>
@@ -15,30 +18,32 @@ export default function Governance() {
 				</Head>
 				<main className={styles.governance}>
 					<p className={styles.text}>
-						Send your cVOTE8 tokens to the wallet you would like to vote for. At
-						the end of the 72-hour voting period, the option with the most votes
-						will be the outcome of the governance event.
+						Send your {config.governanceAssetName} tokens to the wallet you
+						would like to vote for. At the end of the 72-hour voting period, the
+						option with the most votes will be the outcome of the governance
+						event.
 					</p>
-					<OptionCard
-						title="Option 1"
-						description="Remove fees for 1 month."
-						walletName="Option 1 Cardano Wallet"
-						walletAddress="addr1qy8cmq0qw8dj7zeyfezp9vwfgjyv3tu8e7a82qe4fvr8dxwpsmwhh9rxntndhz93m944fsh0s9y725fr0as26y0wkceq9pyx90"
-						votes={votingInfo?.voteYesBalance ?? 0}
-					/>
-					<OptionCard
-						title="Option 2"
-						description="Don't change the fee structure at this time."
-						walletName="Option 2 Cardano Wallet"
-						walletAddress="addr1q843md2ar09mervl060ypmhzx43ftnrqzymz4pk4rr5clcrr2jt3ptrul97g7fzk3w7dkv7rkw5mej7jr65x4v3xqqns5yepxp"
-						votes={votingInfo?.voteNoBalance ?? 0}
-					/>
+					{config.governanceOptions?.map((option, i) => (
+						<OptionCard
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							key={i + 1}
+							title={`Option ${i + 1}`}
+							description={option.details}
+							walletName={`Option ${i + 1} Cardano Wallet`}
+							walletAddress={option.address}
+							votes={
+								(i === 0
+									? votingInfo?.voteYesBalance
+									: votingInfo?.voteNoBalance) ?? 0
+							}
+						/>
+					))}
 					<Link
 						href="https://app.tosidrop.io/cardano/claim"
 						target="_blank"
 						className={styles.button}
 					>
-						Claim cVOTE8 tokens on{" "}
+						Claim {config.governanceAssetName} tokens on{" "}
 						<Image
 							src={tosidropLogo}
 							alt="tosidrop logo"

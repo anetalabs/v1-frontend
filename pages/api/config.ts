@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { CardanoNetwork, isValidNetwork } from "../../utils/api";
-import { Dto } from "../../utils/dto";
+import type { Dto } from "../../utils/dto";
 
 const CARDANO_NETWORK = process.env.CARDANO_NETWORK;
 const BTC_WRAP_ADDRESS = process.env.BTC_WRAP_ADDRESS ?? "";
@@ -13,6 +13,14 @@ const UNWRAP_FEE_BTC = Number(process.env.UNWRAP_FEE_BTC ?? 0);
 const UNWRAP_FEE_CARDANO = Number(process.env.UNWRAP_FEE_CARDANO ?? 0);
 const CBTC_ASSET_ID = process.env.CBTC_ASSET_ID ?? "";
 const CNETA_ASSET_ID = process.env.CNETA_ASSET_ID ?? "";
+
+const GOVERNANCE_OPTION1_ADDRESS = process.env.GOVERNANCE_OPTION1_ADDRESS ?? "";
+const GOVERNANCE_OPTION1_DETAILS = process.env.GOVERNANCE_OPTION1_DETAILS ?? "";
+
+const GOVERNANCE_OPTION2_ADDRESS = process.env.GOVERNANCE_OPTION2_ADDRESS ?? "";
+const GOVERNANCE_OPTION2_DETAILS = process.env.GOVERNANCE_OPTION2_DETAILS ?? "";
+
+const GOVERNANCE_ASSET_NAME = process.env.GOVERNANCE_ASSET_NAME ?? "cVOTE8";
 
 export default function handler(
   _: NextApiRequest,
@@ -35,5 +43,16 @@ export default function handler(
     unwrapFeeCardano: UNWRAP_FEE_CARDANO,
     cbtcAssetId: CBTC_ASSET_ID,
     cnetaAssetId: CNETA_ASSET_ID,
+    governanceOptions: [
+      {
+        address: GOVERNANCE_OPTION1_ADDRESS,
+        details: GOVERNANCE_OPTION1_DETAILS,
+      },
+      {
+        address: GOVERNANCE_OPTION2_ADDRESS,
+        details: GOVERNANCE_OPTION2_DETAILS,
+      },
+    ],
+    governanceAssetName: GOVERNANCE_ASSET_NAME,
   });
 }
