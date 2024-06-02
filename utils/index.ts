@@ -1,4 +1,4 @@
-import { CardanoNetwork } from "./api";
+import type { CardanoNetwork } from "./api";
 
 export interface Config {
   network: CardanoNetwork;
@@ -11,4 +11,9 @@ export interface Config {
   unwrapFeeCardano: number;
   cbtcAssetId: string;
   cnetaAssetId: string;
+  governanceOptions: {
+    address: string;
+    details: string;
+  }[];
+  governanceAssetName: string;
 }
