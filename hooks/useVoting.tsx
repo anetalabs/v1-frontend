@@ -6,9 +6,7 @@ const useVoting = () => {
 
   const fetchVoting = useCallback(async () => {
     try {
-      const res = await fetch(
-        "https://aneta-backend.vercel.app/api/info/voting"
-      );
+      const res = await fetch("/api/voting");
       const data = await res.json();
       setVotingInfo(data.info);
     } catch (error) {
