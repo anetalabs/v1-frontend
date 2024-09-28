@@ -1,13 +1,17 @@
 @use "./variables.scss" as var;
 
 .dashboardContainer {
-  max-width: 1100px;
+  max-width: 1280px;
   position: absolute;
   left: calc(((100% + 200px) - 1100px) / 2);
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
   padding-bottom: 2rem;
+  
+  @media screen and (min-width: 1600px) {
+    min-width: 1100px;
+  }
 
   .chartTvl {
     grid-row: span 2 / span 2;

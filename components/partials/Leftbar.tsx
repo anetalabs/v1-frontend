@@ -37,7 +37,7 @@ const Leftbar = () => {
               </svg>
               <p className={styles.name}>{item.name}</p>
             </Link>
-            {item.name === "Staking" && <div className={styles.line}></div>}
+            {item.name === "Dashboard" && <div className={styles.line}></div>}
           </Fragment>
         ))}
 

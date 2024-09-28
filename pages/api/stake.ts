@@ -12,17 +12,18 @@ export default async function handler(
 
   try {
     const result = await fetch(
-      "https://aneta-backend.vercel.app/api/staking/stake",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          address,
-        }),
-      }
-    );
+					// "https://aneta-backend.vercel.app/api/staking/stake",
+					"",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							address,
+						}),
+					},
+				);
     const data = await result.json();
 
     res.status(200).json(data);
