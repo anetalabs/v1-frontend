@@ -317,7 +317,7 @@ export default function Dashboard() {
           }
           tokenTitleTooltipPosition={isMobile ? "right" : "top"}
           icon={"/images/crypto/bitcoin-logo.svg#Layer_1"}
-          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 3}
+          colSpanValue={isMobile ? 2 : isTablet ? 6 : isLaptop ? 8 : 3}
           buttonTitle={"Multisig Vault"}
           buttonLink={vaultMultisigBtc}
           button2Title={"Hot Vault"}
@@ -326,9 +326,11 @@ export default function Dashboard() {
           button2External
           buttonGroup
           noMargin
-          direction={isLaptop ? "row" : "column"}
+          direction={
+            isMobile ? "row" : isTablet ? "column" : isLaptop ? "row" : "column"
+          }
         />
-        <Widget
+        {/* <Widget
           noPrice
           noMargin={!!walletMeta}
           title="Total cNETA Staked"
@@ -396,7 +398,7 @@ export default function Dashboard() {
           buttonLink="/stake"
           textRow={!walletMeta}
           colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 4 : 3}
-        />
+        /> */}
         <Widget
           text={communityRevenue ? communityRevenue + " cBTC" : "loading"}
           title={`${isMobile ? "Community" : "Community"} Revenue`}
@@ -406,7 +408,7 @@ export default function Dashboard() {
           }
           buttonExternal
           noPrice
-          colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 3}
+          colSpanValue={isMobile ? 2 : isTablet ? 6 : isLaptop ? 4 : 3}
         />
         {/* <Widget
           adaPrice={adaFundPrice}
@@ -422,7 +424,7 @@ export default function Dashboard() {
           titleLg
         /> */}
 
-        <Widget
+        {/* <Widget
           title={
             walletMeta &&
             stakingInfo?.staking &&
@@ -470,7 +472,7 @@ export default function Dashboard() {
           textLg
           miniTextLg
           colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 4 : 3}
-        />
+        /> */}
         <Widget
           text={
             usdCNeta && usdAda && usdErg && cBtcAda
@@ -500,7 +502,7 @@ export default function Dashboard() {
           title={`Community Fund`}
           noPrice
           noMargin
-          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 12 : 6}
+          colSpanValue={isMobile ? 2 : isTablet ? 12 : isLaptop ? 8 : 6}
           textRow
           textXl
           miniTextXl
@@ -538,7 +540,7 @@ export default function Dashboard() {
             ],
           }}
         />
-        <Widget
+        {/* <Widget
           // text="Coming Soon"
           text={
             walletMeta &&
@@ -622,7 +624,7 @@ export default function Dashboard() {
             walletAddress === "Connecting..."
           }
           colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
-        />
+        /> */}
         {/* <Widget
           noPrice
           noHeaderPrice
@@ -639,7 +641,7 @@ export default function Dashboard() {
           titleLeft={!!walletMeta}
         /> */}
 
-        <Widget
+        {/* <Widget
           // text="Coming Soon"
           text={
             walletMeta &&
@@ -720,7 +722,7 @@ export default function Dashboard() {
             walletAddress === "Connecting..."
           }
           colSpanValue={isMobile ? 1 : isTablet ? 6 : isLaptop ? 6 : 3}
-        />
+        /> */}
 
         <ConnectWallet
           isOpen={isWalletShowing}
